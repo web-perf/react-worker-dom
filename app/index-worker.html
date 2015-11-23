@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title> React Performance - dbmon </title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <style>
+    .Query {
+        position: relative;
+    }
+    
+    .Query:hover .popover {
+        left: -100%;
+        width: 100%;
+        display: block;
+    }
+    .content{
+        float: left;
+        width: 50%;
+        overflow: hidden;
+    }
+    </style>
+</head>
+
+<body>
+    <marquee>Testing the smoothness of UI Thread</marquee>
+    <div id="content1" class = "content"></div>
+    <div id="content2" class = "content"></div>
+
+    <script src="react-worker-dom.js"></script>
+    <script>
+        ReactWorkerDom.init(new Worker('index-worker.js'), document.getElementById('content1'));
+         ReactWorkerDom.init(new Worker('index-worker.js'), document.getElementById('content2'));
+    </script>
+</body>
+
+</html>
