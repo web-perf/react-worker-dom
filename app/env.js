@@ -1,4 +1,4 @@
  export default {
-     rows: 10,
+     rows: 100,
      timeout: 0
  };
