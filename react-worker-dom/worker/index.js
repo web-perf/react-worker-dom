@@ -19,38 +19,26 @@ inject();
  * @param  {ReactElement}   element   - Node to update.
  * @return {ReactComponent}           - The rendered component instance.
  */
-function render(element) {
+export function render(element) {
     // Is the given element valid?
     invariant(
         ReactElement.isValidElement(element),
         'render(): You must pass a valid ReactElement.'
     );
 
-    // Creating a root id & creating the screen
-    const id = ReactInstanceHandles.createReactRootID();
-
-    // Mounting the app
-    const component = instantiateReactComponent(element);
-
-    // Injecting the rootNode
-    ReactIDOperations.setRoot(ReactDomStub.createElement('div'));
+    const id = ReactInstanceHandles.createReactRootID(); // Creating a root id & creating the screen
+    const component = instantiateReactComponent(element); // Mounting the app
+    const transaction = ReactUpdates.ReactReconcileTransaction.getPooled();
 
     // The initial render is synchronous but any updates that happen during
     // rendering, in componentWillMount or componentDidMount, will be batched
     // according to the current batching strategy.
     ReactUpdates.batchedUpdates(() => {
-        // Batched mount component
-        const transaction = ReactUpdates.ReactReconcileTransaction.getPooled();
         transaction.perform(() => {
             component.mountComponent(id, transaction, {});
         });
         ReactUpdates.ReactReconcileTransaction.release(transaction);
     });
 
-    // Returning the screen so the user can attach listeners etc.
     return component._instance;
 }
-
-export {
-    render
-};

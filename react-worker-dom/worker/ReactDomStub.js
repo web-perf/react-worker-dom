@@ -1,3 +1,13 @@
+var queue = [];
+
+function send(args) {
+    queue.push(args);
+    if (queue.length > 1000) {
+        postMessage(queue);
+        queue = [];
+    }
+}
+
 class Node {
     constructor(el, options) {
         this.el = el;
@@ -15,7 +25,7 @@ class Node {
         this.postMessage('render');
     }
     postMessage(method, args = []) {
-        postMessage({
+        send({
             method,
             args,
             id: this.id

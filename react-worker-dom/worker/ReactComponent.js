@@ -58,10 +58,7 @@ export default class ReactComponent {
     mountComponent(rootID, transaction, context) {
         this._rootNodeID = rootID;
 
-        const node = this.mountNode(
-            ReactIDOperations.getParent(rootID),
-            this._currentElement
-        );
+        const node = this.mountNode(ReactIDOperations.getParent(rootID), this._currentElement);
 
         ReactIDOperations.add(rootID, node);
 
@@ -79,15 +76,12 @@ export default class ReactComponent {
             });
 
             // Setting textual content
-            if (content)
+            if (content) {
                 node.setContent('' + content.join(''));
+            }
 
             // Mounting real children
-            this.mountChildren(
-                realChildren,
-                transaction,
-                context
-            );
+            this.mountChildren(realChildren, transaction, context);
         }
 
         // Rendering the rootNode
