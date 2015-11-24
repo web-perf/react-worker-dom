@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title> React Performance - dbmon </title>
+    <title>Normal Example - ReactJS App Performance</title>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <style>
     .Query {
@@ -15,33 +15,52 @@
         width: 100%;
         display: block;
     }
+    
+    #content > div {
+        overflow: hidden;
+        float: left;
+    }
     </style>
 </head>
 
 <body>
-    <h1>Example ReactJS app <span id="title">without</span> web workers</h1>
+    <div id="content"></div>
     <script type="text/javascript">
+    var count = parseInt(document.location.hash.substring(1));
+    isNaN(count) && (count = 1);
+
     // Placing the container where this is rendered
-    var container = document.createElement('div');
-    document.body.appendChild(container);
+    var containers = [];
+    var content = document.getElementById('content');
+    for (var i = 0; i < count; i++) {
+        var container = document.createElement('div');
+        container.style.width = 100 / count + '%';
+        content.appendChild(container);
+
+        containers.push(container);
+    }
 
     if (/worker/.test(window.location.search)) {
         // If this is an example showing a worker, identified by a ?worker in the URL
-        document.getElementById('title').innerHTML = 'with';
+        document.title = 'WebWorkers Example - ReactJS App Performance';
 
         // This file is to recieve DOM commands from ReactJS running in worker
         addScriptTag('react-worker-dom.js', function() {
-            var worker = new Worker('main.js')
-            ReactWorkerDom.init(worker, container);
-            worker.postMessage({});
+            containers.forEach(function(container) {
+                var worker = new Worker('main.js')
+                ReactWorkerDom.init(worker, container);
+                worker.postMessage({});
+            });
         });
     } else {
         // In case of a simple ReactJS Example
         addScriptTag('main.js', function() {
-            // Just a convoluted way to call a method to start rendering.
-            // This is done so that main.jsx has a single method to call for rendering
-            onmessage({
-                data: container
+            containers.forEach(function(container) {
+                // Just a convoluted way to call a method to start rendering.
+                // This is done so that main.jsx has a single method to call for rendering
+                onmessage({
+                    data: container
+                });
             });
         });
     }
