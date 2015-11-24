@@ -6,7 +6,7 @@ module.exports = {
     entry: {
         'html': './index.html',
         'main.js': './main.js',
-        'react-worker-dom.js': './../react-worker-dom/ReactDomImpl.js',
+        'react-worker-dom.js': './../react-worker-dom/page/index.js',
     },
     output: {
         filename: '[name]',
