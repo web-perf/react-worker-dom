@@ -1,13 +1,13 @@
-import ReactDomStub from './ReactDomStub';
+import WorkerDomStub from './WorkerDomStub';
 
 const nodes = {};
 
 /**
  * Backend for ID operations.
  */
-class ReactIDOperations {
+class ReactWWIDOperations {
     constructor() {
-        this.rootNode = ReactDomStub.createElement('div');
+        this.rootNode = WorkerDomStub.createElement('div');
         this.rootNode.debouncedRender = this.rootNode.render;
         //rootNode.debouncedRender = lodash.debounce(() => rootNode.render(), 0);
     }
@@ -34,4 +34,4 @@ class ReactIDOperations {
     }
 }
 
-export default new ReactIDOperations();
+export default new ReactWWIDOperations();

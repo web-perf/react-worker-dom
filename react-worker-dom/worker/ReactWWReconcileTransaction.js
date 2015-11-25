@@ -21,7 +21,7 @@ const ON_READY_QUEUEING = {
   }
 };
 
-function ReactReconcileTransaction() {
+function ReactWWReconcileTransaction() {
   this.reinitializeTransaction();
   this.reactMountReady = CallbackQueue.getPooled(null);
 }
@@ -40,11 +40,11 @@ const Mixin = {
 };
 
 extend(
-  ReactReconcileTransaction.prototype,
+  ReactWWReconcileTransaction.prototype,
   Transaction.Mixin,
   Mixin
 );
 
-PooledClass.addPoolingTo(ReactReconcileTransaction);
+PooledClass.addPoolingTo(ReactWWReconcileTransaction);
 
-export default ReactReconcileTransaction;
+export default ReactWWReconcileTransaction;

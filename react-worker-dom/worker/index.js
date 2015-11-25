@@ -4,9 +4,7 @@ import ReactUpdates from 'react/lib/ReactUpdates';
 import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 import invariant from 'invariant';
 
-import ReactDomStub from './ReactDomStub';
-import inject from './ReactInjection';
-import ReactIDOperations from './ReactIDOperations';
+import inject from './ReactWWInjection';
 
 /**
  * Injecting dependencies.

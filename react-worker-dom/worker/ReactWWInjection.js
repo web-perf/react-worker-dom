@@ -4,17 +4,17 @@
 import ReactInjection from 'react/lib/ReactInjection';
 import ReactComponentEnvironment from 'react/lib/ReactComponentEnvironment';
 
-import ReactReconcileTransaction from './ReactReconcileTransaction';
-import ReactComponent from './ReactComponent';
+import ReactWWReconcileTransaction from './ReactWWReconcileTransaction';
+import ReactWWComponent from './ReactWWComponent';
 
 export default function inject() {
 
   ReactInjection.NativeComponent.injectGenericComponentClass(
-    ReactComponent
+    ReactWWComponent
   );
 
   ReactInjection.Updates.injectReconcileTransaction(
-    ReactReconcileTransaction
+    ReactWWReconcileTransaction
   );
 
   ReactInjection.EmptyComponent.injectEmptyComponent('element');

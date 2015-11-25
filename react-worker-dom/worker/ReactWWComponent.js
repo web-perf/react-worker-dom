@@ -1,7 +1,7 @@
-import ReactDomStub from './ReactDomStub';
 import ReactMultiChild from 'react/lib/ReactMultiChild';
-import ReactIDOperations from './ReactIDOperations';
-import invariant from 'invariant';
+
+import WorkerDomStub from './WorkerDomStub';
+import ReactWWIDOperations from './ReactWWIDOperations';
 import update from './update';
 import solveClass from './solveClass';
 import {
@@ -20,10 +20,10 @@ const CONTENT_TYPES = {
 /**
  * Renders the given react element with webworkers.
  *
- * @constructor ReactComponent
+ * @constructor ReactWWComponent
  * @extends ReactMultiChild
  */
-export default class ReactComponent {
+export default class ReactWWComponent {
     constructor(tag) {
         this._tag = tag.toLowerCase();
         this._renderedChildren = null;
@@ -58,9 +58,9 @@ export default class ReactComponent {
     mountComponent(rootID, transaction, context) {
         this._rootNodeID = rootID;
 
-        const node = this.mountNode(ReactIDOperations.getParent(rootID), this._currentElement);
+        const node = this.mountNode(ReactWWIDOperations.getParent(rootID), this._currentElement);
 
-        ReactIDOperations.add(rootID, node);
+        ReactWWIDOperations.add(rootID, node);
 
         // Mounting children
         let childrenToUse = this._currentElement.props.children;
@@ -85,7 +85,7 @@ export default class ReactComponent {
         }
 
         // Rendering the rootNode
-        ReactIDOperations.rootNode.debouncedRender();
+        ReactWWIDOperations.rootNode.debouncedRender();
     }
 
     /**
@@ -102,7 +102,7 @@ export default class ReactComponent {
             children, ...options
         } = props;
 
-        const node = ReactDomStub.createElement(type, (solveClass(options)));
+        const node = WorkerDomStub.createElement(type, (solveClass(options)));
 
         node.on('event', this._eventListener);
         parent.append(node);
@@ -125,7 +125,7 @@ export default class ReactComponent {
                 children, ...options
             }
         } = nextElement,
-        node = ReactIDOperations.get(this._rootNodeID);
+        node = ReactWWIDOperations.get(this._rootNodeID);
 
         update(node, solveClass(options));
 
@@ -145,7 +145,7 @@ export default class ReactComponent {
 
         this.updateChildren(realChildren, transaction, context);
 
-        ReactIDOperations.rootNode.debouncedRender();
+        ReactWWIDOperations.rootNode.debouncedRender();
     }
 
     /**
@@ -154,16 +154,16 @@ export default class ReactComponent {
     unmountComponent() {
         this.unmountChildren();
 
-        const node = ReactIDOperations.get(this._rootNodeID);
+        const node = ReactWWIDOperations.get(this._rootNodeID);
 
         node.off('event', this._eventListener);
         node.destroy();
 
-        ReactIDOperations.drop(this._rootNodeID);
+        ReactWWIDOperations.drop(this._rootNodeID);
 
         this._rootNodeID = null;
 
-        ReactIDOperations.rootNode.debouncedRender();
+        ReactWWIDOperations.rootNode.debouncedRender();
     }
 
     /**
@@ -172,7 +172,7 @@ export default class ReactComponent {
      * @return {Node} - The instance's node.
      */
     getPublicInstance() {
-        return ReactIDOperations.get(this._rootNodeID);
+        return ReactWWIDOperations.get(this._rootNodeID);
     }
 }
 
@@ -180,6 +180,6 @@ export default class ReactComponent {
  * Extending the component with the MultiChild mixin.
  */
 extend(
-    ReactComponent.prototype,
+    ReactWWComponent.prototype,
     ReactMultiChild.Mixin
 );

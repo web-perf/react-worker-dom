@@ -22,7 +22,7 @@ class Node {
     on(event) {}
 }
 
-class ReactDomImpl {
+class WorkerDomImpl {
     constructor() {
         this.nodeList = {};
     }
@@ -36,4 +36,4 @@ class ReactDomImpl {
     }
 }
 
-export default new ReactDomImpl();
+export default new WorkerDomImpl();
