@@ -6,22 +6,29 @@ import ReactComponentEnvironment from 'react/lib/ReactComponentEnvironment';
 
 import ReactWWReconcileTransaction from './ReactWWReconcileTransaction';
 import ReactWWComponent from './ReactWWComponent';
+import ReactWWTextComponent from './ReactWWTextComponent';
+
+import {
+    processChildrenUpdates, replaceNodeWithMarkupByID
+}
+from './ReactWWChildOperations';
 
 export default function inject() {
 
-  ReactInjection.NativeComponent.injectGenericComponentClass(
-    ReactWWComponent
-  );
+    ReactInjection.NativeComponent.injectGenericComponentClass(
+        ReactWWComponent
+    );
 
-  ReactInjection.Updates.injectReconcileTransaction(
-    ReactWWReconcileTransaction
-  );
+    ReactInjection.Updates.injectReconcileTransaction(
+        ReactWWReconcileTransaction
+    );
 
-  ReactInjection.EmptyComponent.injectEmptyComponent('element');
+    ReactInjection.NativeComponent.injectTextComponentClass(
+        ReactWWTextComponent
+    );
 
-  // NOTE: we're monkeypatching ReactComponentEnvironment because
-  // ReactInjection.Component.injectEnvironment() currently throws,
-  // as it's already injected by ReactDOM for backward compat in 0.14 betas.
-  ReactComponentEnvironment.processChildrenUpdates = function () {};
-  ReactComponentEnvironment.replaceNodeWithMarkupByID = function () {};
+    ReactInjection.EmptyComponent.injectEmptyComponent('element');
+
+    ReactComponentEnvironment.processChildrenUpdates = processChildrenUpdates;
+    ReactComponentEnvironment.replaceNodeWithMarkupByID = replaceNodeWithMarkupByID;
 }

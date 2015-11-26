@@ -2,17 +2,17 @@ var queue = [];
 
 function send(args) {
     queue.push(args);
-    if (queue.length > 1000) {
-        postMessage(queue);
-        queue = [];
-    }
+    //if (queue.length > 1000) {
+    postMessage(queue);
+    queue = [];
+    //}
 }
 
-class Node {
-    constructor(el, options) {
+class WorkerDomNodeStub {
+    constructor(el, options, id) {
         this.el = el;
         this.options = options;
-        this.id = Math.random();
+        this.id = id;
         this.postMessage('constructor', [this.el, this.options]);
     }
     append(node) {
@@ -20,6 +20,9 @@ class Node {
     }
     setContent(content) {
         this.postMessage('setContent', [content]);
+    }
+    setAttribute(key, value) {
+        this.postMessage('setAttribute', [key, value]);
     }
     render() {
         this.postMessage('render');
@@ -31,15 +34,9 @@ class Node {
             id: this.id
         });
     }
-    on(event) {
-        //console.log('Event Handler set on node');
-    }
+    destroy() {}
+    on(e) {}
+    off(e) {}
 }
 
-class ReactDomStub {
-    createElement(el, options) {
-        return new Node(el, options);
-    }
-}
-
-export default new ReactDomStub();
+export default WorkerDomNodeStub;

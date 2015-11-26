@@ -1,4 +1,4 @@
-import WorkerDomStub from './WorkerDomStub';
+import WorkerDomNodeStub from './WorkerDomNodeStub';
 
 const nodes = {};
 
@@ -7,7 +7,7 @@ const nodes = {};
  */
 class ReactWWIDOperations {
     constructor() {
-        this.rootNode = WorkerDomStub.createElement('div');
+        this.rootNode = new WorkerDomNodeStub('div', {}, '0');
         this.rootNode.debouncedRender = this.rootNode.render;
         //rootNode.debouncedRender = lodash.debounce(() => rootNode.render(), 0);
     }

@@ -1,6 +1,6 @@
 import ReactMultiChild from 'react/lib/ReactMultiChild';
 
-import WorkerDomStub from './WorkerDomStub';
+import WorkerDomNodeStub from './WorkerDomNodeStub';
 import ReactWWIDOperations from './ReactWWIDOperations';
 import update from './update';
 import solveClass from './solveClass';
@@ -67,25 +67,12 @@ export default class ReactWWComponent {
         childrenToUse = childrenToUse === null ? [] : [].concat(childrenToUse);
 
         if (childrenToUse.length) {
-
-            // Discriminating content components from real children
-            const {
-                content = null, realChildren = []
-            } = groupBy(childrenToUse, (c) => {
-                return CONTENT_TYPES[typeof c] ? 'content' : 'realChildren';
-            });
-
-            // Setting textual content
-            if (content) {
-                node.setContent('' + content.join(''));
-            }
-
-            // Mounting real children
-            this.mountChildren(realChildren, transaction, context);
+            this.mountChildren(childrenToUse, transaction, context);
         }
 
         // Rendering the rootNode
         ReactWWIDOperations.rootNode.debouncedRender();
+        return this;
     }
 
     /**
@@ -102,7 +89,7 @@ export default class ReactWWComponent {
             children, ...options
         } = props;
 
-        const node = WorkerDomStub.createElement(type, (solveClass(options)));
+        const node = new WorkerDomNodeStub(type, solveClass(options), this._rootNodeID);
 
         node.on('event', this._eventListener);
         parent.append(node);
@@ -127,25 +114,14 @@ export default class ReactWWComponent {
         } = nextElement,
         node = ReactWWIDOperations.get(this._rootNodeID);
 
-        update(node, solveClass(options));
+        var attrs = solveClass(options);
+        for (var key in attrs){
+            node.setAttribute(key, attrs[key])
+        }
 
-        // Updating children
-        const childrenToUse = children === null ? [] : [].concat(children);
-
-        // Discriminating content components from real children
-        const {
-            content = null, realChildren = []
-        } = groupBy(childrenToUse, (c) => {
-            return CONTENT_TYPES[typeof c] ? 'content' : 'realChildren';
-        });
-
-        // Setting textual content
-        if (content)
-            node.setContent('' + content.join(''));
-
-        this.updateChildren(realChildren, transaction, context);
-
+        this.updateChildren(children, transaction, context);
         ReactWWIDOperations.rootNode.debouncedRender();
+        return this;
     }
 
     /**

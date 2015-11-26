@@ -1,23 +1,25 @@
-import WorkerDomImpl from './WorkerDomImpl';
+import WorkerDomNodeImpl from './WorkerDomNodeImpl';
+
+var nodeList = {};
 
 window.ReactWorkerDom = {
     init: function(worker, container) {
         worker.onmessage = function(e) {
             e.data.forEach(function(data) {
-                var node = WorkerDomImpl.get(data.id);
                 switch (data.method) {
                     case 'constructor':
-                        WorkerDomImpl.create.apply(WorkerDomImpl, data.args.concat(data.id));
+                        nodeList[data.id] = new WorkerDomNodeImpl(data.args[0], data.args[1], data.id);;
                         break;
                     case 'render':
-                        var rootNode = WorkerDomImpl.get(data.id);
-                        container.appendChild(rootNode.ref);
+                        container.appendChild(nodeList[data.id].ref);
                         break;
                     case 'append':
-                        var node2 = WorkerDomImpl.get(data.args[0].id);
-                        node.append(node2);
+                        var node = nodeList[data.id],
+                            childNode = nodeList[data.args[0].id];
+                        node.append(childNode);
                         break;
                     default:
+                        var node = nodeList[data.id];
                         if (typeof node[data.method] === 'function') {
                             node[data.method].apply(node, data.args);
                         } else {

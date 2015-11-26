@@ -29,8 +29,8 @@ class Query extends React.Component{
 
     return (
       <td className={"Query " + className}>
-        {this.props.elapsed ? this.formatElapsed(this.props.elapsed) : ''}
-        <div className="popover left">
+        {this.props.elapsed ? this.formatElapsed(this.props.elapsed) : '-'}
+        <div className="popover left">        
           <div className="popover-content">{this.props.query}</div>
           <div className="arrow"/>
         </div>
@@ -124,6 +124,7 @@ class DBMon extends React.Component {
     }.bind(this));
 
     this.setState(this.state);
+    //setTimeout(function(){this.setState(this.state)}.bind(this), 100);
     setTimeout(this.loadSamples.bind(this), ENV.timeout);
   };
 
