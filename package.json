@@ -1,13 +1,14 @@
 {
-    "name": "rapp",
-    "version": "1.0.0",
-    "description": "",
+    "name": "react-worker-dom",
+    "version": "0.0.1",
+    "description": "ReactJS renderer using Web Workers",
+    "main" : "src/worker/index.js",
     "scripts": {
         "start": "node_modules/.bin/webpack-dev-server --config test/webpack.config.js",
         "build": "node_modules/.bin/webpack"
     },
-    "author": "",
-    "license": "ISC",
+    "author": "Parashuram <code@nparashuram.com>",
+    "license": "BSD-3-Clause",
     "dependencies": {},
     "devDependencies": {
         "babel-core": "^6.2.1",
