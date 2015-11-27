@@ -14,7 +14,7 @@ export const actions = {
         if (typeof child === 'string' || typeof child === 'number') {
             parent.setContent(child);
         } else {
-            parent.append(child.getPublicInstance());
+            parent.appendChild(child.getPublicInstance());
         }
     }, [MOVE_EXISTING]() {
         console.log(MOVE_EXISTING);

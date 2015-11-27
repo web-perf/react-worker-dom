@@ -15,8 +15,8 @@ class WorkerDomNodeStub {
         this.id = id;
         this.postMessage('constructor', [this.el, this.options]);
     }
-    append(node) {
-        this.postMessage('append', [node]);
+    appendChild(node) {
+        this.postMessage('appendChild', [node]);
     }
     setContent(content) {
         this.postMessage('setContent', [content]);
@@ -27,6 +27,10 @@ class WorkerDomNodeStub {
     render() {
         this.postMessage('render');
     }
+
+
+    on(e) {}
+    off(e) {}
     postMessage(method, args = []) {
         send({
             method,
@@ -34,9 +38,6 @@ class WorkerDomNodeStub {
             id: this.id
         });
     }
-    destroy() {}
-    on(e) {}
-    off(e) {}
 }
 
 export default WorkerDomNodeStub;

@@ -15,7 +15,7 @@ export default class ReactWWTextComponent {
         const node = new Node('#text', {
             value: this._currentElement
         }, this._rootNodeID);
-        parent.append(node);
+        parent.appendChild(node);
         ReactWWIDOperations.add(this._rootNodeID, node);
         return node;
     }

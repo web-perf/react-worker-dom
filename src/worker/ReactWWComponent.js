@@ -84,7 +84,7 @@ export default class ReactWWComponent {
         const node = new WorkerDomNodeStub(type, solveClass(options), this._rootNodeID);
 
         node.on('event', this._eventListener);
-        parent.append(node);
+        parent.appendChild(node);
 
         return node;
     }

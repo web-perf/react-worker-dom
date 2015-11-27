@@ -14,7 +14,7 @@ export default class WorkerDomNodeImpl {
             }
         }
     }
-    append(node) {
+    appendChild(node) {
         this.ref.appendChild(node.ref);
     }
     setContent(content) {
