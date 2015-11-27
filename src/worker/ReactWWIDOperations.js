@@ -8,8 +8,6 @@ const nodes = {};
 class ReactWWIDOperations {
     constructor() {
         this.rootNode = new WorkerDomNodeStub('div', {}, '0');
-        this.rootNode.debouncedRender = this.rootNode.render;
-        //rootNode.debouncedRender = lodash.debounce(() => rootNode.render(), 0);
     }
 
     add(ID, node) {

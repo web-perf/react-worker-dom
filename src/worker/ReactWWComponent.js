@@ -63,7 +63,7 @@ export default class ReactWWComponent {
         }
 
         // Rendering the rootNode
-        ReactWWIDOperations.rootNode.debouncedRender();
+        ReactWWIDOperations.rootNode.render();
         return this;
     }
 
@@ -112,7 +112,7 @@ export default class ReactWWComponent {
         }
 
         this.updateChildren(children, transaction, context);
-        ReactWWIDOperations.rootNode.debouncedRender();
+        ReactWWIDOperations.rootNode.render();
         return this;
     }
 
@@ -131,7 +131,7 @@ export default class ReactWWComponent {
 
         this._rootNodeID = null;
 
-        ReactWWIDOperations.rootNode.debouncedRender();
+        ReactWWIDOperations.rootNode.render();
     }
 
     /**
