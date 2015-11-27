@@ -2,10 +2,11 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-    context: path.join(__dirname, 'src'),
+    context: path.join(__dirname, 'app'),
     entry: {
-        'worker.js': './worker/index.js',
-        'react-worker-dom.js': './page/index.js',
+        'main.js': './main.jsx',
+        'html': './index.html',
+        'react-worker-dom.js': './../../src/page/index.js',
     },
     output: {
         filename: '[name]',
@@ -14,12 +15,19 @@ module.exports = {
     devtool: 'source-map',
     module: {
         loaders: [{
+            test: /.html/,
+            loader: 'file',
+            query: {
+                name: '[name].[ext]'
+            }
+        }, {
             test: /\.jsx?$/,
             loader: 'babel-loader',
             query: {
                 presets: ['es2015', 'react', 'stage-0'],
                 cacheDirectory: true
-            },
+            }
         }]
-    }
+    },
+    plugins: []
 };

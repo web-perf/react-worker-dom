@@ -49,7 +49,9 @@
             containers.forEach(function(container) {
                 var worker = new Worker('main.js')
                 ReactWorkerDom.init(worker, container);
-                worker.postMessage({});
+                worker.postMessage({
+                    isWorker: true
+                });
             });
         });
     } else {
@@ -58,8 +60,11 @@
             containers.forEach(function(container) {
                 // Just a convoluted way to call a method to start rendering.
                 // This is done so that main.jsx has a single method to call for rendering
-                onmessage({
-                    data: container
+                window.onmessage({
+                    data: {
+                        isWorker: false,
+                        el: container
+                    }
                 });
             });
         });

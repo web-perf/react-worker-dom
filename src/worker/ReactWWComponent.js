@@ -10,14 +10,6 @@ import {
 from 'lodash';
 
 /**
- * Variable types that must be solved as content rather than real children.
- */
-const CONTENT_TYPES = {
-    string: true,
-    number: true
-};
-
-/**
  * Renders the given react element with webworkers.
  *
  * @constructor ReactWWComponent
