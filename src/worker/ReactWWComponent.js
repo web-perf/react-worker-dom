@@ -98,7 +98,7 @@ export default class ReactWWComponent {
             children, ...options
         } = props;
 
-        const node = new WorkerDomNodeStub(type, solveClass(options), this._rootNodeID);
+        const node = new WorkerDomNodeStub(this._rootNodeID, type, solveClass(options));
 
         node.on('event', this._eventListener);
         parent.appendChild(node);

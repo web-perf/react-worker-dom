@@ -8,7 +8,7 @@ window.ReactWorkerDom = {
             e.data.forEach(function(data) {
                 switch (data.method) {
                     case 'constructor':
-                        nodeList[data.id] = new WorkerDomNodeImpl(data.args[0], data.args[1], data.id);;
+                        nodeList[data.id] = new WorkerDomNodeImpl(data.id, ...data.args);
                         break;
                     case 'render': // Should only be called once per worker
                         container.appendChild(nodeList[data.id].ref);

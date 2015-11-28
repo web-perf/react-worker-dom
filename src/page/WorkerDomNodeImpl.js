@@ -1,5 +1,5 @@
 export default class WorkerDomNodeImpl {
-    constructor(el, options, id) {
+    constructor(id, el, options) {
         this.el = el;
         this.options = options;
         this.id = id;

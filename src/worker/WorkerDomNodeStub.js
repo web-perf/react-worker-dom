@@ -2,14 +2,14 @@ var queue = [];
 
 function send(args) {
     queue.push(args);
-    if (queue.length > 1000) {
+    //if (queue.length > 1000) {
         postMessage(queue);
         queue = [];
-    }
+    //}
 }
 
 class WorkerDomNodeStub {
-    constructor(el, options, id) {
+    constructor(id, el, options) {
         this.el = el;
         this.options = options;
         this.id = id;

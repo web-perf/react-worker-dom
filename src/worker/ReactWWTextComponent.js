@@ -12,9 +12,9 @@ export default class ReactWWTextComponent {
     mountComponent(rootID, transaction, context) {
         this._rootNodeID = rootID;
         const parent = ReactWWIDOperations.getParent(this._rootNodeID);
-        const node = new Node('#text', {
+        const node = new Node(this._rootNodeID, '#text', {
             value: this._currentElement
-        }, this._rootNodeID);
+        });
         parent.appendChild(node);
         ReactWWIDOperations.add(this._rootNodeID, node);
         return node;

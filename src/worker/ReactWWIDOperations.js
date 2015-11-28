@@ -7,7 +7,7 @@ const nodes = {};
  */
 class ReactWWIDOperations {
     constructor() {
-        this.rootNode = new WorkerDomNodeStub('div', {}, '0');
+        this.rootNode = new WorkerDomNodeStub('0', 'div', {});
     }
 
     add(ID, node) {
