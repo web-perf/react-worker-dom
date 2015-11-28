@@ -1,46 +1,42 @@
-var queue = [];
+import Bridge from './WorkerBridge';
 
-function send(args) {
-    queue.push(args);
-    //if (queue.length > 1000) {
-        postMessage(queue);
-        queue = [];
-    //}
-}
-
-class WorkerDomNodeStub {
+export default class WorkerDomNodeStub {
     constructor(id, el, options) {
         this.el = el;
         this.options = options;
+        this.eventHandlers = {};
         this.id = id;
-        this.postMessage('constructor', [this.el, this.options]);
+        this.impl('constructor', [this.el, this.options]);
     }
     appendChild(node) {
-        this.postMessage('appendChild', [node]);
+        this.impl('appendChild', [node]);
     }
     setContent(content) {
-        this.postMessage('setContent', [content]);
+        this.impl('setContent', [content]);
     }
     setAttributes(options) {
-        this.postMessage('setAttributes', [options]);
+        this.impl('setAttributes', [options]);
     }
-    addEventHandlers(handlers){
-        // TODO - Send message to add event handlers
+    addEventHandlers(handlers) {
+        for (let key in handlers) {
+            this.eventHandlers[key] = handlers[key];
+        }
+        this.impl('addEventHandlers', Object.keys(handlers));
+    }
+    on(eventName, e) {
+        var fn = this.eventHandlers[eventName];
+        if (typeof fn === 'function') {
+            fn.call(this, e);
+        }
     }
     render() {
-        this.postMessage('render');
+        this.impl('render');
     }
-
-
-    on(e) {}
-    off(e) {}
-    postMessage(method, args = []) {
-        send({
+    impl(method, args = []) { // Sends a messages to the Implementation
+        Bridge.postMessage({
             method,
             args,
             id: this.id
         });
     }
 }
-
-export default WorkerDomNodeStub;
