@@ -3,29 +3,6 @@ import ReactMultiChild from 'react/lib/ReactMultiChild';
 import WorkerDomNodeStub from './WorkerDomNodeStub';
 import ReactWWIDOperations from './ReactWWIDOperations';
 
-import merge from 'lodash.merge';
-import compact from 'lodash.compact';
-import startCase from 'lodash.startcase';
-
-/**
- * Solves the given props by applying classes.
- *
- * @param  {object}  props - The component's props.
- * @return {object}        - The solved props.
- */
-function solveClass(props) {
-    let {
-        class: classes,
-        ...rest
-    } = props;
-
-    // Coercing to array & compacting
-    classes = compact([].concat(classes));
-
-    return merge.apply(null, [{}].concat(classes).concat(rest));
-}
-
-
 /**
  * Renders the given react element with webworkers.
  *
@@ -98,7 +75,7 @@ export default class ReactWWComponent {
             children, ...options
         } = props;
 
-        const node = new WorkerDomNodeStub(this._rootNodeID, type, solveClass(options));
+        const node = new WorkerDomNodeStub(this._rootNodeID, type, options);
 
         node.on('event', this._eventListener);
         parent.appendChild(node);
@@ -123,9 +100,8 @@ export default class ReactWWComponent {
         } = nextElement,
         node = ReactWWIDOperations.get(this._rootNodeID);
 
-        var attrs = solveClass(options);
-        for (var key in attrs) {
-            node.setAttribute(key, attrs[key])
+        for (var key in options) {
+            node.setAttribute(key, options[key])
         }
 
         this.updateChildren(children, transaction, context);
