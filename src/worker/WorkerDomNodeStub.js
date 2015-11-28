@@ -21,8 +21,8 @@ class WorkerDomNodeStub {
     setContent(content) {
         this.postMessage('setContent', [content]);
     }
-    setAttribute(key, value) {
-        this.postMessage('setAttribute', [key, value]);
+    setAttributes(options) {
+        this.postMessage('setAttributes', [options]);
     }
     addEventHandlers(handlers){
         // TODO - Send message to add event handlers

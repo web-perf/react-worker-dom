@@ -116,10 +116,10 @@ export default class ReactWWComponent {
         } = extractEventHandlers(restProps);
 
         let node = ReactWWIDOperations.get(this._rootNodeID);
-        for (var key in options) {
-            node.setAttribute(key, options[key])
-        }
+
+        node.setAttributes(options);
         node.addEventHandlers(eventHandlers);
+
         this.updateChildren(children, transaction, context);
         //ReactWWIDOperations.rootNode.render(); <- No real need to update the parent also
         return this;

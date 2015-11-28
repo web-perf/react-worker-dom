@@ -9,9 +9,7 @@ export default class WorkerDomNodeImpl {
         } else {
             this.ref = document.createElement(el);
             this.ref.setAttribute('data-reactid', id);
-            for (var key in options) {
-                this.setAttribute(key, options[key]);
-            }
+            this.setAttributes(this.options);
         }
     }
     appendChild(node) {
@@ -24,12 +22,17 @@ export default class WorkerDomNodeImpl {
             this.ref.innerHTML = escape(content);
         }
     }
-    setAttribute(key, value) {
-        if (key === 'className') {
-            this.ref.className = value;
-        } else {
-            this.ref.setAttribute(key, value);
+    setAttributes(options) {
+        for (let key in options) {
+            let value = options[key];
+            if (key === 'className') {
+                this.ref.className = value;
+            } else {
+                this.ref.setAttribute(key, value);
+            }
         }
     }
-    on(event) {}
+    addEventHandlers(handlers) {
+
+    }
 }
