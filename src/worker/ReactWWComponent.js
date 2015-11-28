@@ -4,6 +4,26 @@ import WorkerDomNodeStub from './WorkerDomNodeStub';
 import ReactWWIDOperations from './ReactWWIDOperations';
 
 /**
+ * Function to separate event Handlers and regular props
+ * @param  {Object} props Props passed to a React Component
+ * @return {eventHandlers: {}, options: {}}       An object containing eventHandlers and options
+ */
+function extractEventHandlers(props) {
+    let result = {
+        eventHandlers: {},
+        options: {}
+    };
+    for (let key in props) {
+        if (typeof props[key] === 'function') {
+            result.eventHandlers[key] = props[key];
+        } else {
+            result.options[key] = props[key];
+        }
+    }
+    return result;
+}
+
+/**
  * Renders the given react element with webworkers.
  *
  * @constructor ReactWWComponent
@@ -22,15 +42,7 @@ export default class ReactWWComponent {
     }
 
     construct(element) {
-
-        // Setting some properties
         this._currentElement = element;
-        this._eventListener = (type, ...args) => {
-            const handler = this._currentElement.props['on' + startCase(type)];
-
-            if (typeof handler === 'function')
-                handler.apply(null, args);
-        };
     }
 
     /**
@@ -72,12 +84,14 @@ export default class ReactWWComponent {
         const {
             props, type
         } = element, {
-            children, ...options
+            children, ...restProps
         } = props;
 
+        let {
+            eventHandlers, options
+        } = extractEventHandlers(restProps);
         const node = new WorkerDomNodeStub(this._rootNodeID, type, options);
-
-        node.on('event', this._eventListener);
+        node.addEventHandlers(eventHandlers);
         parent.appendChild(node);
 
         return node;
@@ -95,15 +109,17 @@ export default class ReactWWComponent {
     receiveComponent(nextElement, transaction, context) {
         const {
             props: {
-                children, ...options
+                children, ...restProps
             }
-        } = nextElement,
-        node = ReactWWIDOperations.get(this._rootNodeID);
+        } = nextElement, {
+            eventHandlers, options
+        } = extractEventHandlers(restProps);
 
+        let node = ReactWWIDOperations.get(this._rootNodeID);
         for (var key in options) {
             node.setAttribute(key, options[key])
         }
-
+        node.addEventHandlers(eventHandlers);
         this.updateChildren(children, transaction, context);
         //ReactWWIDOperations.rootNode.render(); <- No real need to update the parent also
         return this;
@@ -116,8 +132,6 @@ export default class ReactWWComponent {
         this.unmountChildren();
 
         const node = ReactWWIDOperations.get(this._rootNodeID);
-
-        node.off('event', this._eventListener);
         node.destroy();
 
         ReactWWIDOperations.drop(this._rootNodeID);
