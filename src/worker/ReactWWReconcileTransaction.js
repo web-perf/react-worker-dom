@@ -10,7 +10,6 @@
 import CallbackQueue from 'react/lib/CallbackQueue';
 import PooledClass from 'react/lib/PooledClass';
 import Transaction from 'react/lib/Transaction';
-import {extend} from 'lodash';
 
 const ON_READY_QUEUEING = {
   initialize: function () {
@@ -39,7 +38,7 @@ const Mixin = {
   }
 };
 
-extend(
+Object.assign(
   ReactWWReconcileTransaction.prototype,
   Transaction.Mixin,
   Mixin

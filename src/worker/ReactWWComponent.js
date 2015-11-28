@@ -2,12 +2,29 @@ import ReactMultiChild from 'react/lib/ReactMultiChild';
 
 import WorkerDomNodeStub from './WorkerDomNodeStub';
 import ReactWWIDOperations from './ReactWWIDOperations';
-import update from './update';
-import solveClass from './solveClass';
-import {
-    extend, groupBy, startCase
+
+import merge from 'lodash.merge';
+import compact from 'lodash.compact';
+import startCase from 'lodash.startcase';
+
+/**
+ * Solves the given props by applying classes.
+ *
+ * @param  {object}  props - The component's props.
+ * @return {object}        - The solved props.
+ */
+function solveClass(props) {
+    let {
+        class: classes,
+        ...rest
+    } = props;
+
+    // Coercing to array & compacting
+    classes = compact([].concat(classes));
+
+    return merge.apply(null, [{}].concat(classes).concat(rest));
 }
-from 'lodash';
+
 
 /**
  * Renders the given react element with webworkers.
@@ -107,7 +124,7 @@ export default class ReactWWComponent {
         node = ReactWWIDOperations.get(this._rootNodeID);
 
         var attrs = solveClass(options);
-        for (var key in attrs){
+        for (var key in attrs) {
             node.setAttribute(key, attrs[key])
         }
 
@@ -147,7 +164,7 @@ export default class ReactWWComponent {
 /**
  * Extending the component with the MultiChild mixin.
  */
-extend(
+Object.assign(
     ReactWWComponent.prototype,
     ReactMultiChild.Mixin
 );
