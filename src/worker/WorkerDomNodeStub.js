@@ -2,10 +2,10 @@ var queue = [];
 
 function send(args) {
     queue.push(args);
-    //if (queue.length > 1000) {
-    postMessage(queue);
-    queue = [];
-    //}
+    if (queue.length > 1000) {
+        postMessage(queue);
+        queue = [];
+    }
 }
 
 class WorkerDomNodeStub {

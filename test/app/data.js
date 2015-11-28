@@ -1,13 +1,11 @@
-import ENV from './env';
-
-export default function() {
+export default function(rows) {
     // generate some dummy data
     var data = {
         start_at: new Date().getTime() / 1000,
         databases: {}
     };
 
-    for (var i = 1; i <= ENV.rows; i++) {
+    for (var i = 1; i <= rows; i++) {
         data.databases["cluster" + i] = {
             queries: []
         };

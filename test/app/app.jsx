@@ -1,6 +1,5 @@
 import React from 'react';
 import getData from './data';
-import ENV from './env';
 
 class Query extends React.Component{
   lpad(padding, toLength, str) {
@@ -103,7 +102,7 @@ class DBMon extends React.Component {
   };
 
   loadSamples() {
-    var newData = getData();
+    var newData = getData(this.props.rows);
     Object.keys(newData.databases).forEach(function(dbname) {
       var sampleInfo = newData.databases[dbname];
       if (!this.state.databases[dbname]) {
@@ -125,7 +124,7 @@ class DBMon extends React.Component {
 
     this.setState(this.state);
     //setTimeout(function(){this.setState(this.state)}.bind(this), 100);
-    setTimeout(this.loadSamples.bind(this), ENV.timeout);
+    setTimeout(this.loadSamples.bind(this), this.props.timeout);
   };
 
   componentDidMount() {

@@ -26,32 +26,27 @@
 <body>
     <div id="content"></div>
     <script type="text/javascript">
-    var count = parseInt(document.location.hash.substring(1));
-    isNaN(count) && (count = 1);
-
+    var ENV = parseArgs(window.location.search);
     // Placing the container where this is rendered
     var containers = [];
     var content = document.getElementById('content');
-    for (var i = 0; i < count; i++) {
+    for (var i = 0; i < ENV.count; i++) {
         var container = document.createElement('div');
-        container.style.width = 100 / count + '%';
+        container.style.width = 100 / ENV.count + '%';
         content.appendChild(container);
-
         containers.push(container);
     }
 
-    if (/worker/.test(window.location.search)) {
+    if (ENV.worker) {
         // If this is an example showing a worker, identified by a ?worker in the URL
         document.title = 'WebWorkers Example - ReactJS App Performance';
 
         // This file is to recieve DOM commands from ReactJS running in worker
         addScriptTag('react-worker-dom.js', function() {
-            containers.forEach(function(container) {
+            containers.forEach(function(container, i) {
                 var worker = new Worker('main.js')
-                ReactWorkerDom.init(worker, container);
-                worker.postMessage({
-                    isWorker: true
-                });
+                ReactWorkerDom.init(worker, container, i);
+                worker.postMessage(ENV);
             });
         });
     } else {
@@ -62,7 +57,9 @@
                 // This is done so that main.jsx has a single method to call for rendering
                 window.onmessage({
                     data: {
-                        isWorker: false,
+                        worker: ENV.worker,
+                        timeout: ENV.timeout,
+                        rows: ENV.rows,
                         el: container
                     }
                 });
@@ -79,6 +76,20 @@
             window.__appReady = true;
         }
         document.body.appendChild(x);
+    }
+
+    function parseArgs(uri) {
+        var q = {};
+        uri.replace(new RegExp("([^?=&]+)(=([^&]*))?", "g"), function($0, $1, $2, $3) {
+            q[$1] = $3;
+        });
+
+        return {
+            worker: q.worker === 'true',
+            timeout: parseInt('0' + q.timeout, 10),
+            rows: parseInt('0' + q.rows, 10) || 10,
+            count: parseInt('0' + q.count, 10) || 1
+        }
     }
     </script>
 </body>
