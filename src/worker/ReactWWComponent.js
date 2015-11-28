@@ -112,7 +112,7 @@ export default class ReactWWComponent {
         }
 
         this.updateChildren(children, transaction, context);
-        ReactWWIDOperations.rootNode.render();
+        //ReactWWIDOperations.rootNode.render(); <- No real need to update the parent also
         return this;
     }
 
