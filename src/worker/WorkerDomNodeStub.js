@@ -9,7 +9,7 @@ export default class WorkerDomNodeStub {
         this.impl('constructor', [this.el, this.options]);
     }
     appendChild(node) {
-        this.impl('appendChild', [node]);
+        this.impl('appendChild', [node.id]);
     }
     setContent(content) {
         this.impl('setContent', [content]);
@@ -18,10 +18,14 @@ export default class WorkerDomNodeStub {
         this.impl('setAttributes', [options]);
     }
     addEventHandlers(handlers) {
+        let canSend = false;
         for (let key in handlers) {
+            canSend = true;
             this.eventHandlers[key] = handlers[key];
         }
-        this.impl('addEventHandlers', Object.keys(handlers));
+        if (canSend) {
+            this.impl('addEventHandlers', Object.keys(handlers));
+        }
     }
     on(eventName, e) {
         var fn = this.eventHandlers[eventName];

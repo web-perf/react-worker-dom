@@ -3,16 +3,21 @@ class WorkerBridge {
         this.queue = [];
 
         this.interval = interval || 20;
-        this.maxQueueSize = maxQueueSize || 500;
+        this.maxQueueSize = maxQueueSize || 1000;
 
-        this.setupListeners();
+        self.addEventListener('message', ({
+            data
+        }) => {
+            switch (data.type) {
+                case 'event':
+                    handleEvent(data.args);
+                    break;
+            }
+        });
     }
+
     postMessage(msg) {
         this.queue.push(msg);
-        this.notifyNewMessage();
-    }
-
-    notifyNewMessage() {
         // Flush the message queue if we have enough messages 
         if (this.queue.length > this.maxQueueSize) {
             this.flushQueue();
@@ -26,11 +31,8 @@ class WorkerBridge {
         }
     }
 
-    setupListeners() {
-        // Flush the message queue periodically
-        setInterval(() => {
-            //this.flushQueue();
-        }, this.interval);
+    handleEvent(args) {
+        // TODO - Pass the events to the appropriate nodes/event Handlers
     }
 }
 

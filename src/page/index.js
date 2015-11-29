@@ -14,14 +14,13 @@ window.ReactWorkerDom = {
                         container.appendChild(nodeList[data.id].ref);
                         break;
                     case 'appendChild':
-                        var node = nodeList[data.id],
-                            childNode = nodeList[data.args[0].id];
-                        node.appendChild(childNode);
+                        var node = nodeList[data.id];
+                        node.appendChild(nodeList[data.args[0]]);
                         break;
                     default:
                         var node = nodeList[data.id];
                         if (typeof node[data.method] === 'function') {
-                            node[data.method].apply(node, data.args);
+                            node[data.method](...data.args);
                         } else {
                             console.log('Cannot run %s on Node with id %s', data.method, data.id);
                         }

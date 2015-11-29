@@ -32,7 +32,17 @@ export default class WorkerDomNodeImpl {
             }
         }
     }
-    addEventHandlers(handlers) {
+    addEventHandlers(...handlers) {
+        handlers.forEach((handler) => {
+            this.ref.addEventListener(handler.substring(2).toLowerCase(), (e) => {
+                this.onEvent(handler, e);
+                return false;
+            }, false);
+        });
+    }
 
+    onEvent(eventType, e) {
+        // TODO Send event back to worker
+        // TODO Convert event to Synthetic Event
     }
 }

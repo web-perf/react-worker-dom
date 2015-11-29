@@ -46,7 +46,9 @@
             containers.forEach(function(container, i) {
                 var worker = new Worker('main.js')
                 ReactWorkerDom.init(worker, container, i);
-                worker.postMessage(ENV);
+                worker.postMessage(Object.assign({
+                    start: true
+                }, ENV));
             });
         });
     } else {
@@ -56,12 +58,10 @@
                 // Just a convoluted way to call a method to start rendering.
                 // This is done so that main.jsx has a single method to call for rendering
                 window.onmessage({
-                    data: {
-                        worker: ENV.worker,
-                        timeout: ENV.timeout,
-                        rows: ENV.rows,
+                    data: Object.assign({
+                        start: true,
                         el: container
-                    }
+                    }, ENV)
                 });
             });
         });
