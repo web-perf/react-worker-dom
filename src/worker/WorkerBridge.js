@@ -3,7 +3,7 @@ class WorkerBridge {
         this.queue = [];
 
         this.interval = interval || 20;
-        this.maxQueueSize = maxQueueSize || 1000;
+        this.maxQueueSize = maxQueueSize || 500;
 
         self.addEventListener('message', ({
             data
@@ -26,7 +26,10 @@ class WorkerBridge {
 
     flushQueue() {
         if (this.queue.length > 0) {
-            self.postMessage(this.queue);
+            self.postMessage({
+                type: 'renderQueue',
+                args: this.queue
+            });
             this.queue = [];
         }
     }

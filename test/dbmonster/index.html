@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+    </title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <style>
+    .Query {
+        position: relative;
+    }
+    
+    .Query:hover .popover {
+        left: -100%;
+        width: 100%;
+        display: block;
+    }
+    
+    #content > div {
+        overflow: hidden;
+        float: left;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="content"></div>
+    <script type="text/javascript">
+    if (/worker/.test(document.location.search)) { // Add script tag based on worker or normal example
+        addScripts(['ReactWorker.js', 'page-worker.js']);
+    } else {
+        addScripts(['main-normal.js']);
+    }
+
+
+    function addScripts(list) {
+        (function addRecursively(i) {
+            if (i >= list.length) {
+                return;
+            }
+            var x = document.createElement('script');
+            x.src = list[i];
+            x.onload = function() {
+                addRecursively(i + 1);
+            };
+            document.body.appendChild(x);
+        }(0));
+    }
+    </script>
+</body>
+
+</html>
