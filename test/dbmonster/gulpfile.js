@@ -41,4 +41,4 @@ gulp.task('connect', ['build'], function() {
 });
 
 gulp.task('build', ['html', 'moduleJs', 'mainJs']);
-gulp.task('dev', ['connect', 'watch']);
+gulp.task('default', ['connect', 'watch']);
