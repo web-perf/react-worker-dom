@@ -1,4 +1,3 @@
-import ENV from './ENV';
 
 var content = document.getElementById('content');
 for (var i = 0; i < ENV.count; i++) {
@@ -6,5 +5,7 @@ for (var i = 0; i < ENV.count; i++) {
 	container.style.width = 100 / ENV.count + '%';
 	content.appendChild(container);
 
-	new ReactWorker(new Worker('main-worker.js'), container);
+	var worker = new Worker('main-worker.js');
+	worker.postMessage(ENV);
+	new ReactWorker(worker, container);
 }

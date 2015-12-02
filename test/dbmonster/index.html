@@ -21,13 +21,30 @@
         overflow: hidden;
         float: left;
     }
+    
+    #info {
+        position: fixed;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        bottom: 0;
+        padding: 0.5em;
+        text-align: center;
+        color: #fff;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.4);
+    }
     </style>
 </head>
 
 <body>
     <div id="content"></div>
+    <div id="info">
+        <b>React-Worker-Dom</b> Change URL parameters: /index.html? worker=<i>{true|false}</i> &amp; count=<i>{number of top level components}</i> &amp; rows=<i>{number of rows to render}</i>
+    </div>
     <script type="text/javascript">
-    if (/worker/.test(document.location.search)) { // Add script tag based on worker or normal example
+    var ENV = parseArgs(document.location.search);
+    if (ENV.worker) { // Add script tag based on worker or normal example
         addScripts(['ReactWorker.js', 'page-worker.js']);
     } else {
         addScripts(['main-normal.js']);
@@ -46,6 +63,19 @@
             };
             document.body.appendChild(x);
         }(0));
+    }
+
+    function parseArgs(uri) {
+        var q = {};
+        uri.replace(new RegExp("([^?=&]+)(=([^&]*))?", "g"), function($0, $1, $2, $3) {
+            q[$1] = $3;
+        });
+        return {
+            worker: q.worker === 'true',
+            timeout: parseInt('0' + q.timeout, 10),
+            rows: parseInt('0' + q.rows, 10) || 10,
+            count: parseInt('0' + q.count, 10) || 1
+        }
     }
     </script>
 </body>

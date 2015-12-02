@@ -1,5 +1,3 @@
-import ENV from './ENV'
-
 import React from 'react';
 import reactDOM from 'react-dom';
 
