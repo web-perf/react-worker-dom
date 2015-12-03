@@ -19,7 +19,7 @@ You can also look at `test\dbmonster\ENV.js` to change parameters like number of
 
 On a regular react application, a main file could have something like 
 
-``` 
+```js
 // File: main.jsx
 import React from 'react';
 import reactDOM from 'react-dom';
@@ -28,7 +28,7 @@ reactDom.render(<Component/>, document.getElementById('container'));
 
 To use this renderer, the script above needs to be started as a web worker. The web worker does not have access to `document` or other DOM elements. Hence, the worker file will now look like
 
-```
+```js
 // File: main-worker.js
 import React from 'react';
 import reactDOM from 'react-worker-dom';
@@ -37,7 +37,7 @@ reactDom.render(<Component/>);
 
 In the webpage, add a script tag that has the file `dist/ReactWorker.js`, and then have a script block that has the following snippet. 
 
-```
+```js
 new ReactWorker(new Worker('main-worker.js'), document.getElementById('container'));`
 ```
 
