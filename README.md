@@ -23,7 +23,7 @@ On a regular react application, a main file could have something like
 // File: main.jsx
 import React from 'react';
 import reactDOM from 'react-dom';
-reactDom.render(<Component/>, document.getElementById('container'));
+reactDOM.render(<Component/>, document.getElementById('container'));
 ```
 
 To use this renderer, the script above needs to be started as a web worker. The web worker does not have access to `document` or other DOM elements. Hence, the worker file will now look like
@@ -32,7 +32,7 @@ To use this renderer, the script above needs to be started as a web worker. The 
 // File: main-worker.js
 import React from 'react';
 import reactDOM from 'react-worker-dom';
-reactDom.render(<Component/>);
+reactDOM.render(<Component/>);
 ```
 
 In the webpage, add a script tag that has the file `dist/ReactWorker.js`, and then have a script block that has the following snippet. 
