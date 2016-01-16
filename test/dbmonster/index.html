@@ -21,19 +21,6 @@
         overflow: hidden;
         float: left;
     }
-    
-    #info {
-        position: fixed;
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-        bottom: 0;
-        padding: 0.5em;
-        text-align: center;
-        color: #fff;
-        left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.4);
-    }
     </style>
 </head>
 
@@ -48,6 +35,15 @@
         'worker=' + ENV.worker,
         'rows=' + ENV.rows,
     ].join('&');
+
+    // Create top level components based on ENV.count
+    var content = document.getElementById('content');
+    for (var i = 0; i < ENV.count; i++) {
+        var container = document.createElement('div');
+        container.style.width = 100 / ENV.count + '%';
+        container.id = 'topLevelContainer-' + i;
+        content.appendChild(container);
+    }
 
     if (ENV.worker) { // Add script tag based on worker or normal example
         addScripts(['ReactWorker.js', 'main-worker.js']);
