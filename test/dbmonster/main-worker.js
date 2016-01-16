@@ -5,7 +5,7 @@ for (var i = 0; i < ENV.count; i++) {
 	container.style.width = 100 / ENV.count + '%';
 	content.appendChild(container);
 
-	var worker = new Worker('main-worker.js');
+	var worker = new Worker('worker-impl.js');
 	worker.postMessage(ENV);
 	new ReactWorker(worker, container);
 }

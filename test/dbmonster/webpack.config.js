@@ -4,8 +4,8 @@ module.exports = {
     context: __dirname,
     entry: {
         'main-normal': './main-normal.jsx',
-        'main-worker': './main-worker.jsx',
-        'page-worker': './page-worker.js'
+        'main-worker': './main-worker.js',
+        'worker-impl': './worker-impl.jsx'
     },
     output: {
         filename: '[name].js',

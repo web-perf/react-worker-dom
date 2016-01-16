@@ -45,7 +45,7 @@
     <script type="text/javascript">
     var ENV = parseArgs(document.location.search);
     if (ENV.worker) { // Add script tag based on worker or normal example
-        addScripts(['ReactWorker.js', 'page-worker.js']);
+        addScripts(['ReactWorker.js', 'main-worker.js']);
     } else {
         addScripts(['main-normal.js']);
     }
