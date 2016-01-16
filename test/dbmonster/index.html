@@ -39,11 +39,16 @@
 
 <body>
     <div id="content"></div>
-    <div id="info">
-        <b>React-Worker-Dom</b> Change URL parameters: /index.html? worker=<i>{true|false}</i> &amp; count=<i>{number of top level components}</i> &amp; rows=<i>{number of rows to render}</i>
-    </div>
     <script type="text/javascript">
-    var ENV = parseArgs(document.location.search);
+    var ENV = parseArgs(document.location.hash.substring(1));
+
+    window.location.hash = [
+        'count=' + ENV.count,
+        'timeout=' + ENV.timeout,
+        'worker=' + ENV.worker,
+        'rows=' + ENV.rows,
+    ].join('&');
+
     if (ENV.worker) { // Add script tag based on worker or normal example
         addScripts(['ReactWorker.js', 'main-worker.js']);
     } else {
