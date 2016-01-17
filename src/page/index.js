@@ -8,7 +8,8 @@ class ReactWorkerDom {
         this.worker.onmessage = (e => this.handleMessage(e.data));
     }
 
-    handleMessage(data) {
+    handleMessage(msg) {
+        var data = JSON.parse(msg);
         if (data.type === 'renderQueue') {
             data.args.forEach(msg => this.handleRenderQueueMessage(msg));
         }

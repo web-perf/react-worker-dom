@@ -26,10 +26,10 @@ class WorkerBridge {
 
     flushQueue() {
         if (this.queue.length > 0) {
-            self.postMessage({
+            self.postMessage(JSON.stringify({
                 type: 'renderQueue',
                 args: this.queue
-            });
+            }));
             this.queue = [];
         }
     }
