@@ -1,11 +1,11 @@
 import WorkerDomNodeImpl from './WorkerDomNodeImpl';
 
-export class ReactWorkerDom {
+class ReactWorkerDom {
     constructor(worker, container) {
         this.nodeList = {};
         this.worker = worker;
         this.container = container;
-        worker.onmessage = (e => this.handleMessage(e.data));
+        this.worker.onmessage = (e => this.handleMessage(e.data));
     }
 
     handleMessage(data) {
@@ -39,4 +39,11 @@ export class ReactWorkerDom {
     }
 }
 
-window.ReactWorker = ReactWorkerDom;
+// Doing this so that it can be use both as 
+// import {render} from 'react-worker-dom'; render();
+// import ReactDom from 'react-worker-dom'; ReactDom.render();
+module.exports = {
+    render: function(worker, container) {
+        return new ReactWorkerDom(worker, container);
+    }
+};

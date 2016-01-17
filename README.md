@@ -1,23 +1,21 @@
 # React Renderer using Web Workers
 
-A React Custom renderer using Web Workers. All the Virtual DOM diffing happens in the Worker thread, and only node updates are sent over to the UI thread. 
+A React Custom renderer using Web Workers. All the Virtual DOM reconcilliations happen in a WebWorker thread. Only node updates are sent over to the UI thread, result in a much more responsive UI.  
 
 >> This renderer is experimental and may change in the future
 
-The application components themselves should not change, the only change as a result of using this renderer would be to call the method on `react-worker-dom` instead of `react-dom`. 
+An existing React application can leverage WebWorkers using this library with minimal change. Look at the usage section for details. 
 
 ## Demo
 The demo app has 2 versions - one with normal react, and another with web workers enabled. 
 - Clone the repo run `npm install` to install all dependencies.
 - Build the app using `npm run demo`
-- Open `http://localhost:8080/index.html` for the normal version of the app
-- Open `http://localhost:8080/index.html?worker.html` for the version of the app that uses web workers
-
-You can also look at `test\dbmonster\ENV.js` to change parameters like number of rows (called `rows`) or number of top level components (called `count`) are rendered, to see how the performance of the app is impacted when more nodes need to be rendered. 
+- Open `http://localhost:8080/test/dbmonster/index.html` to view the demo app.
+- Tweak the params in the URL to change to use web workers, increase number of components, etc. 
 
 ## Usage
 
-On a regular react application, a main file could have something like 
+A typical React application would looks something like the following.
 
 ```js
 // File: main.jsx
@@ -26,22 +24,27 @@ import reactDOM from 'react-dom';
 reactDOM.render(<Component/>, document.getElementById('container'));
 ```
 
-To use this renderer, the script above needs to be started as a web worker. The web worker does not have access to `document` or other DOM elements. Hence, the worker file will now look like
+To use this renderer, we would need to split the above file into 2 parts, one that is on the page, and another that starts as a web worker. 
+
+This is the file that is run on the main UI thread, and is included in the html page using a script tag. Notice the second import that uses `react-worker-dom`. 
 
 ```js
-// File: main-worker.js
+// File: main.js
 import React from 'react';
 import reactDOM from 'react-worker-dom';
-reactDOM.render(<Component/>);
+reactDOM.render(new Worker('worker.js'), document.getElementById('container'));
 ```
 
-In the webpage, add a script tag that has the file `dist/ReactWorker.js`, and then have a script block that has the following snippet. 
+The `worker.js` file is the one that now holds the actual Component. 
 
 ```js
-new ReactWorker(new Worker('main-worker.js'), document.getElementById('container'));`
+// File: worker.jsx
+import React from 'react';
+import ReactWorkerDOM from 'react-worker-dom-worker';
+ReactWorkerDOM.render(<Component/>);
 ```
 
-Look at `test\dbmonster` directory for the example. 
+Look at `test\dbmonster` directory for the example. The big difference is that the script on the main app does not define the React Component, it is instead defined in the worker. 
 
 ## Roadmap
 - This experiment was to measure the performance characteristics of using web workers and hence does not yet implement events. Event will have to be different from React's regular events since the event handlers here is async and executed in the web worker. This is closer to ReactNative than React.   

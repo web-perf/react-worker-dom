@@ -1,5 +1,4 @@
 var path = require('path');
-
 module.exports = {
     context: __dirname,
     entry: {
@@ -10,6 +9,7 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.join(__dirname, '../../dist'),
+        publicPath: '/assets/'
     },
     devtool: 'source-map',
     module: {
@@ -17,5 +17,11 @@ module.exports = {
             test: /\.jsx?$/,
             loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
         }]
-    }
+    },
+    resolve: {
+        alias: {
+            'react-worker-dom': path.resolve(__dirname, './../../src/page/index.js'),
+            'react-worker-dom-worker': path.resolve(__dirname, './../../src/worker/index.js')
+        }
+    },
 };

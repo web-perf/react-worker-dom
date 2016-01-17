@@ -17,7 +17,7 @@ inject();
  * @param  {ReactElement}   element   - Node to update.
  * @return {ReactComponent}           - The rendered component instance.
  */
-export function render(element) {
+function render(element) {
     // Is the given element valid?
     invariant(
         ReactElement.isValidElement(element),
@@ -40,3 +40,7 @@ export function render(element) {
 
     return component._instance;
 }
+
+module.exports = {
+    render: render
+};

@@ -46,7 +46,7 @@
     }
 
     if (ENV.worker) { // Add script tag based on worker or normal example
-        addScripts(['ReactWorker.js', 'main-worker.js']);
+        addScripts(['main-worker.js']);
     } else {
         addScripts(['main-normal.js']);
     }
@@ -58,7 +58,7 @@
                 return;
             }
             var x = document.createElement('script');
-            x.src = list[i];
+            x.src = '/assets/' + list[i];
             x.onload = function() {
                 addRecursively(i + 1);
             };

@@ -1,17 +1,27 @@
-import React from 'react';
-import {render} from './../../src/worker/index';
+/* This file is added from a Web Worker - look at page-worker.js for the main file in the page */
 
-import DBMon from './components/app.jsx';
-//import DBMon from './testApp.jsx'
-
-function onMessage(e){
-	if (typeof e.data.rows !== 'undefined'){
-		self.removeEventListener('message', onMessage);
-		var ENV = e.data;
-		render(<DBMon rows={ENV.rows} timeout={ENV.timeout}/>);
-	}
+// Helper functions to parse additional params passed to this worker
+// Will not be needed unless your app needs to pass params to the web worker
+var ENV = parseArgs(self.location.hash.substring(1));
+function parseArgs(uri) {
+  var q = {};
+  uri.replace(new RegExp("([^?=&]+)(=([^&]*))?", "g"), function($0, $1, $2, $3) {
+      q[$1] = $3;
+  });
+  return {
+      timeout: parseInt('0' + q.timeout, 10),
+      rows: parseInt('0' + q.rows, 10),
+  }
 }
 
-self.addEventListener('message', onMessage);
+// -------------------------------------------------------------
+// Start of actual code that an application will need
 
-/* This file is added from a Web Worker - look at page-worker.js for the main file in the page */
+import React from 'react';
+import ReactWorkerDOM from 'react-worker-dom-worker';
+
+import DBMon from './components/app.jsx';
+
+ReactWorkerDOM.render(<DBMon rows={ENV.rows} timeout={ENV.timeout}/>);
+
+
