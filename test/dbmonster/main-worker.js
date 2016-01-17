@@ -4,5 +4,5 @@ import {render} from 'react-worker-dom';
 // import DBMon from './components/app.jsx'; <-- Don't need this. Defined in worker-impl.js
 
 for (var i = 0; i < ENV.count; i++) {
-	render(new Worker('/assets/worker-impl.js#rows=' + ENV.rows + '&timeout=' + ENV.timeout), document.getElementById('topLevelContainer-' + i));
+	render(new Worker('/dist/worker-impl.js#rows=' + ENV.rows + '&timeout=' + ENV.timeout), document.getElementById('topLevelContainer-' + i));
 }

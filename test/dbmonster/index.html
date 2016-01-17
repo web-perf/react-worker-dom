@@ -58,7 +58,7 @@
                 return;
             }
             var x = document.createElement('script');
-            x.src = '/assets/' + list[i];
+            x.src = '/dist/' + list[i];
             x.onload = function() {
                 addRecursively(i + 1);
             };
