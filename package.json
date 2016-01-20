@@ -4,7 +4,9 @@
   "description": "ReactJS renderer using Web Workers",
   "main": "dist/worker.js",
   "scripts": {
-    "demo": "node_modules/.bin/webpack-dev-server --config test/dbmonster/webpack.config.js"
+    "demo": "node_modules/.bin/webpack-dev-server --config test/dbmonster/webpack.config.js",
+    "build-demo": "node_modules/.bin/webpack --config=test/dbmonster/webpack.config.js",
+    "perf": "node test/dbmonster/perf.js"
   },
   "author": "Parashuram <code@nparashuram.com>",
   "license": "BSD-3-Clause",
@@ -18,6 +20,7 @@
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-0": "^6.1.18",
+    "browser-perf": "^1.4.3",
     "react-dom": "^0.14.3",
     "webpack": "^1.12.8",
     "webpack-dev-server": "^1.14.1"
