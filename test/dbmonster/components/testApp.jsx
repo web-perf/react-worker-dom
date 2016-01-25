@@ -1,5 +1,23 @@
 import React from 'react';
 
+var Clock = React.createClass({
+  getInitialState(){
+    return {
+      time: new Date()
+    }
+  }, 
+  componentDidMount(){
+    setInterval(()=>{
+      this.setState({
+        time: new Date()
+      });
+    }, 1000);
+  }, 
+  render(){
+    return <span>{this.state.time.toString()}</span>;
+  }
+})
+
 var TodoList = React.createClass({
   render: function() {
     var createItem = function(itemText, index) {
@@ -31,6 +49,8 @@ var TodoApp = React.createClass({
           <input onChange={this.onChange} value={this.state.text} />
           <button>{'Add #' + (this.state.items.length + 1)}</button>
         </form>
+        <hr/>
+        Current time: <b><Clock/></b>
       </div>
     );
   }

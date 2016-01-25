@@ -20,8 +20,9 @@ function parseArgs(uri) {
 import React from 'react';
 import ReactWorkerDOM from 'react-worker-dom-worker';
 
-import DBMon from './components/app.jsx';
+import App from './components/app.jsx';
+//import App from './components/testApp.jsx';
 
-ReactWorkerDOM.render(<DBMon rows={ENV.rows} timeout={ENV.timeout}/>);
+ReactWorkerDOM.render(<App rows={ENV.rows} timeout={ENV.timeout}/>);
 
 
