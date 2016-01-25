@@ -1,11 +1,20 @@
 import Channel from './../common/channel';
-import {EVENT, RENDER_QUEUE, MAX_QUEUE_SIZE} from './../common/constants';
+import {EVENT, RENDER_QUEUE, RENDER_TIME, MAX_QUEUE_SIZE} from './../common/constants';
 
 class WorkerBridge {
     constructor() {
         this.queue = [];
         this.channel = new Channel(self);
         this.channel.onMessage(this.handleMessage.bind(this));
+        this.pollQueue();
+        this.TIMEOUT = 5;
+    }
+
+    pollQueue(){
+        self.setTimeout(() => {
+            this.flushQueue();
+            this.pollQueue();
+        }, this.TIMEOUT);
     }
 
     handleMessage(data){
@@ -13,23 +22,24 @@ class WorkerBridge {
             case EVENT:
                 handleEvent(data.args);
                 break;
+            case RENDER_TIME:
+                this.rate = data.args.count / data.args.time;
+                break;
+            default: 
+                console.log('Unknown operation %s', data);
         }
-
     }
 
     postMessage(msg) {
         this.queue.push(msg);
-        // Flush the message queue if we have enough messages 
-        if (this.queue.length > MAX_QUEUE_SIZE) {
-            this.flushQueue();
-        }
     }
 
-    flushQueue() {
-        if (this.queue.length > 0) {
-            this.channel.send(RENDER_QUEUE, this.queue);
-            this.queue = [];
+    flushQueue(){
+        if (this.queue.length === 0){
+            return;
         }
+        this.channel.send(RENDER_QUEUE, this.queue);
+        this.queue = [];
     }
 
     handleEvent(args) {

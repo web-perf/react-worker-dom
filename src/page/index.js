@@ -1,6 +1,6 @@
 import WorkerDomNodeImpl from './WorkerDomNodeImpl';
 import Channel from './../common/channel';
-import {RENDER_QUEUE, CONSTRUCTOR, APPEND_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT} from './../common/constants';
+import {RENDER_TIME, RENDER_QUEUE, CONSTRUCTOR, APPEND_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT} from './../common/constants';
 
 class ReactWorkerDom {
     constructor(worker, container) {
@@ -9,12 +9,21 @@ class ReactWorkerDom {
 
         this.channel = new Channel(worker);
         this.channel.onMessage(this.handleMessage.bind(this));
+        this.channel.send(RENDER_TIME, {
+            time: 1,
+            count: 0
+        });
     }
 
     handleMessage(data) {
         switch (data.type){
             case RENDER_QUEUE:
+                var start = performance.now();
                 data.args.forEach(msg => this.handleRenderQueueMessage(msg));
+                this.channel.send(RENDER_TIME,{
+                    time: performance.now() - start,
+                    count: data.args.length
+                });
                 break;
             default: 
                 console.log('Cannot handle message %s', data.type, data.args);
