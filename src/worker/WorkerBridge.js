@@ -1,15 +1,14 @@
-class WorkerBridge {
-    constructor(interval, maxQueueSize) {
-        this.queue = [];
+import {EVENT, RENDER_QUEUE, MAX_QUEUE_SIZE} from './../common/constants';
 
-        this.interval = interval || 20;
-        this.maxQueueSize = maxQueueSize || 500;
+class WorkerBridge {
+    constructor() {
+        this.queue = [];
 
         self.addEventListener('message', ({
             data
         }) => {
             switch (data.type) {
-                case 'event':
+                case EVENT:
                     handleEvent(data.args);
                     break;
             }
@@ -19,7 +18,7 @@ class WorkerBridge {
     postMessage(msg) {
         this.queue.push(msg);
         // Flush the message queue if we have enough messages 
-        if (this.queue.length > this.maxQueueSize) {
+        if (this.queue.length > MAX_QUEUE_SIZE) {
             this.flushQueue();
         }
     }
@@ -27,7 +26,7 @@ class WorkerBridge {
     flushQueue() {
         if (this.queue.length > 0) {
             self.postMessage(JSON.stringify({
-                type: 'renderQueue',
+                type: RENDER_QUEUE,
                 args: this.queue
             }));
             this.queue = [];

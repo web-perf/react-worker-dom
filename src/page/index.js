@@ -1,4 +1,5 @@
 import WorkerDomNodeImpl from './WorkerDomNodeImpl';
+import {RENDER_QUEUE, CONSTRUCTOR, APPEND_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT} from './../common/constants';
 
 class ReactWorkerDom {
     constructor(worker, container) {
@@ -10,7 +11,7 @@ class ReactWorkerDom {
 
     handleMessage(msg) {
         var data = JSON.parse(msg);
-        if (data.type === 'renderQueue') {
+        if (data.type === RENDER_QUEUE) {
             data.args.forEach(msg => this.handleRenderQueueMessage(msg));
         }
     }
@@ -18,23 +19,22 @@ class ReactWorkerDom {
     handleRenderQueueMessage(data) {
         var nodeList = this.nodeList;
         switch (data.method) {
-            case 'constructor':
+            case CONSTRUCTOR:
                 nodeList[data.id] = new WorkerDomNodeImpl(data.id, ...data.args);
                 break;
-            case 'render': // Should only be called once per worker
+            case RENDER: // Should only be called once per worker
                 this.container.appendChild(nodeList[data.id].ref);
                 break;
-            case 'appendChild':
+            case APPEND_CHILD:
                 var node = nodeList[data.id];
                 node.appendChild(nodeList[data.args[0]]);
                 break;
+            case SET_ATTRIBUTES:
+            case SET_CONTENT:
+                nodeList[data.id][data.method](...data.args);
+                break;
             default:
-                var node = nodeList[data.id];
-                if (typeof node[data.method] === 'function') {
-                    node[data.method](...data.args);
-                } else {
-                    console.log('Cannot run %s on Node with id %s', data.method, data.id);
-                }
+                console.log('Cannot run %s on Node with id %s', data.method, data.id);
         }
 
     }
