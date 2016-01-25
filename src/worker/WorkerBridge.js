@@ -1,18 +1,20 @@
+import Channel from './../common/channel';
 import {EVENT, RENDER_QUEUE, MAX_QUEUE_SIZE} from './../common/constants';
 
 class WorkerBridge {
     constructor() {
         this.queue = [];
+        this.channel = new Channel(self);
+        this.channel.onMessage(this.handleMessage.bind(this));
+    }
 
-        self.addEventListener('message', ({
-            data
-        }) => {
-            switch (data.type) {
-                case EVENT:
-                    handleEvent(data.args);
-                    break;
-            }
-        });
+    handleMessage(data){
+        switch (data.type) {
+            case EVENT:
+                handleEvent(data.args);
+                break;
+        }
+
     }
 
     postMessage(msg) {
@@ -25,10 +27,7 @@ class WorkerBridge {
 
     flushQueue() {
         if (this.queue.length > 0) {
-            self.postMessage(JSON.stringify({
-                type: RENDER_QUEUE,
-                args: this.queue
-            }));
+            this.channel.send(RENDER_QUEUE, this.queue);
             this.queue = [];
         }
     }

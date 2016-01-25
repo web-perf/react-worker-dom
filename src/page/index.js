@@ -1,18 +1,23 @@
 import WorkerDomNodeImpl from './WorkerDomNodeImpl';
+import Channel from './../common/channel';
 import {RENDER_QUEUE, CONSTRUCTOR, APPEND_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT} from './../common/constants';
 
 class ReactWorkerDom {
     constructor(worker, container) {
         this.nodeList = {};
-        this.worker = worker;
         this.container = container;
-        this.worker.onmessage = (e => this.handleMessage(e.data));
+
+        this.channel = new Channel(worker);
+        this.channel.onMessage(this.handleMessage.bind(this));
     }
 
-    handleMessage(msg) {
-        var data = JSON.parse(msg);
-        if (data.type === RENDER_QUEUE) {
-            data.args.forEach(msg => this.handleRenderQueueMessage(msg));
+    handleMessage(data) {
+        switch (data.type){
+            case RENDER_QUEUE:
+                data.args.forEach(msg => this.handleRenderQueueMessage(msg));
+                break;
+            default: 
+                console.log('Cannot handle message %s', data.type, data.args);
         }
     }
 
