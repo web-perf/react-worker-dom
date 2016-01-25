@@ -1,6 +1,6 @@
 import WorkerDomNodeImpl from './WorkerDomNodeImpl';
 import Channel from './../common/channel';
-import {RENDER_TIME, RENDER_QUEUE, CONSTRUCTOR, APPEND_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT} from './../common/constants';
+import {RENDER_TIME, ADD_EVENT_HANDLERS, RENDER_QUEUE, CONSTRUCTOR, APPEND_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT} from './../common/constants';
 
 class ReactWorkerDom {
     constructor(worker, container) {
@@ -44,8 +44,13 @@ class ReactWorkerDom {
                 node.appendChild(nodeList[data.args[0]]);
                 break;
             case SET_ATTRIBUTES:
+                nodeList[data.id].setAttributes(...data.args);
+                break;
             case SET_CONTENT:
-                nodeList[data.id][data.method](...data.args);
+                nodeList[data.id].setContent(...data.args);
+                break;
+            case ADD_EVENT_HANDLERS:
+                nodeList[data.id].addEventHandlers(...data.args);
                 break;
             default:
                 console.log('Cannot run %s on Node with id %s', data.method, data.id);
