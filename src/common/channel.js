@@ -14,7 +14,9 @@ export default class Channel {
     }
     static serializeEvent(e) {
         var newTarget = {
-            value: e.target.value
+            value: e.target.value,
+            checked: e.target.checked,
+            selected: e.target.selected
         }
         e.target = newTarget;
         return JSON.stringify(e);

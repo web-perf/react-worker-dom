@@ -18,15 +18,35 @@ var Clock = React.createClass({
   }
 })
 
+var TodoItem = React.createClass({
+  getInitialState: function(){
+    return {checked: false};
+  },
+  onChange: function(e){
+    this.setState({checked: !!e.target.checked});
+  },
+  render: function() {
+    return (
+      <li className="checkbox">
+        <label>
+          <input type="checkbox" onChange={this.onChange}/>
+          <span style={{textDecoration: this.state.checked ? 'line-through' : '' }}> 
+            {this.props.children}
+          </span>
+        </label>
+      </li>);
+  }
+})
+
 var TodoList = React.createClass({
   render: function() {
-    var createItem = function(itemText, index) {
-      return <li key={index + itemText}>{itemText}</li>;
-    };
     if (this.props.items.length === 0){
       return <blockquote>Add some todo items</blockquote>
     } else {
-      return <ul>{this.props.items.map(createItem)}</ul>;
+      return (
+      <ul>
+        {this.props.items.map((item, i) => <TodoItem key={i}>{item}</TodoItem>)}
+      </ul>) ;
     }
   }
 });
@@ -40,6 +60,7 @@ var TodoApp = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
+    this.state.text = this.state.text || '<empty>';
     var nextItems = this.state.items.concat([this.state.text]);
     var nextText = '';
     this.setState({items: nextItems, text: nextText});

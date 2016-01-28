@@ -33,7 +33,11 @@ export default class WorkerDomNodeImpl {
             let value = options[key];
             if (key === 'className') {
                 this.ref.className = value;
-            } else {
+            } else if (key === 'style'){
+                for (var prop in value){
+                    this.ref.style[prop] = value[prop];
+                }
+            }else {
                 this.ref.setAttribute(key, value);
             }
         }
