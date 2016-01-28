@@ -25,6 +25,9 @@ var TodoItem = React.createClass({
   onChange: function(e){
     this.setState({checked: !!e.target.checked});
   },
+  deleteItem: function(){
+    this.props.onDeleteItem();
+  },
   render: function() {
     return (
       <li className="checkbox">
@@ -34,18 +37,26 @@ var TodoItem = React.createClass({
             {this.props.children}
           </span>
         </label>
+        <span className="pull-right glyphicon glyphicon-trash" onClick={this.deleteItem}>&nbsp;</span>
       </li>);
   }
 })
 
 var TodoList = React.createClass({
+  onDeleteItem: function(i){
+    return function(){ 
+      this.props.onDeleteItem(i);
+    }.bind(this);
+  },
   render: function() {
     if (this.props.items.length === 0){
       return <blockquote>Add some todo items</blockquote>
     } else {
       return (
       <ul>
-        {this.props.items.map((item, i) => <TodoItem key={i}>{item}</TodoItem>)}
+        {this.props.items.map((item, i) => {
+          return <TodoItem key={i} onDeleteItem={this.onDeleteItem(i)}>{item}</TodoItem>
+        })}
       </ul>) ;
     }
   }
@@ -58,6 +69,10 @@ var TodoApp = React.createClass({
   onChange: function(e) {
     this.setState({text: e.target.value});
   },
+  onDeleteItem: function(i){
+    var a = this.state.items;
+    this.setState({items: a.slice(0,i).concat(a.slice(i+1, a.length))});
+  }, 
   handleSubmit: function(e) {
     e.preventDefault();
     this.state.text = this.state.text || '<empty>';
@@ -69,7 +84,7 @@ var TodoApp = React.createClass({
     return (
       <div className="well">
         <h3 className="text-center">TODO</h3>
-        <TodoList items={this.state.items} />
+        <TodoList items={this.state.items} onDeleteItem={this.onDeleteItem}/>
         <form onSubmit={this.handleSubmit}>
           <input onChange={this.onChange} value={this.state.text} className="form-control"/>
           <button className="btn btn-block">Add </button>

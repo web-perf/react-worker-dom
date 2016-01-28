@@ -18,6 +18,7 @@ export default class Channel {
             checked: e.target.checked,
             selected: e.target.selected
         }
+        delete e.view;
         e.target = newTarget;
         return JSON.stringify(e);
     }

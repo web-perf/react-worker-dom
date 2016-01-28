@@ -18,7 +18,7 @@ export default class WorkerDomNodeImpl {
     addChild(node, afterNode) {
         this.ref.appendChild(node.ref);
     }
-    removeChild(node){
+    removeChild(node) {
         this.ref.removeChild(node.ref);
     }
     setContent(content) {
@@ -33,11 +33,11 @@ export default class WorkerDomNodeImpl {
             let value = options[key];
             if (key === 'className') {
                 this.ref.className = value;
-            } else if (key === 'style'){
-                for (var prop in value){
+            } else if (key === 'style') {
+                for (var prop in value) {
                     this.ref.style[prop] = value[prop];
                 }
-            }else {
+            } else {
                 this.ref.setAttribute(key, value);
             }
         }
@@ -46,23 +46,23 @@ export default class WorkerDomNodeImpl {
         handlers.forEach((handler) => {
             switch (this.el) {
                 case 'form':
-                    this._listeners =
-                    [ 
+                    this._listeners = [
                         ReactBrowserEventEmitter.trapBubbledEvent(EventConstants.topLevelTypes.topReset, 'reset', this.ref),
                         ReactBrowserEventEmitter.trapBubbledEvent(EventConstants.topLevelTypes.topSubmit, 'submit', this.ref)
                     ];
                     // TODO - Add more cases of events that do not bubble
                     // Look at trapBubbledEventsLocal in REactDomComponent in react-dom
             }
-
-            ReactBrowserEventEmitter.listenTo(handler, container);
-            ReactBrowserEventEmitter.putListener(this.id, handler, (syntheticEvent, id, e) => {
-                onEvent(handler, syntheticEvent, id, e);
-            });
+            setTimeout(() => {
+                ReactBrowserEventEmitter.listenTo(handler, container);
+                ReactBrowserEventEmitter.putListener(this.id, handler, (syntheticEvent, id, e) => {
+                    onEvent(handler, syntheticEvent, id, e);
+                });
+            }, 0);
         });
     }
 
-    removeEventHandlers(){
+    removeEventHandlers() {
         console.log('Need to remove event listeners for ', this.id);
     }
 }
