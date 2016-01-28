@@ -3,10 +3,12 @@
  */
 import ReactInjection from 'react/lib/ReactInjection';
 import ReactComponentEnvironment from 'react/lib/ReactComponentEnvironment';
+import ReactDOMFeatureFlags from 'react/lib/ReactDOMFeatureFlags'
 
 import ReactWWReconcileTransaction from './ReactWWReconcileTransaction';
 import ReactWWComponent from './ReactWWComponent';
 import ReactWWTextComponent from './ReactWWTextComponent';
+
 
 import {
     processChildrenUpdates, replaceNodeWithMarkupByID
@@ -30,5 +32,5 @@ export default function inject() {
     ReactInjection.EmptyComponent.injectEmptyComponent('element');
 
     ReactComponentEnvironment.processChildrenUpdates = processChildrenUpdates;
-    ReactComponentEnvironment.replaceNodeWithMarkupByID = replaceNodeWithMarkupByID;
+    ReactComponentEnvironment.replaceNodeWithMarkupByID = replaceNodeWithMarkupByID
 }

@@ -12,4 +12,16 @@ export default class Channel {
             handler(JSON.parse(e.data));
         });
     }
+    static serializeEvent(e) {
+        var newTarget = {
+            value: e.target.value
+        }
+        e.target = newTarget;
+        return JSON.stringify(e);
+    }
+    static deserializeEvent(msg) {
+        var e = JSON.parse(msg);
+        e.preventDefault = e.stopPropgation = function() {}
+        return e;
+    }
 }

@@ -1,9 +1,14 @@
 import WorkerDomNodeImpl from './WorkerDomNodeImpl';
 import Channel from './../common/channel';
-import {RENDER_TIME, ADD_EVENT_HANDLERS, RENDER_QUEUE, CONSTRUCTOR, APPEND_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT} from './../common/constants';
+import {EVENT, RENDER_TIME, ADD_EVENT_HANDLERS, REMOVE_CHILD, REMOVE_EVENT_HANDLERS, RENDER_QUEUE, CONSTRUCTOR, ADD_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT} from './../common/constants';
+import ReactMount from 'react/lib/ReactMount';
+
+import inject from './inject';
 
 class ReactWorkerDom {
     constructor(worker, container) {
+        inject();
+
         this.nodeList = {};
         this.container = container;
 
@@ -38,10 +43,15 @@ class ReactWorkerDom {
                 break;
             case RENDER: // Should only be called once per worker
                 this.container.appendChild(nodeList[data.id].ref);
+                ReactMount.registerContainer(nodeList[data.id].ref);
                 break;
-            case APPEND_CHILD:
+            case ADD_CHILD:
                 var node = nodeList[data.id];
-                node.appendChild(nodeList[data.args[0]]);
+                node.addChild(nodeList[data.args[0]]);
+                break;
+            case REMOVE_CHILD:
+                var node = nodeList[data.id];
+                node.removeChild(nodeList[data.args[0]]);
                 break;
             case SET_ATTRIBUTES:
                 nodeList[data.id].setAttributes(...data.args);
@@ -50,12 +60,22 @@ class ReactWorkerDom {
                 nodeList[data.id].setContent(...data.args);
                 break;
             case ADD_EVENT_HANDLERS:
-                nodeList[data.id].addEventHandlers(...data.args);
+                nodeList[data.id].addEventHandlers(this.container, this.onEvent.bind(this), ...data.args);
+                break;
+            case REMOVE_EVENT_HANDLERS:
+                nodeList[data.id].removeEventHandlers();
                 break;
             default:
                 console.log('Cannot run %s on Node with id %s', data.method, data.id);
         }
+    }
 
+    onEvent(handler, syntheticEvent, id, e){
+        this.channel.send(EVENT, {
+            id,
+            eventType: handler,
+            event: Channel.serializeEvent(syntheticEvent)
+        })
     }
 }
 

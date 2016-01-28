@@ -1,3 +1,6 @@
+import ReactBrowserEventEmitter from 'react/lib/ReactBrowserEventEmitter';
+import EventConstants from 'react/lib/EventConstants';
+
 export default class WorkerDomNodeImpl {
     constructor(id, el, options) {
         this.el = el;
@@ -12,8 +15,11 @@ export default class WorkerDomNodeImpl {
             this.setAttributes(this.options);
         }
     }
-    appendChild(node) {
+    addChild(node, afterNode) {
         this.ref.appendChild(node.ref);
+    }
+    removeChild(node){
+        this.ref.removeChild(node.ref);
     }
     setContent(content) {
         if (this.type === 'TEXT_NODE') {
@@ -32,17 +38,27 @@ export default class WorkerDomNodeImpl {
             }
         }
     }
-    addEventHandlers(...handlers) {
+    addEventHandlers(container, onEvent, ...handlers) {
         handlers.forEach((handler) => {
-            this.ref.addEventListener(handler.substring(2).toLowerCase(), (e) => {
-                this.onEvent(handler, e);
-                return false;
-            }, false);
+            switch (this.el) {
+                case 'form':
+                    this._listeners =
+                    [ 
+                        ReactBrowserEventEmitter.trapBubbledEvent(EventConstants.topLevelTypes.topReset, 'reset', this.ref),
+                        ReactBrowserEventEmitter.trapBubbledEvent(EventConstants.topLevelTypes.topSubmit, 'submit', this.ref)
+                    ];
+                    // TODO - Add more cases of events that do not bubble
+                    // Look at trapBubbledEventsLocal in REactDomComponent in react-dom
+            }
+
+            ReactBrowserEventEmitter.listenTo(handler, container);
+            ReactBrowserEventEmitter.putListener(this.id, handler, (syntheticEvent, id, e) => {
+                onEvent(handler, syntheticEvent, id, e);
+            });
         });
     }
 
-    onEvent(eventType, e) {
-        // TODO Send event back to worker
-        // TODO Convert event to Synthetic Event
+    removeEventHandlers(){
+        console.log('Need to remove event listeners for ', this.id);
     }
 }

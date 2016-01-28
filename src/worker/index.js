@@ -5,6 +5,8 @@ import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 import invariant from 'invariant';
 
 import inject from './ReactWWInjection';
+import ReactWWIDOperations from './ReactWWIDOperations';
+import WorkerDomNodeStub from './WorkerDomNodeStub';
 
 /**
  * Injecting dependencies.
@@ -27,6 +29,8 @@ function render(element) {
     const id = ReactInstanceHandles.createReactRootID(); // Creating a root id & creating the screen
     const component = instantiateReactComponent(element); // Mounting the app
     const transaction = ReactUpdates.ReactReconcileTransaction.getPooled();
+
+    ReactWWIDOperations.setRoot(new WorkerDomNodeStub('0', 'div', {}));
 
     // The initial render is synchronous but any updates that happen during
     // rendering, in componentWillMount or componentDidMount, will be batched

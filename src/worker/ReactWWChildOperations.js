@@ -14,7 +14,7 @@ export const actions = {
         if (typeof child === 'string' || typeof child === 'number') {
             parent.setContent(child);
         } else {
-            parent.appendChild(child.getPublicInstance());
+            parent.addChild(child.getPublicInstance());
         }
     }, [MOVE_EXISTING]() {
         console.log(MOVE_EXISTING);
@@ -36,14 +36,13 @@ export function processChildrenUpdates(updates, components) {
 }
 
 export function replaceNodeWithMarkupByID(id, markup) {
-    console.log(id, markup);
     const node = ReactWWIDOperations.get(id);
 
     const nextNode = markup.getPublicInstance();
     const parentNode = node.parent;
 
     if (parentNode) {
-        parentNode.remove(node);
-        parentNode.add(nextNode);
+        parentNode.removeChild(node);
+        parentNode.addChild(nextNode);
     }
 }

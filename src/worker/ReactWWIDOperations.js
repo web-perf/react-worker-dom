@@ -6,8 +6,8 @@ const nodes = {};
  * Backend for ID operations.
  */
 class ReactWWIDOperations {
-    constructor() {
-        this.rootNode = new WorkerDomNodeStub('0', 'div', {});
+    setRoot(root) {
+        this.rootNode = root;
     }
 
     add(ID, node) {

@@ -1,5 +1,6 @@
 import Channel from './../common/channel';
 import {EVENT, RENDER_QUEUE, RENDER_TIME, MAX_QUEUE_SIZE} from './../common/constants';
+import ReactWWIDOperations from './ReactWWIDOperations';
 
 class WorkerBridge {
     constructor() {
@@ -20,7 +21,7 @@ class WorkerBridge {
     handleMessage(data){
         switch (data.type) {
             case EVENT:
-                handleEvent(data.args);
+                this.handleEvent(data.args);
                 break;
             case RENDER_TIME:
                 this.rate = data.args.count / data.args.time;
@@ -42,8 +43,9 @@ class WorkerBridge {
         this.queue = [];
     }
 
-    handleEvent(args) {
-        // TODO - Pass the events to the appropriate nodes/event Handlers
+    handleEvent(data) {
+        var node = ReactWWIDOperations.get(data.id);
+        node.on(data.eventType, Channel.deserializeEvent(data.event));
     }
 }
 

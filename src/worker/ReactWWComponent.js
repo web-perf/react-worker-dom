@@ -3,6 +3,9 @@ import ReactMultiChild from 'react/lib/ReactMultiChild';
 import WorkerDomNodeStub from './WorkerDomNodeStub';
 import ReactWWIDOperations from './ReactWWIDOperations';
 
+import ReactBrowserEventEmitter from 'react/lib/ReactBrowserEventEmitter';
+
+
 /**
  * Function to separate event Handlers and regular props
  * @param  {Object} props Props passed to a React Component
@@ -14,7 +17,7 @@ function extractEventHandlers(props) {
         options: {}
     };
     for (let key in props) {
-        if (typeof props[key] === 'function') {
+        if (ReactBrowserEventEmitter.registrationNameModules.hasOwnProperty(key)) {
             result.eventHandlers[key] = props[key];
         } else {
             result.options[key] = props[key];
@@ -91,8 +94,9 @@ export default class ReactWWComponent {
             eventHandlers, options
         } = extractEventHandlers(restProps);
         const node = new WorkerDomNodeStub(this._rootNodeID, type, options);
+        node.setParent(parent);
         node.addEventHandlers(eventHandlers);
-        parent.appendChild(node);
+        parent.addChild(node);
 
         return node;
     }
@@ -118,7 +122,7 @@ export default class ReactWWComponent {
         let node = ReactWWIDOperations.get(this._rootNodeID);
 
         node.setAttributes(options);
-        node.addEventHandlers(eventHandlers);
+        //node.addEventHandlers(eventHandlers);
 
         this.updateChildren(children, transaction, context);
         //ReactWWIDOperations.rootNode.render(); <- No real need to update the parent also
@@ -132,7 +136,8 @@ export default class ReactWWComponent {
         this.unmountChildren();
 
         const node = ReactWWIDOperations.get(this._rootNodeID);
-        node.destroy();
+        node.removeEventHandlers();
+        node.parent.removeChild(node);
 
         ReactWWIDOperations.drop(this._rootNodeID);
 

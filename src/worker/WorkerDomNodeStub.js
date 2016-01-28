@@ -1,5 +1,5 @@
 import Bridge from './WorkerBridge';
-import {CONSTRUCTOR, APPEND_CHILD, SET_CONTENT, SET_ATTRIBUTES, ADD_EVENT_HANDLERS, RENDER} from './../common/constants';
+import {CONSTRUCTOR, ADD_CHILD, REMOVE_CHILD, SET_CONTENT, REMOVE_EVENT_HANDLERS, SET_ATTRIBUTES, ADD_EVENT_HANDLERS, RENDER} from './../common/constants';
 
 export default class WorkerDomNodeStub {
     constructor(id, el, options) {
@@ -9,8 +9,14 @@ export default class WorkerDomNodeStub {
         this.id = id;
         this.impl(CONSTRUCTOR, [this.el, this.options]);
     }
-    appendChild(node) {
-        this.impl(APPEND_CHILD, [node.id]);
+    setParent(parent){
+        this.parent = parent;
+    }
+    addChild(node) {
+        this.impl(ADD_CHILD, [node.id]);
+    }
+    removeChild(node){
+        this.impl(REMOVE_CHILD, [node.id]);
     }
     setContent(content) {
         this.impl(SET_CONTENT, [content]);
@@ -27,6 +33,9 @@ export default class WorkerDomNodeStub {
         if (canSend) {
             this.impl(ADD_EVENT_HANDLERS, Object.keys(handlers));
         }
+    }
+    removeEventHandlers(handlers){
+        this.impl(REMOVE_EVENT_HANDLERS);
     }
     on(eventName, e) {
         var fn = this.eventHandlers[eventName];
