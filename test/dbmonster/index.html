@@ -27,14 +27,7 @@
 <body>
     <div id="content"></div>
     <script type="text/javascript">
-    var ENV = parseArgs(document.location.hash.substring(1));
-
-    window.location.hash = [
-        'count=' + ENV.count,
-        'timeout=' + ENV.timeout,
-        'worker=' + ENV.worker,
-        'rows=' + ENV.rows,
-    ].join('&');
+    var ENV = getEnvFromUrl();
 
     // Create top level components based on ENV.count
     var content = document.getElementById('content');
@@ -46,37 +39,38 @@
     }
 
     if (ENV.worker) { // Add script tag based on worker or normal example
-        addScripts(['main-worker.js']);
+        addScript('main-worker.js');
     } else {
-        addScripts(['main-normal.js']);
+        addScript('main-normal.js');
     }
 
 
-    function addScripts(list) {
-        (function addRecursively(i) {
-            if (i >= list.length) {
-                return;
-            }
-            var x = document.createElement('script');
-            x.src = '/dist/' + list[i];
-            x.onload = function() {
-                addRecursively(i + 1);
-            };
-            document.body.appendChild(x);
-        }(0));
+    function addScript(list) {
+        var x = document.createElement('script');
+        x.src = '/dist/dbmonster/' + list;
+        document.body.appendChild(x);
     }
 
-    function parseArgs(uri) {
+    function getEnvFromUrl() {
+        var uri = window.location.hash.substring(1)
         var q = {};
         uri.replace(new RegExp("([^?=&]+)(=([^&]*))?", "g"), function($0, $1, $2, $3) {
             q[$1] = $3;
         });
-        return {
+        var res = {
             worker: q.worker === 'true',
             timeout: parseInt('0' + q.timeout, 10),
             rows: parseInt('0' + q.rows, 10) || 10,
             count: parseInt('0' + q.count, 10) || 1
         }
+        window.location.hash = [
+            'count=' + res.count,
+            'timeout=' + res.timeout,
+            'worker=' + res.worker,
+            'rows=' + res.rows,
+        ].join('&');
+
+        return res;
     }
     </script>
 </body>

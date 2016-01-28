@@ -23,7 +23,11 @@ var TodoList = React.createClass({
     var createItem = function(itemText, index) {
       return <li key={index + itemText}>{itemText}</li>;
     };
-    return <ul>{this.props.items.map(createItem)}</ul>;
+    if (this.props.items.length === 0){
+      return <blockquote>Add some todo items</blockquote>
+    } else {
+      return <ul>{this.props.items.map(createItem)}</ul>;
+    }
   }
 });
 
@@ -42,12 +46,13 @@ var TodoApp = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <h3>TODO</h3>
+      <div className="well">
+        <h3 className="text-center">TODO</h3>
         <TodoList items={this.state.items} />
         <form onSubmit={this.handleSubmit}>
-          <input onChange={this.onChange} value={this.state.text} />
-          <button>{'Add #' + (this.state.items.length + 1)}</button>
+          <input onChange={this.onChange} value={this.state.text} className="form-control"/>
+          <button className="btn btn-block">Add </button>
+          <span className="help-block">{this.state.text ? this.state.text : '<empty>'} will be added as Item # {this.state.items.length}</span>
         </form>
         <hr/>
         Current time: <b><Clock/></b>

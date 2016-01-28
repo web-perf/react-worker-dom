@@ -4,9 +4,8 @@
   "description": "ReactJS renderer using Web Workers",
   "main": "dist/worker.js",
   "scripts": {
-    "demo": "node_modules/.bin/webpack-dev-server --config test/dbmonster/webpack.config.js",
-    "build-demo": "node_modules/.bin/webpack --config=test/dbmonster/webpack.config.js",
-    "perf": "node test/dbmonster/perf.js"
+    "demo": "node_modules/.bin/webpack-dev-server --config test/webpack.config.js",
+    "perf": "node test/perf.js"
   },
   "author": "Parashuram <code@nparashuram.com>",
   "license": "BSD-3-Clause",
