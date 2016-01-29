@@ -63,6 +63,6 @@ export default class WorkerDomNodeImpl {
     }
 
     removeEventHandlers() {
-        console.log('Need to remove event listeners for ', this.id);
+        ReactBrowserEventEmitter.deleteAllListeners(this.id);
     }
 }
