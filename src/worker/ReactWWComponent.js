@@ -59,7 +59,7 @@ export default class ReactWWComponent {
     mountComponent(rootID, transaction, context) {
         this._rootNodeID = rootID;
 
-        const node = this.mountNode(ReactWWIDOperations.getParent(rootID), this._currentElement);
+        const node = this.mountNode(ReactWWIDOperations.getParent(rootID), this._currentElement, transaction);
 
         ReactWWIDOperations.add(rootID, node);
 
@@ -83,7 +83,7 @@ export default class ReactWWComponent {
      * @param   {ReactElement}  element - The element to mount.
      * @return  {Node}                  - The mounted node.
      */
-    mountNode(parent, element) {
+    mountNode(parent, element, transaction) {
         const {
             props, type
         } = element, {
@@ -95,8 +95,13 @@ export default class ReactWWComponent {
         } = extractEventHandlers(restProps);
         const node = new WorkerDomNodeStub(this._rootNodeID, type, options);
         node.setParent(parent);
-        node.addEventHandlers(eventHandlers);
         parent.addChild(node);
+
+        transaction.getReactMountReady().enqueue(function(){
+            this.node.addEventHandlers(this.eventHandlers);
+        }, {
+            node, eventHandlers
+        });
 
         return node;
     }

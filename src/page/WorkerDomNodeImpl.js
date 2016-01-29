@@ -53,12 +53,10 @@ export default class WorkerDomNodeImpl {
                     // TODO - Add more cases of events that do not bubble
                     // Look at trapBubbledEventsLocal in REactDomComponent in react-dom
             }
-            setTimeout(() => {
-                ReactBrowserEventEmitter.listenTo(handler, container);
-                ReactBrowserEventEmitter.putListener(this.id, handler, (syntheticEvent, id, e) => {
-                    onEvent(handler, syntheticEvent, id, e);
-                });
-            }, 0);
+            ReactBrowserEventEmitter.listenTo(handler, container);
+            ReactBrowserEventEmitter.putListener(this.id, handler, (syntheticEvent, id, e) => {
+                onEvent(handler, syntheticEvent, id, e);
+            });
         });
     }
 
