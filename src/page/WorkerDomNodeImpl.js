@@ -2,16 +2,18 @@ import ReactBrowserEventEmitter from 'react/lib/ReactBrowserEventEmitter';
 import EventConstants from 'react/lib/EventConstants';
 
 export default class WorkerDomNodeImpl {
-    constructor(id, el, options) {
+    constructor(guid, reactId, el, options) {
         this.el = el;
+        this.guid = guid;
         this.options = options;
-        this.id = id;
+        this.reactId = reactId;
         if (el === '#text') {
             this.ref = document.createTextNode(options.value);
             this.type = 'TEXT_NODE';
         } else {
             this.ref = document.createElement(el);
-            this.ref.setAttribute('data-reactid', id);
+            this.ref.setAttribute('data-reactid', this.reactId);
+            this.ref.setAttribute('data-reactWWid', this.guid);
             this.setAttributes(this.options);
         }
     }
@@ -54,13 +56,13 @@ export default class WorkerDomNodeImpl {
                     // Look at trapBubbledEventsLocal in REactDomComponent in react-dom
             }
             ReactBrowserEventEmitter.listenTo(handler, container);
-            ReactBrowserEventEmitter.putListener(this.id, handler, (syntheticEvent, id, e) => {
-                onEvent(handler, syntheticEvent, id, e);
+            ReactBrowserEventEmitter.putListener(this.reactId, handler, (syntheticEvent, reactId, e) => {
+                onEvent(handler, syntheticEvent, reactId, e);
             });
         });
     }
 
     removeEventHandlers() {
-        ReactBrowserEventEmitter.deleteAllListeners(this.id);
+        ReactBrowserEventEmitter.deleteAllListeners(this.reactId);
     }
 }

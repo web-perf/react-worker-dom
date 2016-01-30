@@ -44,7 +44,7 @@ class WorkerBridge {
     }
 
     handleEvent(data) {
-        var node = ReactWWIDOperations.get(data.id);
+        var node = ReactWWIDOperations.get(data.reactId);
         node.on(data.eventType, Channel.deserializeEvent(data.event));
     }
 }

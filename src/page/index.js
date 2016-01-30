@@ -39,40 +39,40 @@ class ReactWorkerDom {
         var nodeList = this.nodeList;
         switch (data.method) {
             case CONSTRUCTOR:
-                nodeList[data.id] = new WorkerDomNodeImpl(data.id, ...data.args);
+                nodeList[data.guid] = new WorkerDomNodeImpl(data.guid, data.reactId, ...data.args);
                 break;
             case RENDER: // Should only be called once per worker
-                this.container.appendChild(nodeList[data.id].ref);
-                ReactMount.registerContainer(nodeList[data.id].ref);
+                this.container.appendChild(nodeList[data.guid].ref);
+                ReactMount.registerContainer(nodeList[data.guid].ref);
                 break;
             case ADD_CHILD:
-                var node = nodeList[data.id];
+                var node = nodeList[data.guid];
                 node.addChild(nodeList[data.args[0]]);
                 break;
             case REMOVE_CHILD:
-                var node = nodeList[data.id];
+                var node = nodeList[data.guid];
                 node.removeChild(nodeList[data.args[0]]);
                 break;
             case SET_ATTRIBUTES:
-                nodeList[data.id].setAttributes(...data.args);
+                nodeList[data.guid].setAttributes(...data.args);
                 break;
             case SET_CONTENT:
-                nodeList[data.id].setContent(...data.args);
+                nodeList[data.guid].setContent(...data.args);
                 break;
             case ADD_EVENT_HANDLERS:
-                nodeList[data.id].addEventHandlers(this.container, this.onEvent.bind(this), ...data.args);
+                nodeList[data.guid].addEventHandlers(this.container, this.onEvent.bind(this), ...data.args);
                 break;
             case REMOVE_EVENT_HANDLERS:
-                nodeList[data.id].removeEventHandlers();
+                nodeList[data.guid].removeEventHandlers();
                 break;
             default:
                 console.log('Cannot run %s on Node with id %s', data.method, data.id);
         }
     }
 
-    onEvent(handler, syntheticEvent, id, e){
+    onEvent(handler, syntheticEvent, reactId, e){
         this.channel.send(EVENT, {
-            id,
+            reactId,
             eventType: handler,
             event: Channel.serializeEvent(syntheticEvent)
         })
