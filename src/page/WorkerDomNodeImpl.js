@@ -13,7 +13,7 @@ export default class WorkerDomNodeImpl {
         } else {
             this.ref = document.createElement(el);
             this.ref.setAttribute('data-reactid', this.reactId);
-            this.ref.setAttribute('data-reactWWid', this.guid);
+            this.ref.setAttribute('data-reactwwid', this.guid);
             this.setAttributes(this.options);
         }
     }
@@ -22,6 +22,15 @@ export default class WorkerDomNodeImpl {
     }
     removeChild(node) {
         this.ref.removeChild(node.ref);
+    }
+    removeChildAtIndex(index) {
+        let nodeToRemove = this.ref.childNodes[index];
+        let guid = nodeToRemove.getAttribute('data-reactwwid');
+        this.ref.removeChild(nodeToRemove);
+        return guid;
+    }
+    replace(oldNode) {
+        oldNode.ref.parentNode.replaceChild(this.ref, oldNode.ref);
     }
     setContent(content) {
         if (this.type === 'TEXT_NODE') {

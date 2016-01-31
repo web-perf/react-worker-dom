@@ -142,8 +142,11 @@ export default class ReactWWComponent {
         const node = ReactWWIDOperations.get(this._rootNodeID);
         node.removeEventHandlers();
 
-        var parent = ReactWWIDOperations.getParent(node.reactId);
-        parent.removeChild(node);
+        // Unmounting should not remove Child
+        // THey will be removed when they are replaced in markup
+        // Or when REMOVE_NODE in Child openrations is called
+        //var parent = ReactWWIDOperations.getParent(node.reactId);
+        //parent.removeChild(node);
 
         ReactWWIDOperations.drop(this._rootNodeID);
 

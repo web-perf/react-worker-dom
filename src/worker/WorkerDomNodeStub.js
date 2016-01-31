@@ -1,5 +1,5 @@
 import Bridge from './WorkerBridge';
-import {CONSTRUCTOR, ADD_CHILD, REMOVE_CHILD, SET_CONTENT, REMOVE_EVENT_HANDLERS, SET_ATTRIBUTES, ADD_EVENT_HANDLERS, RENDER} from './../common/constants';
+import {CONSTRUCTOR, ADD_CHILD, REMOVE_CHILD, REMOVE_CHILD_INDEX, REPLACE_AT ,SET_CONTENT, REMOVE_EVENT_HANDLERS, SET_ATTRIBUTES, ADD_EVENT_HANDLERS, RENDER} from './../common/constants';
 
 var guid = 0;
 
@@ -17,6 +17,12 @@ export default class WorkerDomNodeStub {
     }
     removeChild(node){
         this.impl(REMOVE_CHILD, [node.guid]);
+    }
+    removeChildFromIndex(index){
+        this.impl(REMOVE_CHILD_INDEX, index);
+    }
+    replaceAt(reactId){
+        this.impl(REPLACE_AT, [reactId]);
     }
     setContent(content) {
         this.impl(SET_CONTENT, [content]);

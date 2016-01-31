@@ -1,6 +1,6 @@
 import WorkerDomNodeImpl from './WorkerDomNodeImpl';
 import Channel from './../common/channel';
-import { EVENT, RENDER_TIME, ADD_EVENT_HANDLERS, REMOVE_CHILD, REMOVE_EVENT_HANDLERS, RENDER_QUEUE, CONSTRUCTOR, ADD_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT } from './../common/constants';
+import { EVENT, RENDER_TIME, ADD_EVENT_HANDLERS, REMOVE_CHILD_INDEX, REMOVE_CHILD, REPLACE_AT, REMOVE_EVENT_HANDLERS, RENDER_QUEUE, CONSTRUCTOR, ADD_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT } from './../common/constants';
 import ReactMount from 'react/lib/ReactMount';
 
 import inject from './inject';
@@ -40,7 +40,6 @@ class ReactWorkerDom {
         if (data.method !== CONSTRUCTOR) {
             node = NodeIDOps.get(data.guid);
         }
-
         switch (data.method) {
             case CONSTRUCTOR:
                 node = new WorkerDomNodeImpl(data.guid, data.reactId, ...data.args);
@@ -55,6 +54,15 @@ class ReactWorkerDom {
                 break;
             case REMOVE_CHILD:
                 node.removeChild(NodeIDOps.get(data.args[0]));
+                break;
+            case REMOVE_CHILD_INDEX:
+                var removedNodeGuid = node.removeChildAtIndex(data.args);
+                NodeIDOps.remove(removedNodeGuid);
+                break;
+            case REPLACE_AT:
+                let oldNode = NodeIDOps.getByReactId(data.args[0]);
+                node.replace(oldNode);
+                NodeIDOps.remove(oldNode.guid);
                 break;
             case SET_ATTRIBUTES:
                 node.setAttributes(...data.args);

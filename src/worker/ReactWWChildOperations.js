@@ -23,7 +23,9 @@ export const actions = {
     }, [TEXT_CONTENT]() {
         console.log(TEXT_CONTENT);
     }, [REMOVE_NODE](update, components) {
-        console.log(REMOVE_NODE)
+        // This re-applies the style of the previous node
+        // FIXME Do not reapply style of previous node
+        update.parentNode.removeChildFromIndex(update.fromIndex);
     }
 };
 
@@ -35,14 +37,12 @@ export function processChildrenUpdates(updates, components) {
     }
 }
 
-export function replaceNodeWithMarkupByID(id, markup) {
-    const node = ReactWWIDOperations.get(id);
+export function replaceNodeWithMarkupByID(reactId, markup) {
+    // reactId here is the reactId of the old node
+    // By the time we are here, the oldNode is already unmounted and hence gone from ReactWWOps
+    // ASSUMPTION: The nextNode has the same reactId as the old node
 
     const nextNode = markup.getPublicInstance();
-    const parentNode = ReactWWIDOperations.getParent(id);
+    nextNode.replaceAt(reactId);
 
-    if (parentNode) {
-        parentNode.removeChild(node);
-        parentNode.addChild(nextNode);
-    }
 }
