@@ -39,7 +39,7 @@ export function replaceNodeWithMarkupByID(id, markup) {
     const node = ReactWWIDOperations.get(id);
 
     const nextNode = markup.getPublicInstance();
-    const parentNode = node.parent;
+    const parentNode = ReactWWIDOperations.getParent(id);
 
     if (parentNode) {
         parentNode.removeChild(node);

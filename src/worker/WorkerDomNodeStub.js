@@ -12,9 +12,6 @@ export default class WorkerDomNodeStub {
         this.guid = guid++;
         this.impl(CONSTRUCTOR, [this.el, this.options]);
     }
-    setParent(parent){
-        this.parent = parent;
-    }
     addChild(node) {
         this.impl(ADD_CHILD, [node.guid]);
     }

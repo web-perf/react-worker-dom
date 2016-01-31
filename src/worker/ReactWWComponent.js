@@ -94,7 +94,6 @@ export default class ReactWWComponent {
             eventHandlers, options
         } = extractEventHandlers(restProps);
         const node = new WorkerDomNodeStub(this._rootNodeID, type, options);
-        node.setParent(parent);
         parent.addChild(node);
 
         transaction.getReactMountReady().enqueue(function(){
@@ -142,7 +141,9 @@ export default class ReactWWComponent {
 
         const node = ReactWWIDOperations.get(this._rootNodeID);
         node.removeEventHandlers();
-        node.parent.removeChild(node);
+
+        var parent = ReactWWIDOperations.getParent(node.reactId);
+        parent.removeChild(node);
 
         ReactWWIDOperations.drop(this._rootNodeID);
 
