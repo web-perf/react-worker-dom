@@ -7,12 +7,16 @@ var Clock = React.createClass({
     }
   }, 
   componentDidMount(){
-    setInterval(()=>{
+    this.timerHandle = setInterval(()=>{
       this.setState({
         time: new Date()
       });
     }, 1000);
-  }, 
+  },
+  componentWillUnmount(){
+    clearInterval(this.timerHandle);
+    delete this.timerHandle;
+  },
   render(){
     return <span>{this.state.time.toString()}</span>;
   }
@@ -64,7 +68,7 @@ var TodoList = React.createClass({
 
 var TodoApp = React.createClass({
   getInitialState: function() {
-    return {items: [], text: ''};
+    return {items: [], text: '', showTime: true};
   },
   onChange: function(e) {
     this.setState({text: e.target.value});
@@ -80,7 +84,20 @@ var TodoApp = React.createClass({
     var nextText = '';
     this.setState({items: nextItems, text: nextText});
   },
+  closeTime: function(e){
+    this.setState({showTime: false})
+  },
+  showTime: function(){
+    if (this.state.showTime){
+      return (
+      <div>
+        Current time: <b><Clock/></b>
+        <button className="close pull-right" onClick={this.closeTime}><span>&times;</span></button>
+      </div>);
+    }
+  },
   render: function() {
+
     return (
       <div className="well">
         <h3 className="text-center">TODO</h3>
@@ -91,7 +108,7 @@ var TodoApp = React.createClass({
           <span className="help-block">{this.state.text ? this.state.text : '<empty>'} will be added as Item # {this.state.items.length}</span>
         </form>
         <hr/>
-        Current time: <b><Clock/></b>
+        {this.showTime()}
       </div>
     );
   }
