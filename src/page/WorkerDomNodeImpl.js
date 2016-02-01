@@ -20,12 +20,23 @@ export default class WorkerDomNodeImpl {
     addChild(node, afterNode) {
         this.ref.appendChild(node.ref);
     }
+    addChildAtIndex(node, index) {
+        var nextNode = this.ref.childNodes[index];
+        if (nextNode){
+            this.ref.insertBefore(node.ref, nextNode);
+        } else {
+            this.ref.appendChild(node.ref);
+        }
+    }
     removeChild(node) {
         this.ref.removeChild(node.ref);
     }
     removeChildAtIndex(index) {
-        let nodeToRemove = this.ref.childNodes[index];
-        let guid = nodeToRemove.getAttribute('data-reactwwid');
+        var nodeToRemove = this.ref.childNodes[index];
+        let guid = null;
+        if (nodeToRemove.nodeType !== Node.TEXT_NODE){
+            guid = nodeToRemove.getAttribute('data-reactwwid');
+        }
         this.ref.removeChild(nodeToRemove);
         return guid;
     }
@@ -41,16 +52,7 @@ export default class WorkerDomNodeImpl {
     }
     setAttributes(options) {
         for (let key in options) {
-            let value = options[key];
-            if (key === 'className') {
-                this.ref.className = value;
-            } else if (key === 'style') {
-                for (var prop in value) {
-                    this.ref.style[prop] = value[prop];
-                }
-            } else {
-                this.ref.setAttribute(key, value);
-            }
+            setAttribute(this.ref, key, options[key]);
         }
     }
     addEventHandlers(container, onEvent, ...handlers) {
@@ -73,5 +75,27 @@ export default class WorkerDomNodeImpl {
 
     removeEventHandlers() {
         ReactBrowserEventEmitter.deleteAllListeners(this.reactId);
+    }
+}
+
+function setAttribute(node, key, value) {
+    switch (key) {
+        case 'style':
+            for (var prop in value) {
+                node.style[prop] = value[prop];
+            }
+            break;
+        case 'checked':
+            if (value) {
+                node.checked = true;
+            } else {
+                node.checked = false;
+            }
+            break;
+        case 'className':
+            node.className = value;
+        default:
+            node.setAttribute(key, value);
+
     }
 }

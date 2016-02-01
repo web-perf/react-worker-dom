@@ -7,6 +7,7 @@ export const RENDER = 'render';
 export const RENDER_QUEUE = 'renderQueue';
 export const CONSTRUCTOR = 'constructor';
 export const ADD_CHILD = 'appendChild'; 
+export const ADD_CHILD_INDEX = 'addChildIndex'; 
 export const REMOVE_CHILD = 'removeChild';
 export const REMOVE_CHILD_INDEX = 'removeChildIndex';
 export const REPLACE_AT = 'replaceAt';

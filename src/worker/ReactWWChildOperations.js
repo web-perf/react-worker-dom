@@ -14,7 +14,11 @@ export const actions = {
         if (typeof child === 'string' || typeof child === 'number') {
             parent.setContent(child);
         } else {
-            parent.addChild(child.getPublicInstance());
+            if (update.toIndex){
+                parent.addChildAtIndex(child.getPublicInstance(), update.toIndex);
+            } else {
+                parent.addChild(child.getPublicInstance());
+            }
         }
     }, [MOVE_EXISTING]() {
         console.log(MOVE_EXISTING);
@@ -23,8 +27,8 @@ export const actions = {
     }, [TEXT_CONTENT]() {
         console.log(TEXT_CONTENT);
     }, [REMOVE_NODE](update, components) {
-        // This re-applies the style of the previous node
-        // FIXME Do not reapply style of previous node
+        // FIXME - Since this is async, if more than one node from the same parent 
+        // Node is to be removed, this causes an error
         update.parentNode.removeChildFromIndex(update.fromIndex);
     }
 };
