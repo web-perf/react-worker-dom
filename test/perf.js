@@ -21,13 +21,10 @@ if (process.argv[3] !== 'chrome') {
     BROWSER = 'android';
 }
 
-console.log(IS_WORKER, BROWSER);
-return
-
 (function run(i) {
     if (i < ROWS.length) {
         var row = ROWS[i];
-        var url = ['http://localhost:8080/test/dbmonster/index.html#worker=', IS_WORKER, '&rows=', row].join('');
+        var url = ['http://192.168.0.102:8080/test/dbmonster/index.html#worker=', IS_WORKER, '&rows=', row].join('');
         browserPerf(null, function(err, res) {
             if (err) {
                 console.log('ERROR', err);
