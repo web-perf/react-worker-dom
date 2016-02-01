@@ -10,7 +10,19 @@ var browserPerf = require('browser-perf');
 
 var ROWS = [1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 120, 150, 170, 200];
 var FILE = '_dbmonster-perf.json';
+
 var IS_WORKER = true;
+var BROWSER = 'chrome'
+
+if (process.argv[2] !== 'worker') {
+    IS_WORKER = false;
+}
+if (process.argv[3] !== 'chrome') {
+    BROWSER = 'android';
+}
+
+console.log(IS_WORKER, BROWSER);
+return
 
 (function run(i) {
     if (i < ROWS.length) {
@@ -18,9 +30,9 @@ var IS_WORKER = true;
         var url = ['http://localhost:8080/test/dbmonster/index.html#worker=', IS_WORKER, '&rows=', row].join('');
         browserPerf(null, function(err, res) {
             if (err) {
-                console.log(err);
+                console.log('ERROR', err);
             } else {
-                saveResults(res[0], IS_WORKER ? 'worker' : 'normal', row);
+                saveResults(res[0], BROWSER + (IS_WORKER ? 'worker' : 'normal'), row);
                 run(i + 1);
             }
         }, {
@@ -34,6 +46,9 @@ var IS_WORKER = true;
                 return function(b) {
                     return b.sleep(5000);
                 }
+            }],
+            browsers: [{
+                browserName: BROWSER
             }],
             metrics: ['TimelineMetrics']
         });
