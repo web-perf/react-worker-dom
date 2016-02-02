@@ -9,17 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <base target="_blank">
     <style>
-    .btn-default,
-    .btn-default:hover,
-    .btn-default:focus {
-        color: #333;
-        text-shadow: none;
-        background-color: #fff;
-        border: 1px solid #fff;
-        margin: 1em;
-    }
-    
-    html{
+    html {
         height: 100%;
         background-color: #333;
         -webkit-box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
@@ -30,7 +20,6 @@
         background: transparent;
         color: #eee;
         text-align: center;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 14px;
         line-height: 1.42857143;
@@ -58,6 +47,10 @@
     
     .thumbnail .caption {
         color: #eee;
+    }
+    
+    .navbar li {
+        display: inline-block;
     }
     </style>
 </head>
@@ -94,7 +87,7 @@
                             <br/> To <a href="https://developer.chrome.com/devtools/docs/rendering-settings">see frame rates</a>, open Chrome dev tools, enable <em>Show fps meter</em> in Console > Rendering
                         </p>
                         <div>
-                            <a href="test/dbmonster/index.html#worker=false&rows=50" class="btn btn-block btn-warning">
+                            <a href="test/dbmonster/index.html#worker=false&rows=50" class="btn btn-block btn-default">
                                 Normal React example &raquo;
                             </a>
                             <a href="test/dbmonster/index.html#worker=true&rows=50" class="btn btn-block btn-success">
@@ -113,7 +106,7 @@
                             The canonical app that every frontend framework uses as a demo. Shows how events are passed from the UI thread to the worker, and how DOM manipulations as sent back to the UI thread from the worker thread.
                         </p>
                         <div>
-                            <a href="test/todo/index.html" class="btn btn-block btn-warning">
+                            <a href="test/todo/index.html" class="btn btn-block btn-default">
                                 Normal React example &raquo;
                             </a>
                             <a href="test/todo/index.html?#worker" class="btn btn-block btn-success">
@@ -124,6 +117,20 @@
                 </div>
             </div>
         </div>
+        <br/><br/>
+        <ul class="navbar">
+            <li>
+                <a href="http://github.com/web-perf/react-perf">Source code on Github</a>
+            </li>
+            <li>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="http://blog.nparashuram.com/search/label/react">Blog post</a>
+                &nbsp;&nbsp;| &nbsp;&nbsp;
+            </li>
+            <li>
+                <a href="http://twitter.com/nparashuram">Contact the author</a>
+            </li>
+        </ul>
     </div>
 </body>
 
