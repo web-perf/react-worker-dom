@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>React Worker DOM</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <base target="_blank">
+    <style>
+    .btn-default,
+    .btn-default:hover,
+    .btn-default:focus {
+        color: #333;
+        text-shadow: none;
+        background-color: #fff;
+        border: 1px solid #fff;
+        margin: 1em;
+    }
+    
+    html{
+        height: 100%;
+        background-color: #333;
+        -webkit-box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
+        box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
+    }
+    
+    body {
+        background: transparent;
+        color: #eee;
+        text-align: center;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.42857143;
+        min-height: 100%;
+        width: 70%;
+        margin: 0 auto;
+    }
+    
+    a {
+        color: #eee;
+    }
+    
+    a:hover {
+        text-decoration: underline;
+        color: #fff;
+    }
+    
+    .thumbnail {
+        background: transparent;
+    }
+    
+    .desc {
+        min-height: 150px;
+    }
+    
+    .thumbnail .caption {
+        color: #eee;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="">
+            <div class="page-header">
+                <h1>
+                    React Worker Dom
+                    <br/>
+                    <small>
+                        A ReactJS custom renderer using Web Workers.
+                    </small>
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <p class="col-xs-10 text-left">
+                React is fast, thanks to the VirtualDOM. Using a diffing algorithm, the browser DOM nodes are manipulated only when there is a state change. This algorithm is computationally expensive. Using webworkers to perform the calculations can make React even faster.
+            </p>
+        </div>
+        <h2 class="text-left">Examples</h2>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>DBMonster</h3>
+                        <br/>
+                        <p class="desc text-left">
+                            Debuted in a <a href="https://www.youtube.com/watch?v=z5e7kWSHWTg&feature=youtu.be&t=2m42s">session</a> at ReactConf 2015 and has been used to benchmark many javascript frameworks. It shows an application simulating DB queries.
+                            <br/> To <a href="https://developer.chrome.com/devtools/docs/rendering-settings">see frame rates</a>, open Chrome dev tools, enable <em>Show fps meter</em> in Console > Rendering
+                        </p>
+                        <div>
+                            <a href="test/dbmonster/index.html#worker=false&rows=50" class="btn btn-block btn-warning">
+                                Normal React example &raquo;
+                            </a>
+                            <a href="test/dbmonster/index.html#worker=true&rows=50" class="btn btn-block btn-success">
+                                Webworker example &raquo;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>Todo Sample</h3>
+                        <br/>
+                        <p class="desc text-left">
+                            The canonical app that every frontend framework uses as a demo. Shows how events are passed from the UI thread to the worker, and how DOM manipulations as sent back to the UI thread from the worker thread.
+                        </p>
+                        <div>
+                            <a href="test/todo/index.html" class="btn btn-block btn-warning">
+                                Normal React example &raquo;
+                            </a>
+                            <a href="test/todo/index.html?#worker" class="btn btn-block btn-success">
+                                Webworker example &raquo;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

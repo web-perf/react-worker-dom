@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+    </title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div id="content"></div>
+    <script type="text/javascript">
+    var isWorker = /worker/.test(window.location.href);
+
+    var x = document.createElement('script');
+    x.src = '/dist/todo/' + (isWorker ? 'worker' : 'normal') + '.js';
+    document.body.appendChild(x);
+    </script>
+</body>
+
+</html>

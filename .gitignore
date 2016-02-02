@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+src/
+LICENSE
+package.json
+README.md
+test/**/*.js*
