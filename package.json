@@ -4,7 +4,8 @@
   "description": "ReactJS renderer using Web Workers",
   "main": "dist/worker.js",
   "scripts": {
-    "demo": "node_modules/.bin/webpack-dev-server --config test/webpack.config.js",
+    "build-demo": "webpack --config test/webpack.config.js",
+    "demo": "webpack-dev-server --config test/webpack.config.js",
     "perf": "node test/perf.js"
   },
   "author": "Parashuram <code@nparashuram.com>",
@@ -23,5 +24,16 @@
     "react-dom": "^0.14.3",
     "webpack": "^1.12.8",
     "webpack-dev-server": "^1.14.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/web-perf/react-worker-dom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/web-perf/react-worker-dom/issues"
+  },
+  "homepage": "http://web-perf.github.io/react-worker-dom"
 }
