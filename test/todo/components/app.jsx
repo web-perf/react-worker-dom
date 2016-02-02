@@ -45,7 +45,7 @@ module.exports = React.createClass({
       return <blockquote className="small">Add some todo items</blockquote>
     } else {
       return (
-        <ol>
+        <ol className="list-group">
           {items.map((item, i) => {
             return (
               <TodoItem 

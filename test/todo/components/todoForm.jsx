@@ -17,10 +17,14 @@ module.exports = React.createClass({
   render: function(){
     return (
       <form onSubmit={this.handleSubmit}>
-        <input onChange={this.onChange} value={this.state.text} className="form-control"/>
-        <button className="btn btn-block">
-          Add
-        </button>
+        <div className="input-group">
+          <input onChange={this.onChange} value={this.state.text} className="form-control"/>
+          <span className="input-group-btn">
+            <button className="btn btn-primary">
+              <span className="glyphicon glyphicon-plus"></span>
+            </button>
+          </span>
+        </div>
         <span className="help-block text-right">
           {this.state.text ? this.state.text : '<empty>'} 
           &nbsp;will be added to the list

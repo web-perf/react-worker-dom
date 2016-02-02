@@ -11,15 +11,13 @@ module.exports = React.createClass({
 
   render: function() {
     return (
-      <li className="checkbox">
-        <label>
-          <input type="checkbox" onChange={this.onToggle} checked={this.props.item.done}/>
-          <span style={{textDecoration: this.props.item.done ? 'line-through' : '' }}> 
-            {this.props.item.text}
-          </span>
-        </label>
-        <span className="pull-right glyphicon glyphicon-trash" onClick={this.onDelete}>
-          &nbsp;
+      <li className="clearfix list-group-item">
+        <span onClick={this.onDelete} className="pull-right glyphicon glyphicon-trash">
+        </span>
+        <input type="checkbox" onChange={this.onToggle} checked={this.props.item.done}/>
+        &nbsp;&nbsp;
+        <span style={{textDecoration: this.props.item.done ? 'line-through' : '' }}> 
+          {this.props.item.text}
         </span>
       </li>
     );
