@@ -27,10 +27,10 @@
         </span>
     </div>
     <script type="text/javascript">
-    var isWorker = /worker/.test(window.location.href);
+    var isWorker = /worker/.test(window.location.search);
 
     var x = document.createElement('script');
-    x.src = '/dist/todo/' + (isWorker ? 'worker' : 'normal') + '.js';
+    x.src = '/react-worker-dom/dist/todo/' + (isWorker ? 'worker' : 'normal') + '.js';
     document.body.appendChild(x);
 
     document.getElementById(isWorker ? 'isWorker' : 'noWorker').style.cssText = 'display:block!important';
