@@ -4,4 +4,3 @@ src/
 LICENSE
 package.json
 README.md
-test/**/*.js*

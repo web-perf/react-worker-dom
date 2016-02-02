@@ -4,18 +4,34 @@
 <head>
     <meta charset="utf-8">
     <title>
+        React-Dom-Worker:: TODO app
     </title>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <style>
+    #content,
+    .message {
+        width: 70%;
+        margin: 20px auto;
+    }
+    </style>
 </head>
 
 <body>
     <div id="content"></div>
+    <div class="message text-center">
+        <span id="isWorker" class="hide alert alert-success ">
+        Implemented using <strong>Webworkers</strong>. <a href="index.html?normal">View normal version.</a>
+        </span>
+        <span id="noWorker" class="hide alert alert-warning ">
+        Implemented with plan react. No webworkers used. <a href="index.html?worker">View version with web workers</a> 
+        </span>
+    </div>
     <script type="text/javascript">
-    var isWorker = /worker/.test(window.location.href);
-
+    var isWorker = /worker/.test(window.location.search);
     var x = document.createElement('script');
-    x.src = '/dist/todo/' + (isWorker ? 'worker' : 'normal') + '.js';
+    x.src = '/react-worker-dom/dist/todo/' + (isWorker ? 'worker' : 'normal') + '.js';
     document.body.appendChild(x);
+    document.getElementById(isWorker ? 'isWorker' : 'noWorker').style.cssText = 'display:block!important';
     </script>
 </body>
 

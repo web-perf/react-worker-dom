@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/dist/";
+/******/ 	__webpack_require__.p = "/react-worker-dom/dist";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -48,7 +48,7 @@
 	
 	var _reactWorkerDom = __webpack_require__(161);
 	
-	(0, _reactWorkerDom.render)(new Worker('/dist/todo/worker-impl.js'), document.getElementById('content'));
+	(0, _reactWorkerDom.render)(new Worker('/react-worker-dom/dist/todo/worker-impl.js'), document.getElementById('content'));
 
 /***/ },
 /* 1 */,
@@ -12476,6 +12476,9 @@
 	                eventType: handler,
 	                event: _channel2.default.serializeEvent(syntheticEvent)
 	            });
+	            syntheticEvent.preventDefault();
+	            // FIXME - Prevent default first, but if this event does not prevent default
+	            // In the thread, raise this event again
 	        }
 	    }]);
 	

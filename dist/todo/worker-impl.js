@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/dist/";
+/******/ 	__webpack_require__.p = "/react-worker-dom/dist";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -20759,7 +20759,7 @@
 	    } else {
 	      return React.createElement(
 	        'ol',
-	        null,
+	        { className: 'list-group' },
 	        items.map(function (item, i) {
 	          return React.createElement(TodoItem, {
 	            onToggle: _this.toggleItem,
@@ -20809,21 +20809,14 @@
 	  render: function render() {
 	    return React.createElement(
 	      "li",
-	      { className: "checkbox" },
-	      React.createElement(
-	        "label",
-	        null,
-	        React.createElement("input", { type: "checkbox", onChange: this.onToggle, checked: this.props.item.done }),
-	        React.createElement(
-	          "span",
-	          { style: { textDecoration: this.props.item.done ? 'line-through' : '' } },
-	          this.props.item.text
-	        )
-	      ),
+	      { className: "clearfix list-group-item" },
+	      React.createElement("span", { onClick: this.onDelete, className: "pull-right glyphicon glyphicon-trash" }),
+	      React.createElement("input", { type: "checkbox", onChange: this.onToggle, checked: this.props.item.done }),
+	      "  ",
 	      React.createElement(
 	        "span",
-	        { className: "pull-right glyphicon glyphicon-trash", onClick: this.onDelete },
-	        " "
+	        { style: { textDecoration: this.props.item.done ? 'line-through' : '' } },
+	        this.props.item.text
 	      )
 	    );
 	  }
@@ -20857,11 +20850,19 @@
 	    return React.createElement(
 	      'form',
 	      { onSubmit: this.handleSubmit },
-	      React.createElement('input', { onChange: this.onChange, value: this.state.text, className: 'form-control' }),
 	      React.createElement(
-	        'button',
-	        { className: 'btn btn-block' },
-	        'Add'
+	        'div',
+	        { className: 'input-group' },
+	        React.createElement('input', { onChange: this.onChange, value: this.state.text, className: 'form-control' }),
+	        React.createElement(
+	          'span',
+	          { className: 'input-group-btn' },
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-primary' },
+	            React.createElement('span', { className: 'glyphicon glyphicon-plus' })
+	          )
+	        )
 	      ),
 	      React.createElement(
 	        'span',
