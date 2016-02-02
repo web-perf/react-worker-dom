@@ -90,7 +90,10 @@ class ReactWorkerDom {
             reactId,
             eventType: handler,
                 event: Channel.serializeEvent(syntheticEvent)
-        })
+        });
+        syntheticEvent.preventDefault();
+        // FIXME - Prevent default first, but if this event does not prevent default
+        // In the thread, raise this event again
     }
 }
 
