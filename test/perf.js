@@ -8,7 +8,7 @@ Performance Measurement suite for the DBMonster app
 var fs = require('fs');
 var browserPerf = require('browser-perf');
 
-var ROWS = [1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 120, 150, 170, 200];
+var ROWS = [1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 120, 150, 170, 200].reverse();
 var FILE = '_dbmonster-perf.json';
 
 var IS_WORKER = true;
@@ -24,7 +24,7 @@ if (process.argv[3] !== 'chrome') {
 (function run(i) {
     if (i < ROWS.length) {
         var row = ROWS[i];
-        var url = ['http://192.168.0.102:8080/test/dbmonster/index.html#worker=', IS_WORKER, '&rows=', row].join('');
+        var url = ['http://localhost:8080/test/dbmonster/index.html#worker=', IS_WORKER, '&rows=', row].join('');
         browserPerf(null, function(err, res) {
             if (err) {
                 console.log('ERROR', err);
@@ -37,13 +37,11 @@ if (process.argv[3] !== 'chrome') {
             preScript: function(b) {
                 return b.get(url).then(function() {
                     return b.sleep(3000);
-                })
+                });
             },
-            actions: [function(cfg) {
-                return function(b) {
-                    return b.sleep(5000);
-                }
-            }],
+            actions: function(b) {
+                return b.sleep(5000);
+            },
             browsers: [{
                 browserName: BROWSER
             }],
