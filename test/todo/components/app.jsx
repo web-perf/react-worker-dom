@@ -40,6 +40,16 @@ module.exports = React.createClass({
     });
   },
 
+  moveItem: function(i, direction){
+    var items = this.state.items.slice(0);
+    var swap = items[i + direction];
+    if (swap){
+      items[i + direction] = items[i];
+      items[i] = swap;
+      this.setState({items: items});
+    }
+  },
+
   renderList: function(items){
     if (items.length === 0){
       return <blockquote className="small">Add some todo items</blockquote>
@@ -51,6 +61,7 @@ module.exports = React.createClass({
               <TodoItem 
                 onToggle={this.toggleItem}
                 onDelete={this.deleteItem}
+                onMove={this.moveItem}
                 key={i} item={item} index={i}/>
             );
           })}
