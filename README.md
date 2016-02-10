@@ -2,18 +2,20 @@
 
 A React Custom renderer using Web Workers. All the Virtual DOM reconcilliations happen in a WebWorker thread. Only node updates are sent over to the UI thread, result in a much more responsive UI.  
 
->> This renderer is experimental and may change in the future
-
 An existing React application can leverage WebWorkers using this library with minimal change. Look at the usage section for details. 
 
 ## Demo
-The demo app has 2 versions - one with normal react, and another with web workers enabled. 
+
+The demo is hosted at [http://web-perf.github.io/react-worker-dom/](http://web-perf.github.io/react-worker-dom/). To run a local version of the demo, 
+
 - Clone the repo run `npm install` to install all dependencies.
 - Build the app using `npm run demo`
-- Open `http://localhost:8080/test/dbmonster/index.html` to view the demo app.
+- Open `http://localhost:8080/test/dbmonster/` to view the demo app, or `http://localhost:8080/test/todo` for the todo app.
 - Tweak the params in the URL to change to use web workers, increase number of components, etc. 
 
 ## Usage
+
+### A typical React application
 
 A typical React application would looks something like the following.
 
@@ -24,28 +26,41 @@ import reactDOM from 'react-dom';
 reactDOM.render(<Component/>, document.getElementById('container'));
 ```
 
+### Using it with Web Workers
+
 To use this renderer, we would need to split the above file into 2 parts, one that is on the page, and another that starts as a web worker. 
 
-This is the file that is run on the main UI thread, and is included in the html page using a script tag. Notice the second import that uses `react-worker-dom`. 
 
 ```js
-// File: main.js
+// File: main.js - included using a script tag in index.html
 import React from 'react';
-import reactDOM from 'react-worker-dom';
+import reactDOM from 'react-worker-dom'; // Instead of using react-dom
 reactDOM.render(new Worker('worker.js'), document.getElementById('container'));
 ```
 
 The `worker.js` file is the one that now holds the actual Component. 
 
 ```js
-// File: worker.jsx
+// File: worker.jsx - loaded in index.html using new Worker('worker.jsx') in the file script above; 
 import React from 'react';
 import ReactWorkerDOM from 'react-worker-dom-worker';
 ReactWorkerDOM.render(<Component/>);
 ```
 
-Look at `test\dbmonster` directory for the example. The big difference is that the script on the main app does not define the React Component, it is instead defined in the worker. 
+Look at `test\dbmonster` and `test\todoapp` directory for the examples. 
+
+## Testing Performance
+
+To manually look at frame rates, load the dbmonster [demo pages](http://web-perf.github.io/react-worker-dom/) in Chrome, and view the [frame meter](https://developer.chrome.com/devtools/docs/rendering-settings#show-fps%20meter) in devtools.
+
+To automatically collect frame rates and compare it with the normal version
+- Run `npm run demo` to start the server and host the web pages
+- Run `npm run perf chrome worker` to test frame rates for various rows in chrome in a Web Worker. Instead of `chrome`, you could use `android`, and instead of `worker`, you could use `normal` to test the other combinations.
+- The frame rates are available in `_dbmonster.json` file, for each row count. 
 
 ## Roadmap
-- This experiment was to measure the performance characteristics of using web workers and hence does not yet implement events. Event will have to be different from React's regular events since the event handlers here is async and executed in the web worker. This is closer to ReactNative than React.   
-- A better batching algorithm for sending messages to the UI thread for rendering. This algorithm should also take into account, the time take for each node update such that it can manage jank, or discard render() calls that are old. 
+Here are the things that need to be done next. 
+
+- Add support for form elements like <input>, <select>, etc.
+- Support event utilities that enable things like autofocus, etc. 
+- Enable preventDefault() semantics in events. 
