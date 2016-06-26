@@ -14,7 +14,7 @@ export default class ReactWWTextComponent {
         const parent = ReactWWIDOperations.getParent(this._rootNodeID);
         const node = new Node(this._rootNodeID, '#text', {
             value: this._currentElement
-        });
+        }, parent.bridge);
         parent.addChild(node);
         ReactWWIDOperations.add(this._rootNodeID, node);
         return node;

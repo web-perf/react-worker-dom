@@ -93,7 +93,7 @@ export default class ReactWWComponent {
         let {
             eventHandlers, options
         } = extractEventHandlers(restProps);
-        const node = new WorkerDomNodeStub(this._rootNodeID, type, options);
+        const node = new WorkerDomNodeStub(this._rootNodeID, type, options, parent.bridge);
         parent.addChild(node);
 
         transaction.getReactMountReady().enqueue(function(){

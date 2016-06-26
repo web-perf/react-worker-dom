@@ -4,9 +4,10 @@ import {CONSTRUCTOR, ADD_CHILD, ADD_CHILD_INDEX, REMOVE_CHILD, REMOVE_CHILD_INDE
 var guid = 0;
 
 export default class WorkerDomNodeStub {
-    constructor(reactId, el, options) {
+    constructor(reactId, el, options, bridge) {
         this.el = el;
         this.options = options;
+        this.bridge = bridge;
         this.eventHandlers = {};
         this.reactId = reactId;
         this.guid = guid++;
@@ -56,7 +57,7 @@ export default class WorkerDomNodeStub {
         this.impl(RENDER);
     }
     impl(method, args = []) { // Sends a messages to the Implementation
-        Bridge.postMessage({
+        this.bridge.postMessage({
             method,
             args,
             reactId: this.reactId,
