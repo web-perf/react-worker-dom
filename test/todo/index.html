@@ -6,7 +6,7 @@
     <title>
         React-Dom-Worker:: TODO app
     </title>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../bootstrap.min.css" rel="stylesheet" type="text/css" />
     <style>
     #content,
     .message {
@@ -19,21 +19,24 @@
 <body>
     <div id="content"></div>
     <div class="message text-center">
-        <span id="isWorker" class="hide alert alert-success ">
+        <span id="workerLabel" class="hide alert alert-success ">
         Implemented using <strong>Webworkers</strong>. <a href="index.html?normal">View normal version.</a>
         </span>
-        <span id="noWorker" class="hide alert alert-warning ">
+        <span id="normalLabel" class="hide alert alert-warning ">
         Implemented with plan react. No webworkers used. <a href="index.html?worker">View version with web workers</a> 
+        </span>
+        <span id="serverLabel" class="hide alert alert-warning ">
+            Implemented with web sockets thin client<a href="index.html?worker">View version with web workers</a>
         </span>
     </div>
     <script type="text/javascript">
-    var isWorker = /worker/.test(window.location.search);
+    var demoType = window.location.search.replace("?","") || 'worker';
 
     var x = document.createElement('script');
-    x.src = '/react-worker-dom/dist/todo/' + (isWorker ? 'worker' : 'normal') + '.js';
+    x.src = '/react-worker-dom/dist/todo/' + demoType + '.js';
     document.body.appendChild(x);
 
-    document.getElementById(isWorker ? 'isWorker' : 'noWorker').style.cssText = 'display:block!important';
+    document.getElementById(demoType+'Label').style.cssText = 'display:block!important';
     </script>
 </body>
 

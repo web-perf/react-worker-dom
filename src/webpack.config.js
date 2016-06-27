@@ -10,7 +10,11 @@ module.exports = {
     output: {
         filename: '[name]' + '.js',
         path: path.join(__dirname, './../dist'),
+        libraryTarget: 'commonjs2'
     },
+    externals: [
+        /^react\/.*/
+    ],
     devtool: 'source-map',
     module: {
         loaders: [{

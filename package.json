@@ -21,9 +21,12 @@
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-0": "^6.1.18",
     "browser-perf": "^1.4.3",
+    "express": "^4.14.0",
+    "node-jsx-babel": "^0.14.2",
     "react-dom": "^0.14.3",
     "webpack": "^1.12.8",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "websocket": "^1.0.23"
   },
   "directories": {
     "test": "test"

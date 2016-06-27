@@ -3,14 +3,12 @@ export default class Channel {
         this.channel = channel;
     }
     send(type, args) {
-        this.channel.postMessage(JSON.stringify({
+        this.channel.postMessage({
             type, args
-        }));
+        });
     }
     onMessage(handler) {
-        this.channel.addEventListener('message', (e) => {
-            handler(JSON.parse(e.data));
-        });
+        this.channel.addEventListener(handler);
     }
     static serializeEvent(e) {
         var newTarget = {

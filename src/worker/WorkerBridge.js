@@ -12,7 +12,7 @@ class WorkerBridge {
     }
 
     pollQueue(){
-        self.setTimeout(() => {
+        setTimeout(() => {
             this.flushQueue();
             this.pollQueue();
         }, this.TIMEOUT);

@@ -1,7 +1,7 @@
 import WorkerDomNodeStub from './WorkerDomNodeStub';
 
 const nodes = {};
-
+const roots = {};
 /**
  * Backend for ID operations.
  */
@@ -22,10 +22,23 @@ class ReactWWIDOperations {
         return this;
     }
 
+    getRoot(ID) {
+        while (ID.match(/\./g).length > 1) {
+            ID = ID.split('.').slice(0, -1).join('.');
+        }
+        return this.getParent(ID);
+    }
+
     getParent(ID) {
         // If the node is root, we return the rootNode itself
-        if (ID.match(/\./g).length === 1)
-            return this.rootNode;
+        if (ID.match(/\./g).length <= 1) {
+            if (this.rootNode) {
+                roots[ID] = this.rootNode;
+                nodes[ID] = this.rootNode;
+                this.rootNode = null;
+            }
+            return roots[ID]
+        }
 
         const parentID = ID.split('.').slice(0, -1).join('.');
         return this.get(parentID);

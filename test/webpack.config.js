@@ -10,6 +10,7 @@ module.exports = {
         // ToDo App
         'todo/normal': './todo/normal.jsx',
         'todo/worker': './todo/worker.jsx',
+        'todo/server': './todo/server.jsx',
         'todo/worker-impl': './todo/worker-impl.jsx'
     },
     output: {

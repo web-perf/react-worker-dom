@@ -6,13 +6,12 @@ import App from './components/app.jsx';
 render(<App/>, {
     postMessage: (e) => {
         //console.log('capture post',e);
-        self.postMessage(e);
-
+        self.postMessage(JSON.stringify(e));
     },
-    addEventListener: (evtName, handler) => {
-        self.addEventListener(evtName, (e) => {
+    addEventListener: (handler) => {
+        self.addEventListener('message', (e) => {
             //console.log('capture listener', e)
-            handler(e);
+            handler(JSON.parse(e.data));
         });
     }
 });
