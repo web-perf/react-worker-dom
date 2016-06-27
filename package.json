@@ -6,6 +6,7 @@
   "scripts": {
     "build-demo": "webpack --config test/webpack.config.js",
     "demo": "webpack-dev-server --config test/webpack.config.js",
+    "build-node": "webpack --config src/webpack.config.js",
     "perf": "node test/perf.js"
   },
   "author": "Parashuram <code@nparashuram.com>",
