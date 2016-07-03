@@ -3,19 +3,24 @@
  */
 
 import {render} from 'react-worker-dom';
+function renderServer(targetId) {
+    var ws = new WebSocket('ws://localhost:1234', 'react-server');
+    ws.addEventListener("open", () => {
 
-var ws = new WebSocket('ws://localhost:1234', 'react-server');
-ws.addEventListener("open", () => {
+        render({
+            addEventListener: (handler) => {
+                ws.addEventListener("message", (e) => {
+                    handler(JSON.parse(e.data));
+                });
+            },
+            postMessage: (data) => {
+                ws.send(JSON.stringify(data));
+            }
+        }, document.getElementById(targetId));
 
-    render({
-        addEventListener: (handler) => {
-            ws.addEventListener("message", (e) => {
-                handler(JSON.parse(e.data));
-            });
-        },
-postMessage: (data) => {
-    ws.send(JSON.stringify(data));
+    });
+
 }
-}, document.getElementById('content'));
 
-})
+renderServer('content');
+renderServer('content2');

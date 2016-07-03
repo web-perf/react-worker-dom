@@ -31,7 +31,6 @@ function render(element, channel) {
     const component = instantiateReactComponent(element); // Mounting the app
     const transaction = ReactUpdates.ReactReconcileTransaction.getPooled();
     const bridge = new WorkerBridge(channel);
-    console.log(element, channel);
 
     ReactWWIDOperations.setRoot(new WorkerDomNodeStub('0', 'div', {}, bridge));
 

@@ -1,8 +1,12 @@
 const React = require('react');
-const reactDOM = require('../../dist/ReactWW-worker');
 const http = require('http');
-require('node-jsx-babel').install();
-const App = require('./components/app.jsx');
+
+require("babel-register")({
+    presets: ['es2015', 'react', 'stage-2']
+});
+const reactDOM = require('../src/worker/index');
+//const App = require('./todo/components/app.jsx');
+const App = require('./dbmonster/components/app.jsx');
 
 
 var server = http.createServer(function(request, response) {});

@@ -21,6 +21,7 @@ export default function inject() {
         // and not share any injection state. Then this problem will be solved.
         return;
     }
+    alreadyInjected = true;
 
     ReactInjection.EventEmitter.injectReactEventListener(
         ReactEventListener

@@ -94,6 +94,9 @@ function setAttribute(node, key, value) {
             break;
         case 'className':
             node.className = value;
+            break;
+        case 'value':
+            node.value = value;
         default:
             node.setAttribute(key, value);
 
