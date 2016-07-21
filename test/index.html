@@ -19,7 +19,6 @@
 
 <body>
     <div id="content"></div>
-    <div id="content2"></div>
     <div class="message text-center">
 
     </div>
@@ -27,7 +26,7 @@
     var demoType = window.location.search.replace("?","") || 'worker';
 
     var x = document.createElement('script');
-    x.src = '/react-worker-dom/dist/todo/' + 'server' + '.js';
+    x.src = '/dist/' + 'server' + '.js';
     document.body.appendChild(x);
 
     </script>

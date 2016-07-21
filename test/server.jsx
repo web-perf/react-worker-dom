@@ -23,4 +23,3 @@ function renderServer(targetId) {
 }
 
 renderServer('content');
-renderServer('content2');

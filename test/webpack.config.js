@@ -2,7 +2,7 @@ var path = require('path');
 module.exports = {
     context: __dirname,
     entry: {
-        'todo/server': './server.jsx'
+        'server': './server.jsx'
     },
     output: {
         filename: '[name].js',
