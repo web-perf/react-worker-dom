@@ -85,6 +85,9 @@ function setAttribute(node, key, value) {
                 node.style[prop] = value[prop];
             }
             break;
+        case 'dangerouslySetInnerHTML':
+            node.innerHTML = value.__html;
+            break;
         case 'checked':
             if (value) {
                 node.checked = true;
