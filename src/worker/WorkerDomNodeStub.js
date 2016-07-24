@@ -1,5 +1,5 @@
 import Bridge from './WorkerBridge';
-import {CONSTRUCTOR, ADD_CHILD, ADD_CHILD_INDEX, REMOVE_CHILD, REMOVE_CHILD_INDEX, REPLACE_AT ,SET_CONTENT, REMOVE_EVENT_HANDLERS, SET_ATTRIBUTES, ADD_EVENT_HANDLERS, RENDER} from './../common/constants';
+import {CONSTRUCTOR, ADD_CHILD, ADD_CHILD_INDEX, REMOVE_CHILD, REMOVE_CHILD_INDEX, REPLACE_AT ,SET_CONTENT, REMOVE_EVENT_HANDLERS, SET_ATTRIBUTES, ADD_EVENT_HANDLERS, RENDER, INVOKE} from './../common/constants';
 
 var guid = 0;
 
@@ -55,6 +55,9 @@ export default class WorkerDomNodeStub {
     }
     render() {
         this.impl(RENDER);
+    }
+    invoke(method, args) {
+        this.impl(INVOKE, [method].concat(args));
     }
     impl(method, args = []) { // Sends a messages to the Implementation
         this.bridge.postMessage({

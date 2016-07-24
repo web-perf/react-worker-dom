@@ -151,7 +151,7 @@ export default class ReactWWComponent {
         const root = ReactWWIDOperations.getRoot(this._rootNodeID);
 
 
-    ReactWWIDOperations.drop(this._rootNodeID);
+        ReactWWIDOperations.drop(this._rootNodeID);
 
         this._rootNodeID = null;
 

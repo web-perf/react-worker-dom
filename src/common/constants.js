@@ -15,6 +15,7 @@ export const SET_CONTENT = 'setContent';
 export const SET_ATTRIBUTES = 'setAttributes';
 export const ADD_EVENT_HANDLERS = 'addEventListeners';
 export const REMOVE_EVENT_HANDLERS = 'removeEventHandlers';
+export const INVOKE = 'invoke';
 
 // Other constants
 export const MAX_QUEUE_SIZE = 500;
