@@ -1,5 +1,7 @@
 const http = require('http');
 const path = require('path');
+const ReactOverTheWire = require('../dist/ReactOverTheWire');
+
 var anotherDirToCheck = path.resolve(__dirname, '../dist/');
 console.log(anotherDirToCheck);
 
@@ -8,7 +10,6 @@ require('babel-core/register')({
     resolveModuleSource: require('babel-resolver')(__dirname, anotherDirToCheck)
 });
 
-const ReactOverTheWire = require('ReactOverTheWire');
 
 const App = require('./todo/components/app.jsx');
 //const App = require('./dbmonster/components/app.jsx');

@@ -1,4 +1,4 @@
-var React = require('ReactOverTheWire');
+import React from 'ReactOverTheWire';
 import getData from './data';
 
 class Query extends React.Component{
