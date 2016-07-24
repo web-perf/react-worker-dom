@@ -1,6 +1,7 @@
 import ReactInstanceHandles from 'react/lib/ReactInstanceHandles';
 import ReactElement from 'react/lib/ReactElement';
 import ReactUpdates from 'react/lib/ReactUpdates';
+import ReactIsomorphic from 'react/lib/ReactIsomorphic'
 import instantiateReactComponent from 'react/lib/instantiateReactComponent';
 import invariant from 'invariant';
 
@@ -47,6 +48,8 @@ function render(element, channel) {
     return component._instance;
 }
 
-module.exports = {
-    render: render
-};
+var ReactOverTheWire = Object.assign({}, ReactIsomorphic);
+ReactOverTheWire.render = render;
+
+
+module.exports = ReactOverTheWire;

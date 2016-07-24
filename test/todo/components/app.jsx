@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('ReactOverTheWire');
 var TodoItem = require('./todoItem.jsx');
 var TodoForm = require('./todoForm.jsx');
 var Clock = require('./clock.jsx');
@@ -69,7 +69,6 @@ module.exports = React.createClass({
       )
     }
   },
-  
   render: function() {
     return (
       <div className="well">

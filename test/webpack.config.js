@@ -2,7 +2,8 @@ var path = require('path');
 module.exports = {
     context: __dirname,
     entry: {
-        'server': './server.jsx'
+        'server': './server.jsx',
+        'channel': './channel.jsx'
     },
     output: {
         filename: '[name].js',
@@ -16,10 +17,14 @@ module.exports = {
             loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
         }]
     },
+    externals: [
+        //'ReactOverTheWire',
+        //'ReactOverTheWireDOM'
+    ],
     resolve: {
         alias: {
-            'react-worker-dom': path.resolve(__dirname, './../src/page/index.js'),
-            'react-worker-dom-worker': path.resolve(__dirname, './../src/worker/index.js')
+            'ReactOverTheWire': path.resolve(__dirname, './../dist/ReactOverTheWire.js'),
+            'ReactOverTheWireDOM': path.resolve(__dirname, './../dist/ReactOverTheWireDOM.js')
         }
     },
 };

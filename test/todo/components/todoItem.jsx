@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('ReactOverTheWire');
 
 module.exports = React.createClass({
   onDelete: function() {

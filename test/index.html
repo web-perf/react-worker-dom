@@ -23,10 +23,10 @@
 
     </div>
     <script type="text/javascript">
-    var demoType = window.location.search.replace("?","") || 'worker';
+    var demoType = window.location.search.replace("?","") || 'server';
 
     var x = document.createElement('script');
-    x.src = '/dist/' + 'server' + '.js';
+    x.src = '/dist/' + demoType + '.js';
     document.body.appendChild(x);
 
     </script>

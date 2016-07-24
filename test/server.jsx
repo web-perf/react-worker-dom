@@ -2,7 +2,7 @@
  * Created by avim on 6/27/16.
  */
 
-import {render} from 'react-worker-dom';
+import {render} from 'ReactOverTheWireDOM';
 function renderServer(targetId) {
     var ws = new WebSocket('ws://localhost:1234', 'react-server');
     ws.addEventListener("open", () => {

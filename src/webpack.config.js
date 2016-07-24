@@ -4,8 +4,8 @@ var webpack = require('webpack');
 module.exports = {
     context: path.join(__dirname),
     entry: {
-        'ReactWW-worker': './worker/index.js',
-        'ReactWorker': './page/index.js',
+        'ReactOverTheWireDOM': './page/index.js',
+        'ReactOverTheWire': './worker/index.js'
     },
     output: {
         filename: '[name]' + '.js',
@@ -13,7 +13,7 @@ module.exports = {
         libraryTarget: 'commonjs2'
     },
     externals: [
-        /^react\/.*/
+        ///^react\/.*/
     ],
     devtool: 'source-map',
     module: {
