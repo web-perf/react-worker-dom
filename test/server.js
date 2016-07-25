@@ -11,9 +11,10 @@ require('babel-core/register')({
 });
 
 
-const App = require('./todo/components/app.jsx');
+//const App = require('./todo/components/app.jsx');
 //const App = require('./dbmonster/components/app.jsx');
 //const App = require('./drag/components/app.jsx');
+const App = require('./masonry/components/app.jsx');
 
 
 var server = http.createServer(function(request, response) {});

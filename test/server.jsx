@@ -3,6 +3,8 @@
  */
 
 import {render} from 'ReactOverTheWireDOM';
+import nativeExtensions from './nativeExtensions';
+
 function renderServer(targetId) {
     var ws = new WebSocket('ws://localhost:1234', 'react-server');
     ws.addEventListener("open", () => {
@@ -16,7 +18,7 @@ function renderServer(targetId) {
             postMessage: (data) => {
                 ws.send(JSON.stringify(data));
             }
-        }, document.getElementById(targetId));
+        }, document.getElementById(targetId), nativeExtensions);
 
     });
 

@@ -32,7 +32,7 @@ const App = React.createClass({
                  <style dangerouslySetInnerHTML={{__html:css}}/>
 
                  {this.state.items.map((h, index) => 
-                    <div className="box" style={{height:h +'px'}} key={'box'+index}/>)}
+                    <div className="box" style={{height:h +'px'}} key={'box'+index}>{index}</div>)}
             </div>
         );
     },
