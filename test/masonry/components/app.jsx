@@ -21,18 +21,12 @@ function randInt(v) {
     return Math.floor(Math.random() * v);
 }
 
-const Masonry = React.createClass({
-    render: function () {
-        return (
-            <div {...this.props} ref="masonry">
-                {this.props.children}
+const Masonry = props =>
+         (
+            <div {...props} ref={masonryRef => masonryRef.invoke('masonry', [props.columns])}>
+                {props.children}
             </div>
         );
-    },
-    componentDidMount: function () {
-        this.refs.masonry.invoke('masonry', [this.props.columns]);
-    }
-});
 
 const App = React.createClass({
     getInitialState: ()=> {
