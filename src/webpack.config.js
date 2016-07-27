@@ -10,7 +10,7 @@ module.exports = {
     output: {
         filename: '[name]' + '.js',
         path: path.join(__dirname, './../dist'),
-        libraryTarget: 'commonjs2'
+        libraryTarget: 'umd'
     },
     externals: [
         ///^react\/.*/
@@ -25,5 +25,13 @@ module.exports = {
                 cacheDirectory: true
             },
         }]
-    }
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': '"production"'
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({minimize: true})
+    ]
 };
