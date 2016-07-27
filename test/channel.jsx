@@ -3,7 +3,7 @@
  */
 
 import React from 'ReactOverTheWire';
-import {render} from 'ReactOverTheWireDOM';
+import ReactOverTheWireDOM from 'ReactOverTheWireDOM';
 import App from './masonry/components/app.jsx';
 import nativeExtensions from './nativeExtensions';
 
@@ -22,18 +22,20 @@ function channelFacade(port, title) {
     }
 }
 
-
-
 function renderLocal(targetId) {
     var channel = new MessageChannel();
+
     React.render(
         React.createElement(App, {})
-    , channelFacade(channel.port2, 'port2'));
-    render(
-        channelFacade(channel.port1, 'port1'), 
+    , channelFacade(channel.port2, 'worker-side'));
+
+    ReactOverTheWireDOM.render(
+        channelFacade(channel.port1, 'native-side'),
+
+        // registering native extensions
         document.getElementById(targetId),
         nativeExtensions
-        );
+    );
 }
 
 renderLocal('content');
