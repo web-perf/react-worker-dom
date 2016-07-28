@@ -4,7 +4,7 @@
 
 import React from 'ReactOverTheWire';
 import ReactOverTheWireDOM from 'ReactOverTheWireDOM';
-import App from './masonry/components/app.jsx';
+import App from './recursion/components/app.jsx';
 import nativeExtensions from './nativeExtensions';
 
 function channelFacade(port, title) {

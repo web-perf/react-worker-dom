@@ -1,9 +1,10 @@
 /**
  * Created by avim on 7/25/16.
  */
+import {render} from 'ReactOverTheWireDOM';
 
 const extensions = {
-    masonry: (el, cols)=> {
+    masonry: (el, cols) => {
         let colsHeights = Array(cols).fill(0);
         const children = Array.from(el.children);
         const columnWidth = el.offsetWidth / cols;
@@ -20,6 +21,21 @@ const extensions = {
             colsHeights[nextColumn] += childrenHeights[index] + 20;
         });
         el.style.height = (Math.max.apply(null, colsHeights) + 20) + 'px';
+    },
+    overTheWireWS: (el, host, channel) => {
+        var ws = new WebSocket(host, channel);
+        ws.addEventListener("open", () => {
+            render({
+                addEventListener: (handler) => {
+                    ws.addEventListener("message", (e) => {
+                        handler(JSON.parse(e.data));
+                    });
+                },
+                postMessage: (data) => {
+                    ws.send(JSON.stringify(data));
+                }
+            }, el, extensions);
+        });
     }
 };
 
