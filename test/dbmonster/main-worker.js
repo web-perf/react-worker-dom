@@ -1,5 +1,5 @@
 // import React from 'react'; <-- Don't need this. Component is defined in worker-impl.js
-import {render} from 'react-worker-dom';
+import {render} from 'reactworker-onPage';
 
 // import DBMon from './components/app.jsx'; <-- Don't need this. Defined in worker-impl.js
 

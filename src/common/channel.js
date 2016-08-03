@@ -1,15 +1,16 @@
+import {WORKER_MESSAGES as _} from './constants';
+
 export default class Channel {
     constructor(channel) {
         this.channel = channel;
     }
-    send(type, args) {
-        this.channel.postMessage(JSON.stringify({
-            type, args
-        }));
+    send(type, payload) {
+        this.channel.postMessage(JSON.stringify({ type, payload }));
     }
     onMessage(handler) {
-        this.channel.addEventListener('message', (e) => {
-            handler(JSON.parse(e.data));
+        this.channel.addEventListener('message', ({data}) => {
+            let { type, payload } = JSON.parse(data);
+            handler(type, payload);
         });
     }
     static serializeEvent(e) {
@@ -24,7 +25,7 @@ export default class Channel {
     }
     static deserializeEvent(msg) {
         var e = JSON.parse(msg);
-        e.preventDefault = e.stopPropgation = function() {}
+        e.preventDefault = e.stopPropgation = function () { }
         return e;
     }
 }

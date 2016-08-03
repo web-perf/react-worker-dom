@@ -1,6 +1,7 @@
 import React from 'react';
-import {render} from 'react-worker-dom-worker';
+import ReactDom from 'react-dom';
+import WorkerDom from 'reactworker-onWorker';
 
 import App from './components/app.jsx';
 
-render(<App/>);
+ReactDom.render(<App/>, WorkerDom);

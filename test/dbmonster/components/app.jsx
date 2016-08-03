@@ -142,7 +142,7 @@ class DBMon extends React.Component {
     }.bind(this));
 
     return (
-      <div>
+      <div className="toplevel">
         <table className="table table-striped latest-data">
           <tbody>
             {databases}

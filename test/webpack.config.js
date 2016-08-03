@@ -21,13 +21,18 @@ module.exports = {
     module: {
         loaders: [{
             test: /\.jsx?$/,
-            loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
+            exclude: /(node_modules|bower_components)/,
+            loader: 'babel',
+            query: {
+                plugins: ['transform-decorators-legacy'],
+                presets: ['es2015', 'react', 'stage-0']
+            }
         }]
     },
     resolve: {
         alias: {
-            'react-worker-dom': path.resolve(__dirname, './../src/page/index.js'),
-            'react-worker-dom-worker': path.resolve(__dirname, './../src/worker/index.js')
+            'reactworker-onWorker': path.resolve(__dirname, './../src/worker/index.js'),
+            'reactworker-onPage': path.resolve(__dirname, './../src/page/index.js'),
         }
     },
 };

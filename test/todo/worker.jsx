@@ -1,5 +1,5 @@
 
-import {render} from 'react-worker-dom';
+import {render} from 'reactworker-onPage';
 
 
 
