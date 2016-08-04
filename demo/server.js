@@ -1,6 +1,9 @@
 const http = require('http');
 const path = require('path');
+const fs = require('fs');
 const ReactOverTheWire = require('../dist/ReactOverTheWire');
+
+const demos = ['dbmonster', 'drag','masonry','recursion', 'todo'];
 
 var anotherDirToCheck = path.resolve(__dirname, '../dist/');
 console.log(anotherDirToCheck);
@@ -10,12 +13,10 @@ require('babel-core/register')({
     resolveModuleSource: require('babel-resolver')(__dirname, anotherDirToCheck)
 });
 
-
-//const App = require('./todo/components/app.jsx');
-//const App = require('./dbmonster/components/app.jsx');
-//const App = require('./drag/components/app.jsx');
-const App = require('./masonry/components/app.jsx');
-
+const demoApps = demos.reduce((acc, demo) => {
+    acc[demo] = require(`./${demo}/app.jsx`);
+    return acc;
+}, {});
 
 var server = http.createServer(function(request, response) {});
 server.listen(1234, function() {
@@ -26,8 +27,10 @@ wsServer = new WebSocketServer({
     httpServer: server
 });
 wsServer.on('request', function(r){
-    var connection = r.accept('react-server', r.origin);
-    connection.app = ReactOverTheWire.render(ReactOverTheWire.createElement(App,{}), {
+    console.log(r.requestedProtocols);
+    const chosenApp = demoApps[r.requestedProtocols[0]] || demoApps.todo;
+    const connection = r.accept(r.requestedProtocols[0], r.origin);
+    connection.app = ReactOverTheWire.render(ReactOverTheWire.createElement(chosenApp, {}), {
         postMessage: (e) => {
             connection.send(JSON.stringify(e));
         },

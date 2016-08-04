@@ -4,8 +4,14 @@
 
 import React from 'ReactOverTheWire';
 import ReactOverTheWireDOM from 'ReactOverTheWireDOM';
-import App from './recursion/components/app.jsx';
+import recursion from './recursion/app.jsx';
+import dbmonster from './dbmonster/app.jsx';
+import drag from './drag/app.jsx';
+import masonry from './masonry/app.jsx';
+import todo from './todo/app.jsx';
 import nativeExtensions from './nativeExtensions';
+
+const demoApps = {recursion,dbmonster,drag,masonry,todo};
 
 function channelFacade(port, title) {
     return {
@@ -26,7 +32,7 @@ function renderLocal(targetId) {
     var channel = new MessageChannel();
 
     React.render(
-        React.createElement(App, {})
+        React.createElement(demoApps[window.chosenDemo], {})
     , channelFacade(channel.port2, 'worker-side'));
 
     ReactOverTheWireDOM.render(

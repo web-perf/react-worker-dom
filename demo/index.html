@@ -23,12 +23,30 @@
 
     </div>
     <script type="text/javascript">
-    var demoType = window.location.search.replace("?","") || 'server';
+    function init() {
 
-    var x = document.createElement('script');
-    x.src = '/dist/' + demoType + '.js';
-    document.body.appendChild(x);
-
+        function parseQuery(qstr) {
+            var query = {};
+            var a = qstr.substr(1).split('&');
+            for (var i = 0; i < a.length; i++) {
+                var b = a[i].split('=');
+                query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+            }
+            return query;
+        }
+        var query = parseQuery(window.location.search);
+        var availableTypes = ['server', 'channel'];
+        var availableDemos = ['dbmonster', 'drag','masonry','recursion', 'todo'];
+        if (availableTypes.indexOf(query.type) === -1 || availableDemos.indexOf(query.demo) === -1) {
+            window.location.search = "type=server&demo=todo";
+            return;
+        }
+        window.chosenDemo = query.demo;
+        var x = document.createElement('script');
+        x.src = '/dist/' + query.type + '.js';
+        document.body.appendChild(x);
+    }
+    init();
     </script>
 </body>
 

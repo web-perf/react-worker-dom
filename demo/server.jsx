@@ -6,7 +6,7 @@ import {render} from 'ReactOverTheWireDOM';
 import nativeExtensions from './nativeExtensions';
 
 function renderServer(targetId) {
-    var ws = new WebSocket('ws://localhost:1234', 'react-server');
+    var ws = new WebSocket('ws://localhost:1234', window.chosenDemo);
     ws.addEventListener("open", () => {
 
         render({
