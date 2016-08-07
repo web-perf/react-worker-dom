@@ -3,16 +3,16 @@ import {EVENT, RENDER_QUEUE, RENDER_TIME, MAX_QUEUE_SIZE} from './../common/cons
 import ReactWWIDOperations from './ReactWWIDOperations';
 
 class WorkerBridge {
-    constructor() {
+    constructor(channel) {
         this.queue = [];
-        this.channel = new Channel(self);
+        this.channel = new Channel(channel);
         this.channel.onMessage(this.handleMessage.bind(this));
         this.pollQueue();
         this.TIMEOUT = 5;
     }
 
     pollQueue(){
-        self.setTimeout(() => {
+        setTimeout(() => {
             this.flushQueue();
             this.pollQueue();
         }, this.TIMEOUT);
@@ -49,4 +49,4 @@ class WorkerBridge {
     }
 }
 
-export default new WorkerBridge();
+export default WorkerBridge;

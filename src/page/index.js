@@ -1,13 +1,13 @@
 import WorkerDomNodeImpl from './WorkerDomNodeImpl';
 import Channel from './../common/channel';
-import { EVENT, RENDER_TIME, ADD_EVENT_HANDLERS, ADD_CHILD_INDEX, REMOVE_CHILD_INDEX, REMOVE_CHILD, REPLACE_AT, REMOVE_EVENT_HANDLERS, RENDER_QUEUE, CONSTRUCTOR, ADD_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT } from './../common/constants';
+import { EVENT, RENDER_TIME, ADD_EVENT_HANDLERS, ADD_CHILD_INDEX, REMOVE_CHILD_INDEX, REMOVE_CHILD, REPLACE_AT, REMOVE_EVENT_HANDLERS, RENDER_QUEUE, CONSTRUCTOR, ADD_CHILD, RENDER, SET_ATTRIBUTES, SET_CONTENT, INVOKE } from './../common/constants';
 import ReactMount from 'react/lib/ReactMount';
 
 import inject from './inject';
 import NodeIDOps from './NodeIDOperations';
 
 class ReactWorkerDom {
-    constructor(worker, container) {
+    constructor(worker, container, nativeHandlers) {
         inject();
 
         this.container = container;
@@ -18,6 +18,7 @@ class ReactWorkerDom {
             time: 1,
             count: 0
         });
+        this.nativeHandlers = nativeHandlers;
     }
 
     handleMessage(data) {
@@ -80,6 +81,13 @@ class ReactWorkerDom {
             case REMOVE_EVENT_HANDLERS:
                 node.removeEventHandlers();
                 break;
+            case INVOKE:
+                var el = NodeIDOps.getByReactId(data.reactId).ref;
+                console.log(INVOKE, data.args, el);
+                if (this.nativeHandlers.hasOwnProperty(data.args[0])) {
+                    this.nativeHandlers[data.args[0]].apply(null, [el].concat(data.args.slice(1)));
+                }
+                break;
             default:
                 console.log('Cannot run %s on Node with id %s', data.method, data.id);
         }
@@ -101,7 +109,7 @@ class ReactWorkerDom {
 // import {render} from 'react-worker-dom'; render();
 // import ReactDom from 'react-worker-dom'; ReactDom.render();
 module.exports = {
-    render: function(worker, container) {
-        return new ReactWorkerDom(worker, container);
+    render: function(worker, container, nativeHandlers) {
+        return new ReactWorkerDom(worker, container, nativeHandlers);
     }
 };

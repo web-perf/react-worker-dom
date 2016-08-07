@@ -4,13 +4,17 @@ var webpack = require('webpack');
 module.exports = {
     context: path.join(__dirname),
     entry: {
-        'ReactWW-worker': './worker/index.js',
-        'ReactWorker': './page/index.js',
+        'ReactOverTheWireDOM': './page/index.js',
+        'ReactOverTheWire': './worker/index.js'
     },
     output: {
         filename: '[name]' + '.js',
         path: path.join(__dirname, './../dist'),
+        libraryTarget: 'umd'
     },
+    externals: [
+        ///^react\/.*/
+    ],
     devtool: 'source-map',
     module: {
         loaders: [{
@@ -21,5 +25,13 @@ module.exports = {
                 cacheDirectory: true
             },
         }]
-    }
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': '"production"'
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({minimize: true})
+    ]
 };

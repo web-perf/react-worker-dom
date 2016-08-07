@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'ReactOverTheWire';
 
 module.exports = React.createClass({
   getInitialState: function(){

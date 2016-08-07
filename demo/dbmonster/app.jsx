@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'ReactOverTheWire';
 import getData from './data';
 
 class Query extends React.Component{
@@ -93,16 +93,10 @@ class Database extends React.Component{
     };
 };
 
-class DBMon extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      databases: {}
-    };
-  };
-
-  loadSamples() {
-    var newData = getData(this.props.rows);
+const DBMon =  React.createClass({
+  getInitialState:()=> {return {databases:[]}},
+  loadSamples:function(){
+    var newData = getData(this.props.rows || 10);
     Object.keys(newData.databases).forEach(function(dbname) {
       var sampleInfo = newData.databases[dbname];
       if (!this.state.databases[dbname]) {
@@ -124,14 +118,14 @@ class DBMon extends React.Component {
 
     this.setState(this.state);
     //setTimeout(function(){this.setState(this.state)}.bind(this), 100);
-    setTimeout(this.loadSamples.bind(this), this.props.timeout);
-  };
+    setTimeout(this.loadSamples);//this.props.timeout|| 20);
+  },
 
-  componentDidMount() {
+  componentDidMount:function(){
     this.loadSamples();
-  };
+  },
 
-  render() {
+  render:function(){
     var databases = [];
     Object.keys(this.state.databases).forEach(function(dbname) {
       databases.push(
@@ -150,7 +144,7 @@ class DBMon extends React.Component {
         </table>
       </div>
     );
-  };
-}
+  }
+})
 
-export default DBMon;
+module.exports = React.createFactory(DBMon);

@@ -72,7 +72,7 @@ export default class ReactWWComponent {
         }
 
         // Rendering the rootNode
-        ReactWWIDOperations.rootNode.render();
+        ReactWWIDOperations.getRoot(rootID).render();
         return this;
     }
 
@@ -93,7 +93,7 @@ export default class ReactWWComponent {
         let {
             eventHandlers, options
         } = extractEventHandlers(restProps);
-        const node = new WorkerDomNodeStub(this._rootNodeID, type, options);
+        const node = new WorkerDomNodeStub(this._rootNodeID, type, options, parent.bridge);
         parent.addChild(node);
 
         transaction.getReactMountReady().enqueue(function(){
@@ -148,11 +148,14 @@ export default class ReactWWComponent {
         //var parent = ReactWWIDOperations.getParent(node.reactId);
         //parent.removeChild(node);
 
+        const root = ReactWWIDOperations.getRoot(this._rootNodeID);
+
+
         ReactWWIDOperations.drop(this._rootNodeID);
 
         this._rootNodeID = null;
 
-        ReactWWIDOperations.rootNode.render();
+        root.render();
     }
 
     /**
