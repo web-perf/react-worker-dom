@@ -123,7 +123,6 @@ class DBMon extends React.Component {
     }.bind(this));
 
     this.setState(this.state);
-    //setTimeout(function(){this.setState(this.state)}.bind(this), 100);
     setTimeout(this.loadSamples.bind(this), this.props.timeout);
   };
 

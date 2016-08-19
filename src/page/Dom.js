@@ -22,6 +22,7 @@ class DomOperations {
     /// Creating new nodes
     [_.createDOMElement](id, type) {
         nodes[id] = document.createElement(type);
+        nodes[id].setAttribute('reactId', id);
     }
     [_.createComment](id, val) {
         nodes[id] = document.createComment(val);
@@ -39,6 +40,9 @@ class DomOperations {
     }
     [_.setTextContent](id, val) {
         nodes[id].textContent = val;
+    }
+    [_.setStyle](id, key, val) {
+        nodes[id].style[key] = val;
     }
 
     // DOM Tree manipulation ops

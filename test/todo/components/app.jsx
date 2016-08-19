@@ -7,8 +7,8 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       items: [
-        'Item 1',
-        'Item 2'
+        { text: 'Item 1', done: false },
+        { text: 'Item 2', done: true }
       ]
     }
   },

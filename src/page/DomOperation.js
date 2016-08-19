@@ -11,7 +11,3 @@ export default class DomOperation {
         }
     }
 }
-
-const operations = {
-
-}

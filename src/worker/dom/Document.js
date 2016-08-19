@@ -1,4 +1,4 @@
-import Element from './DomElement';
+import createDOMElement from './DomElement';
 import Fragment from './Fragment';
 import TextNode from './TextNode';
 import Comment from './Comment';
@@ -9,7 +9,7 @@ class Document {
         this.nodeName = 'div'
     }
     createElement(tag) {
-        return new Element(tag);
+        return createDOMElement(tag);
     }
     createComment(comment) {
         return new Comment(comment);
