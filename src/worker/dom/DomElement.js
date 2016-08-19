@@ -48,7 +48,7 @@ export default (tag) => {
         set(val) {
             this.setAttribute(prop, val);
         },
-        get(prop) {
+        get() {
             return this.attributes[prop];
         }
     }));
