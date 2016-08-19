@@ -4,6 +4,8 @@ import Style from './Style';
 import {OPS as _} from './../../common/constants';
 import {ELEMENT_NODE} from './../../common/nodeType'
 
+import EventHandler from './../eventHandler';
+
 class DomElement extends TreeNode {
     constructor(type) {
         super();
@@ -26,7 +28,7 @@ class DomElement extends TreeNode {
     }
 
     addEventListener(eventType, callback, useCapture) {
-        //console.log('Node event listener', arguments);
+        EventHandler.add(this, eventType, callback, useCapture);
     }
 
     set textContent(val) {

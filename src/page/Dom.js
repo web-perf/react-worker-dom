@@ -55,7 +55,18 @@ class DomOperations {
     [_.insertBefore](id, newNode, refNode) {
         nodes[id].insertBefore(newNode, refNode);
     }
+
+    // Events
+    [_.addEventHandler](id, type, handler, useCapture) {
+        var node = typeof id === 'string' ? window[id] : nodes[id];
+        node.addEventListener(type, createEventHandler(handler, type, useCapture), useCapture);
+    }
 }
+
+const createEventHandler = (handler, type, useCapture) => (e) => {
+    console.log('Event occured', type, handler, useCapture);
+    return false;
+};
 
 function setAttribute(node, key, value) {
     switch (key) {

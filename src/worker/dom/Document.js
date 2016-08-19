@@ -3,6 +3,8 @@ import Fragment from './Fragment';
 import TextNode from './TextNode';
 import Comment from './Comment';
 
+import EventHandler from './../eventHandler';
+
 class Document {
     constructor() {
         this.nodeType = 9;
@@ -22,18 +24,9 @@ class Document {
     }
 
     addEventListener(eventType, callback, useCapture){
-        console.log('Document event listener', arguments);
+        EventHandler.add('document', eventType, callback, useCapture);
     }
 }
 
-self.document = new Document()
+self.document = new Document();
 export default document;
-
-var handler = {
-    get: function (target, name) {
-        if (!name in target) {
-            console.log(target, name);
-        }
-        return target[name];
-    }
-}
