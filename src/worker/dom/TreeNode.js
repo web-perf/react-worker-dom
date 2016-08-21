@@ -32,7 +32,11 @@ export default class TreeNode {
     }
 
     removeChild(node) {
-        console.log('Removing node', node);
+        let childIndex = this.children.indexOf(node);
+        if (childIndex > 0) {
+            this.children.splice(childIndex, 1);
+            this._bridge.send(_.removeChild, this._guid, [node]);
+        }
     }
 
     replaceChild(node, newNode) {
