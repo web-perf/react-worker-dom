@@ -1,72 +1,71 @@
-import {OPS as _} from './../common/constants';
+import {OPS as _, WORKER_MESSAGES} from './../common/constants';
+import Channel from './../common/channel';
+import {DOCUMENT_NODE} from './../common/nodeType';
 
-var nodes = {};
+var channel, container, nodes = {};
 
-export default class DomOperation {
-    constructor(container) {
-        this.dom = new DomOperations(container);
-    }
-    handleOp({operation, guid, args, guidPos = []}) {
+export default (ctr, messageChannel) => {
+    container = ctr;
+    channel = messageChannel;
+    return ({operation, guid, args, guidPos = []}) => {
         guidPos.forEach(pos => args[pos] = nodes[args[pos]]);
-        this.dom[operation](guid, ...args);
+        DomOperations[operation](guid, ...args);
     }
 }
 
-class DomOperations {
-    constructor(container) {
-        this.container = container;
-    }
-    [_.attachRoot](noId, node) {
-        this.container.appendChild(node);
-    }
+const DomOperations = {
+    [_.attachRoot](none, id, node) {
+        container.appendChild(node);
+    },
     /// Creating new nodes
     [_.createDOMElement](id, type) {
         nodes[id] = document.createElement(type);
-        nodes[id].setAttribute('reactId', id);
-    }
+        nodes[id]['__reactNode'] = id;
+        nodes[id].setAttribute('id', 'react-' + id);
+    },
     [_.createComment](id, val) {
         nodes[id] = document.createComment(val);
-    }
+        nodes[id]['__reactNode'] = id;
+    },
     [_.createFragment](id) {
         nodes[id] = document.createDocumentFragment();
-    }
+        nodes[id]['__reactNode'] = id;
+    },
     [_.createTextNode](id, val) {
         nodes[id] = document.createTextNode(val);
-    }
+        nodes[id]['__reactNode'] = id;
+    },
 
     /// Operations on Nodes
     [_.setAttribute](id, key, val) {
         setAttribute(nodes[id], key, val);
-    }
+    },
     [_.setTextContent](id, val) {
         nodes[id].textContent = val;
-    }
+    },
     [_.setStyle](id, key, val) {
         nodes[id].style[key] = val;
-    }
+    },
 
     // DOM Tree manipulation ops
     [_.appendChild](id, node) {
         nodes[id].appendChild(node);
-    }
+    },
     [_.removeChild](id, node) {
         nodes[id].removeChild(node);
-    }
+    },
     [_.insertBefore](id, newNode, refNode) {
         nodes[id].insertBefore(newNode, refNode);
-    }
+    },
 
     // Events
     [_.addEventHandler](id, type, handler, useCapture) {
         var node = typeof id === 'string' ? window[id] : nodes[id];
-        node.addEventListener(type, createEventHandler(handler, type, useCapture), useCapture);
+        node.addEventListener(type, (e) => {
+            channel.send(WORKER_MESSAGES.event, { handler, event: Channel.serializeEvent(e) });
+        }, useCapture);
     }
 }
-
-const createEventHandler = (handler, type, useCapture) => (e) => {
-    console.log('Event occured', type, handler, useCapture);
-    return false;
-};
 
 function setAttribute(node, key, value) {
     switch (key) {
@@ -76,11 +75,7 @@ function setAttribute(node, key, value) {
             }
             break;
         case 'checked':
-            if (value) {
-                node.checked = true;
-            } else {
-                node.checked = false;
-            }
+            node.checked = !!value;
             break;
         case 'className':
             node.className = value;

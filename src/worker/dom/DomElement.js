@@ -1,4 +1,3 @@
-import Document from './Document';
 import TreeNode from './TreeNode';
 import Style from './Style';
 import {OPS as _} from './../../common/constants';
@@ -9,7 +8,6 @@ import EventHandler from './../eventHandler';
 class DomElement extends TreeNode {
     constructor(type) {
         super();
-        this.ownerDocument = Document;
         this.nodeType = ELEMENT_NODE;
         this.nodeName = type;
         this.attributes = {};
@@ -29,6 +27,10 @@ class DomElement extends TreeNode {
 
     addEventListener(eventType, callback, useCapture) {
         EventHandler.add(this, eventType, callback, useCapture);
+    }
+
+    removeEventListener(eventType, callback, useCapture) {
+        console.log('// TODO Remove event listener')
     }
 
     set textContent(val) {

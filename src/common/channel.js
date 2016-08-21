@@ -14,15 +14,25 @@ export default class Channel {
         });
     }
     static serializeEvent(e) {
-        var newTarget = {
-            value: e.target.value,
-            checked: e.target.checked,
-            selected: e.target.selected
-        }
-        delete e.view;
-        e.target = newTarget;
-        return JSON.stringify(e);
+        let result = {
+            bubbles: e.bubbles,
+            cancelable: e.cancelable,
+            defaultPrevented: e.defaultPrevented,
+            eventPhase: e.eventPhase,
+            isTrusted: e.isTrusted,
+            timeStamp: e.timeStamp,
+            type: e.type,
+            currentTarget: e.currentTarget['__reactNode'],
+            target: e.target['__reactNode'],
+            targetProps: {
+                value: e.target.value,
+                checked: e.target.checked,
+                selected: e.target.selected
+            }
+        };
+        return JSON.stringify(result);
     }
+
     static deserializeEvent(msg) {
         var e = JSON.parse(msg);
         e.preventDefault = e.stopPropgation = function () { }

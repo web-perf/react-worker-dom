@@ -1,6 +1,7 @@
 import guid from './../../common/guid';
 import {OPS as _} from './../../common/constants';
 import Bridge from './../bridge';
+import nodeList from './../nodeList';
 import {DOCUMENT_FRAGMENT_NODE} from './../../common/nodeType';
 
 export default class TreeNode {
@@ -9,6 +10,7 @@ export default class TreeNode {
         this._guid = guid();
         this.children = [];
         this._bridge = Bridge;
+        nodeList.set(this._guid, this);
     }
 
     appendChild(node) {

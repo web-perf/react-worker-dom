@@ -19,12 +19,19 @@ class WorkerBridge {
 
     handleMessage(type, payload) {
         switch (type) {
-            case _.renderTtime:
+            case _.renderTime:
                 this.rate = payload.count / payload.time;
                 break;
+            case _.event:
+                this.eventHandler(payload);
+                break;
             default:
-                console.log('Unknown operation %s', data);
+                console.log('Unknown operation %s', type);
         }
+    }
+
+    onEventHandler(handler) {
+        this.eventHandler = handler;
     }
 
     send(operation, guid, params) {
