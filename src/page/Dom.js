@@ -15,7 +15,7 @@ export default (ctr, messageChannel) => {
 
 const DomOperations = {
     [_.attachRoot](none, id, node) {
-        container.appendChild(node);
+        nodes[id] = container;
     },
     /// Creating new nodes
     [_.createDOMElement](id, type) {
