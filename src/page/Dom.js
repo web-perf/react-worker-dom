@@ -21,7 +21,6 @@ const DomOperations = {
     [_.createDOMElement](id, type) {
         nodes[id] = document.createElement(type);
         nodes[id]['__reactNode'] = id;
-        nodes[id].setAttribute('id', 'react-' + id);
     },
     [_.createComment](id, val) {
         nodes[id] = document.createComment(val);
