@@ -15,6 +15,12 @@ const Document = {
     nodeType: DOCUMENT_NODE,
     _guid: 'document',
     nodeName: '#document',
+    documentMode: 12,
+    documentElement: {
+        style: {}
+    },
+    oninput: true,
+    onchange: true,
     createElement(tag) {
         let el = createDOMElement(tag);
         el.ownerDocument = document;
@@ -42,7 +48,9 @@ const Document = {
 const Window = {
     addEventListener(eventType, callback, useCapture) {
         //EventHandler.add(this, eventType, callback, useCapture);
-    }
+    },
+    document: Document,
+    location: self.location
 }
 
 self.window = Window;

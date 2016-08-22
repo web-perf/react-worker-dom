@@ -15,10 +15,11 @@ module.exports = React.createClass({
     e.preventDefault();
   },
   render: function(){
+    console.log(this.state.text);
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="input-group">
-          <input onChange={this.onChange} value={this.state.text} className="form-control"/>
+          <input onChange={this.onChange} value={this.state.text} className="form-control" type="text"/>
           <span className="input-group-btn">
             <button className="btn btn-primary">
               <span className="glyphicon glyphicon-plus"></span>
@@ -26,7 +27,7 @@ module.exports = React.createClass({
           </span>
         </div>
         <span className="help-block text-right">
-          {this.state.text ? this.state.text : '<empty>'} 
+          <em>{this.state.text === '' ? this.state.text : '<empty>'} </em>
           &nbsp;will be added to the list
         </span>
       </form>

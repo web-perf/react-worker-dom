@@ -60,6 +60,11 @@ export default class TreeNode {
     }
 
     set innerHTML(val) {
-        console.log("Trying to set Inner HTML")
+        this._innerHTML = val;
+        this._bridge.send(_.innerHTML, this._guid, [val]);
+    }
+
+    get innerHTML() {
+        return this._innerHTML;
     }
 }

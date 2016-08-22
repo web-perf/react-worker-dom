@@ -9,7 +9,8 @@ export const WORKER_MESSAGES = {
 }
 
 export const OPS = {
-    createComment: 1,
+    createComment: 0,
+    innerHTML: 1,
     createDOMElement: 2,
     setAttribute: 3,
     createFragment: 4,

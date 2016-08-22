@@ -45,6 +45,9 @@ const DomOperations = {
     [_.setStyle](id, key, val) {
         nodes[id].style[key] = val;
     },
+    [_.innerHTML](id, val) {
+        nodes[id].innerHTML = val;
+    },
 
     // DOM Tree manipulation ops
     [_.appendChild](id, node) {
