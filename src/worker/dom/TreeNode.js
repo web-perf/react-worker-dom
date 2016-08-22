@@ -26,7 +26,7 @@ export default class TreeNode {
             node.children = [];
         }
 
-        this.children.splice(insertIndex < 0 ? this.children.length : insertIndex - 1, 0, ...nodesToInsert);
+        this.children.splice(insertIndex < 0 ? this.children.length : insertIndex , 0, ...nodesToInsert);
         nodesToInsert.forEach(node => { node.parentNode = this; });
         this._bridge.send(_.insertBefore, this._guid, [node, ref]);
     }
