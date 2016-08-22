@@ -15,7 +15,6 @@ module.exports = React.createClass({
     e.preventDefault();
   },
   render: function(){
-    console.log(this.state.text);
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="input-group">
@@ -27,7 +26,7 @@ module.exports = React.createClass({
           </span>
         </div>
         <span className="help-block text-right">
-          <em>{this.state.text === '' ? this.state.text : '<empty>'} </em>
+          <em>{this.state.text !== '' ? this.state.text : '<empty>'} </em>
           &nbsp;will be added to the list
         </span>
       </form>
