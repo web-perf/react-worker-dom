@@ -65,6 +65,9 @@ const DomOperations = {
         var node = typeof id === 'string' ? window[id] : nodes[id];
         node.addEventListener(type, (e) => {
             channel.send(WORKER_MESSAGES.event, { handler, event: Channel.serializeEvent(e) });
+            if (type === 'submit'){
+                e.preventDefault();
+            }
         }, useCapture);
     }
 }
