@@ -17,7 +17,8 @@ const Document = {
     nodeName: '#document',
     documentMode: 12,
     documentElement: {
-        style: {}
+        style: {},
+        textContent: true
     },
     oninput: true,
     onchange: true,
