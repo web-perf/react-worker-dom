@@ -39,8 +39,11 @@ export default class TreeNode {
         }
     }
 
-    replaceChild(node, newNode) {
-        console.log('Trying ot replace child')
+    replaceChild(newNode, node) {
+        const index = this.children.indexOf(node);
+        newNode.parentNode = this;
+        this.children[index] = newNode
+        this._bridge.send(_.replaceChild, this._guid, [newNode, node]);
     }
 
     get firstChild() {

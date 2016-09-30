@@ -59,6 +59,9 @@ const DomOperations = {
     [_.insertBefore](id, newNode, refNode) {
         nodes[id].insertBefore(newNode, refNode);
     },
+    [_.replaceChild](id, newNode, node) {
+        nodes[id].replaceChild(newNode, node);
+    },
 
     // Events
     [_.addEventHandler](id, type, handler, useCapture) {
