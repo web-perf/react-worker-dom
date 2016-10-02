@@ -21,5 +21,7 @@ export const OPS = {
     setTextContent: 9,
     addEventHandler: 10,
     removeEventHandler: 11,
-    setStyle: 12
+    setStyle: 12,
+    attachHead: 13,
+    replaceChild: 14,
 }
