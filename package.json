@@ -1,9 +1,10 @@
 {
   "name": "react-worker-dom",
-  "version": "0.0.1",
+  "version": "2.0.0-alpha.1",
   "description": "ReactJS renderer using Web Workers",
-  "main": "dist/worker.js",
+  "main": "worker.js",
   "scripts": {
+    "build": "webpack",
     "build-demo": "webpack --config test/webpack.config.js",
     "demo": "webpack-dev-server --config test/webpack.config.js",
     "perf": "node test/perf.js"
