@@ -2,12 +2,13 @@ import {OPS as _, WORKER_MESSAGES} from './../common/constants';
 import Channel from './../common/channel';
 import {DOCUMENT_NODE} from './../common/nodeType';
 
-var channel, container, head, nodes = {};
+var body, channel, container, head, nodes = {};
 
 export default (ctr, messageChannel) => {
+    body = document.body;
+    channel = messageChannel;
     container = ctr;
     head = document.head;
-    channel = messageChannel;
     return ({operation, guid, args, guidPos = []}) => {
         guidPos.forEach(pos => args[pos] = nodes[args[pos]]);
         DomOperations[operation](guid, ...args);
@@ -20,6 +21,9 @@ const DomOperations = {
     },
     [_.attachHead](none, id, node) {
         nodes[id] = head;
+    },
+    [_.attachBody](none, id, node) {
+        nodes[id] = body;
     },
     /// Creating new nodes
     [_.createDOMElement](id, type) {

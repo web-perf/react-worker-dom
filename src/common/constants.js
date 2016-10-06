@@ -24,4 +24,5 @@ export const OPS = {
     setStyle: 12,
     attachHead: 13,
     replaceChild: 14,
+    attachBody: 15,
 }

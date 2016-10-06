@@ -56,10 +56,12 @@ const Window = {
 
 self.window = Window;
 self.document = Document;
+self.document.body = self.document.createElement('body');
 self.document.head = self.document.createElement('head');
 self.topElement = self.document.createElement('div');
 self.topElement.__TOP = true;
 
+Bridge.send(_.attachBody, null, [self.document.body._guid, self.document.body]);
 Bridge.send(_.attachHead, null, [self.document.head._guid, self.document.head]);
 Bridge.send(_.attachRoot, null, [self.topElement._guid, self.topElement]);
 
