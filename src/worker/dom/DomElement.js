@@ -1,5 +1,6 @@
 import TreeNode from './TreeNode';
 import Style from './Style';
+import ClassList from './ClassList';
 import {OPS as _} from './../../common/constants';
 import {ELEMENT_NODE} from './../../common/nodeType'
 
@@ -14,6 +15,7 @@ class DomElement extends TreeNode {
         this._bridge.send(_.createDOMElement, this._guid, [type]);
 
         this.style = Style((key, val) => this._bridge.send(_.setStyle, this._guid, [key, val]));
+        this.classList = new ClassList(this);
 
         inputAttributes.forEach(prop => {
             Object
@@ -30,7 +32,7 @@ class DomElement extends TreeNode {
     }
 
     removeEventListener(eventType, callback, useCapture) {
-        console.log('// TODO Remove event listener')
+        // console.log('// TODO Remove event listener')
     }
 
     set textContent(val) {
@@ -40,6 +42,14 @@ class DomElement extends TreeNode {
 
     get textContent() {
         return this._textContent;
+    }
+
+    set className(value) {
+        this.setAttribute('class', value);
+    }
+
+    get className() {
+        return this.attributes['class'];
     }
 }
 
