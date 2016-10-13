@@ -45,11 +45,11 @@ class DomElement extends TreeNode {
     }
 
     set className(value) {
-        this.setAttribute('class', value);
+        this.setAttribute('className', value);
     }
 
     get className() {
-        return this.attributes['class'];
+        return this.attributes['className'];
     }
 }
 

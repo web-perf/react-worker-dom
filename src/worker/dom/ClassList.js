@@ -6,7 +6,7 @@ class ClassList {
         const classList = this._getCurrentClassList()
         const newClassNames = (typeof value === 'string') ? [value] : value;
         classList.push(...newClassNames);
-        this._domElement.setAttribute('class', classList.join(' '));
+        this._domElement.setAttribute('className', classList.join(' '));
     }
     remove(value) {
         const classList = this._getCurrentClassList();
@@ -17,7 +17,7 @@ class ClassList {
                 classList.splice(index, 1);
             }
         })
-        this._domElement.setAttribute('class', classList.join(' '));
+        this._domElement.setAttribute('className', classList.join(' '));
     }
     item(index) {
         const classList = this._getCurrentClassList();
@@ -31,8 +31,8 @@ class ClassList {
         console.log('TODO: Implement classList.toggle()')
     }
     _getCurrentClassList() {
-        if (this._domElement.attributes['class']) {
-            return this._domElement.attributes['class'].split(' ');
+        if (this._domElement.attributes['className']) {
+            return this._domElement.attributes['className'].split(' ');
         }
         return [];
     }
