@@ -93,6 +93,7 @@ function setAttribute(node, key, value) {
         case 'checked':
             node.checked = !!value;
             break;
+        case 'class':
         case 'className':
             node.className = value;
         default:

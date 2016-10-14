@@ -9,6 +9,8 @@ import Comment from './dom/Comment';
 
 import EventHandler from './eventHandler';
 
+import requestAnimationFrame from './requestAnimationFrame';
+
 let nodes = {};
 
 const Document = {
@@ -51,7 +53,8 @@ const Window = {
         //EventHandler.add(this, eventType, callback, useCapture);
     },
     document: Document,
-    location: self.location
+    location: self.location,
+    requestAnimationFrame,
 }
 
 self.window = Window;

@@ -5,7 +5,9 @@ export const TIMEOUT = 5;
 export const WORKER_MESSAGES = {
     renderTime: 1000,
     renderQueue: 1001,
-    event: 1002
+    event: 1002,
+    requestAnimationFrame: 1003,
+    cancelAnimationFrame: 1004,
 }
 
 export const OPS = {

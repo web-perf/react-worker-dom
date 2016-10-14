@@ -1,20 +1,13 @@
 import Channel from './../common/channel';
 import {TIMEOUT, WORKER_MESSAGES as _ } from './../common/constants';
 import TreeNode from './dom/TreeNode';
+import requestAnimationFrame, { execute as executeRAF } from './requestAnimationFrame';
 
 class WorkerBridge {
     constructor() {
         this.queue = [];
         this.channel = new Channel(self);
         this.channel.onMessage(this.handleMessage.bind(this));
-        this.pollQueue();
-    }
-
-    pollQueue() {
-        self.setTimeout(() => {
-            this.flushQueue();
-            this.pollQueue();
-        }, TIMEOUT);
     }
 
     handleMessage(type, payload) {
@@ -24,6 +17,11 @@ class WorkerBridge {
                 break;
             case _.event:
                 this.eventHandler(payload);
+                break;
+            case _.requestAnimationFrame:
+                this.currentRafId = payload.id;
+                executeRAF();
+                requestAnimationFrame(this.flushQueue.bind(this));
                 break;
             default:
                 console.log('Unknown operation %s', type);
@@ -50,6 +48,8 @@ class WorkerBridge {
 
     flushQueue() {
         if (this.queue.length === 0) {
+            // console.log('CANCEL IN WORKER', this.currentRafId);
+            this.channel.send(_.cancelAnimationFrame, { id: this.currentRafId });
             return;
         }
         this.channel.send(_.renderQueue, this.queue);
