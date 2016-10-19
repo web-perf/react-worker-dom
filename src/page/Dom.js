@@ -2,6 +2,8 @@ import {OPS as _, WORKER_MESSAGES} from './../common/constants';
 import Channel from './../common/channel';
 import {DOCUMENT_NODE} from './../common/nodeType';
 
+import TouchList from '../common/api/TouchList';
+
 var body, channel, container, head, nodes = {};
 
 export default (ctr, messageChannel) => {
