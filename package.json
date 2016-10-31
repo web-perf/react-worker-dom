@@ -1,6 +1,6 @@
 {
   "name": "react-worker-dom",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.5",
   "description": "ReactJS renderer using Web Workers",
   "main": "worker.js",
   "scripts": {
