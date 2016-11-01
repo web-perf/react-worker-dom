@@ -58,7 +58,7 @@ function getTouchProperties(e) {
     const targetTouches = new TouchList([e.targetTouches[0]]);
     const touches = new TouchList([e.touches[0]]);
     const changedTouches = new TouchList([e.changedTouches[0]]);
-    let screen = undefined;
+    let screen = {};
     if(e.view.screen) {
       screen = new Screen(e.view.screen);
     }
