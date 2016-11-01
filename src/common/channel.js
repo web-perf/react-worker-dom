@@ -35,7 +35,6 @@ export default class Channel {
         // TODO: Create general event parsing method to handle all even types
         if (isTouchEvent(e)) {
             result = Object.assign(result, getTouchProperties(e));
-            console.log(result);
         }
         return JSON.stringify(result);
     }
@@ -61,7 +60,6 @@ function getTouchProperties(e) {
     const changedTouches = new TouchList([e.changedTouches[0]]);
     let view = null;
     if(e.view) {
-      console.log(e.view.screen);
       view = new View(e.view.screen);
     }
 
