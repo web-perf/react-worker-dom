@@ -1,5 +1,6 @@
 import {WORKER_MESSAGES as _} from './constants';
 import TouchList from './api/TouchList';
+import View from './api/View';
 
 export default class Channel {
     constructor(channel) {
@@ -34,6 +35,7 @@ export default class Channel {
         // TODO: Create general event parsing method to handle all even types
         if (isTouchEvent(e)) {
             result = Object.assign(result, getTouchProperties(e));
+            console.log(result);
         }
         return JSON.stringify(result);
     }
@@ -57,10 +59,17 @@ function getTouchProperties(e) {
     const targetTouches = new TouchList([e.targetTouches[0]]);
     const touches = new TouchList([e.touches[0]]);
     const changedTouches = new TouchList([e.changedTouches[0]]);
+    let view = null;
+    if(e.view) {
+      console.log(e.view.screen);
+      view = new View(e.view.screen);
+    }
+
     return {
         targetTouches,
         touches,
         changedTouches,
+        view,
     }
 
 }
