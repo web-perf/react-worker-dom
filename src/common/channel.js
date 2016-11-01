@@ -1,6 +1,6 @@
 import {WORKER_MESSAGES as _} from './constants';
 import TouchList from './api/TouchList';
-import View from './api/View';
+import Screen from './api/Screen';
 
 export default class Channel {
     constructor(channel) {
@@ -58,16 +58,18 @@ function getTouchProperties(e) {
     const targetTouches = new TouchList([e.targetTouches[0]]);
     const touches = new TouchList([e.touches[0]]);
     const changedTouches = new TouchList([e.changedTouches[0]]);
-    let view = null;
-    if(e.view) {
-      view = new View(e.view.screen);
+    let screen = undefined;
+    if(e.view.screen) {
+      screen = new Screen(e.view.screen);
     }
 
     return {
         targetTouches,
         touches,
         changedTouches,
-        view,
+        view: {
+          screen
+        },
     }
 
 }
