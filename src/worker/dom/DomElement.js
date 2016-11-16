@@ -27,6 +27,11 @@ class DomElement extends TreeNode {
         this._bridge.send(_.setAttribute, this._guid, [key, value]);
     }
 
+    removeAttribute(key) {
+      delete this.attributes[key];
+      this._bridge.send(_.removeAttribute, this._guid, [key]);
+    }
+
     addEventListener(eventType, callback, useCapture) {
         EventHandler.add(this, eventType, callback, useCapture);
     }
