@@ -73,6 +73,11 @@ const DomOperations = {
         nodes[id].replaceChild(newNode, node);
     },
 
+    // Remove node
+    [_.removeAttribute](id, key) {
+      nodes[id].removeAttribute(key);
+    },
+
     // Events
     [_.addEventHandler](id, type, handler, useCapture) {
         var node = typeof id === 'string' ? window[id] : nodes[id];
