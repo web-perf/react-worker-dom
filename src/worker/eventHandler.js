@@ -1,4 +1,4 @@
-import {OPS as _, WORKER_MESSAGES} from './../common/constants';
+import {OPS as _} from './../common/constants';
 import Bridge from './bridge';
 import Channel from './../common/channel';
 
