@@ -97,6 +97,7 @@ const DomOperations = {
             let resolver = null;
             const promise = new Promise(resolve => resolver = resolve);
             channel.send(WORKER_MESSAGES.event, { handler, event: Channel.serializeEvent(e) });
+            console.log(e.type);
             eventHandlers[Channel.lastSerializedEventGuid()] = [e, resolver];
             return promise;
         }), useCapture);
@@ -122,10 +123,21 @@ function setAttribute(node, key, value) {
 }
 
 // https://jsbin.com/yiwufaz/edit?js,output
+
+const exceptions = [
+    'keydown',
+    'mousedown',
+    'mouseup',
+    'mousemove',
+    'click'
+];
+
 function asyncify(cb) {
     return (event) => {
         if (!event.__CLONED__) {
-            event.preventDefault();
+            if (!exceptions.includes(event.type)) {
+                event.preventDefault();
+            }
             event.stopPropagation();
             const clonedEvent = cloneEvent(event);
             cb(clonedEvent).then(() => {
