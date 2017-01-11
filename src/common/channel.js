@@ -2,6 +2,8 @@ import {WORKER_MESSAGES as _} from './constants';
 import TouchList from './api/TouchList';
 import Screen from './api/Screen';
 
+let eventGuid = 0;
+
 export default class Channel {
     constructor(channel) {
         this.channel = channel;
@@ -17,9 +19,11 @@ export default class Channel {
     }
     static serializeEvent(e) {
         let result = {
+            guid: eventGuid++,
             bubbles: e.bubbles,
             cancelable: e.cancelable,
-            defaultPrevented: e.defaultPrevented,
+            defaultPrevented: false,
+            propagationStoped: false,
             eventPhase: e.eventPhase,
             isTrusted: e.isTrusted,
             timeStamp: e.timeStamp,
@@ -39,12 +43,21 @@ export default class Channel {
         return JSON.stringify(result);
     }
 
+    static lastSerializedEventGuid() {
+        return eventGuid - 1;
+    }
+
     static deserializeEvent(msg) {
         let e = JSON.parse(msg);
         if (isTouchEvent(e)) {
             e = Object.assign(e, getTouchProperties(e));
         }
-        e.preventDefault = e.stopPropgation = function () { }
+        e.preventDefault = () => {
+            e.defaultPrevented = true;
+        };
+        e.stopPropagation = () => {
+            e.propagationStoped = true;
+        };
         return e;
     }
 }

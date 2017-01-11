@@ -1,4 +1,4 @@
-import {OPS as _} from './../common/constants';
+import {OPS as _, WORKER_MESSAGES} from './../common/constants';
 import Bridge from './bridge';
 import Channel from './../common/channel';
 
@@ -28,6 +28,7 @@ class EventHandler {
             e.currentTarget = nodeList.get(e.currentTarget);
             e.target = {... nodeList.get(e.target), ...e.targetProps };
             this.eventHandlers[handler](e);
+            Bridge.eventHandlerCalled(e);
         } else {
             console.log(handler, event);
         }
