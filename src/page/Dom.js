@@ -4,7 +4,7 @@ import {DOCUMENT_NODE} from './../common/nodeType';
 
 import TouchList from '../common/api/TouchList';
 
-var body, channel, container, head, nodes = {};
+var body, channel, container, head, nodes = {}, eventHandlers = {};
 
 export default (ctr, messageChannel) => {
     body = document.body;
@@ -15,6 +15,18 @@ export default (ctr, messageChannel) => {
         guidPos.forEach(pos => args[pos] = nodes[args[pos]]);
         DomOperations[operation](guid, ...args);
     }
+}
+
+export function eventHandlerCalled({ guid, defaultPrevented, propagationStoped }) {
+    const [event, resolve] = eventHandlers[guid];
+    if (defaultPrevented) {
+        event.preventDefault();
+    }
+    if (propagationStoped) {
+        event.stopPropagation();
+    }
+    resolve();
+    Reflect.deleteProperty(eventHandlers, guid);
 }
 
 const DomOperations = {
@@ -81,12 +93,13 @@ const DomOperations = {
     // Events
     [_.addEventHandler](id, type, handler, useCapture) {
         var node = typeof id === 'string' ? window[id] : nodes[id];
-        node.addEventListener(type, (e) => {
+        node.addEventListener(type, asyncify((e) => {
+            let resolver = null;
+            const promise = new Promise(resolve => resolver = resolve);
             channel.send(WORKER_MESSAGES.event, { handler, event: Channel.serializeEvent(e) });
-            if (type === 'submit'){
-                e.preventDefault();
-            }
-        }, useCapture);
+            eventHandlers[Channel.lastSerializedEventGuid()] = [e, resolver];
+            return promise;
+        }), useCapture);
     }
 }
 
@@ -97,13 +110,65 @@ function setAttribute(node, key, value) {
                 node.style[prop] = value[prop];
             }
             break;
+        case 'value':
+            node.value = value;
+            break;
         case 'checked':
-            node.checked = !!value;
+            node.checked = Boolean(value);
+            break;
+        case 'selected':
+            node.selected = Boolean(value);
             break;
         case 'className':
             node.className = value;
+            break;
         default:
             node.setAttribute(key, value);
 
     }
+}
+
+// https://jsbin.com/yiwufaz/edit?js,output
+
+const exceptions = [
+    'keydown'
+    // ...
+];
+
+function asyncify(cb) {
+    return (event) => {
+        if (!event.__CLONED__) {
+            if (!exceptions.includes(event.type)) {
+                event.preventDefault();
+            }
+            // event.stopPropagation(); // doesn't need with react?
+            const clonedEvent = cloneEvent(event);
+            cb(clonedEvent).then(() => {
+                const { type, target, defaultPrevented } = clonedEvent;
+                target.dispatchEvent(clonedEvent);
+                if (type == 'submit' && !defaultPrevented) {
+                    target.submit();
+                }
+            });
+        }
+    };
+}
+
+function cloneEvent(event) {
+    const clonedEvent = new event.constructor(event.type, event);
+    Object.defineProperties(clonedEvent, {
+        __CLONED__: {
+            value: true,
+            enumerable: true
+        },
+        target: {
+            value: event.target,
+            enumerable: true
+        },
+        currentTarget: {
+            value: event.currentTarget,
+            enumerable: true
+        }
+    });
+    return clonedEvent;
 }

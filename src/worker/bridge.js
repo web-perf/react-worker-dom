@@ -34,6 +34,14 @@ class WorkerBridge {
         this.eventHandler = handler;
     }
 
+    eventHandlerCalled(event) {
+        this.channel.send(_.event, {
+            guid: event.guid,
+            defaultPrevented: event.defaultPrevented,
+            propagationStoped: event.propagationStoped
+        });
+    }
+
     send(operation, guid, params) {
         if (!Array.isArray(params)) {
             params = [params];

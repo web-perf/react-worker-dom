@@ -9,8 +9,6 @@ import Comment from './dom/Comment';
 
 import EventHandler from './eventHandler';
 
-let nodes = {};
-
 const Document = {
     nodeType: DOCUMENT_NODE,
     _guid: 'document',

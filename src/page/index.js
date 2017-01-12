@@ -1,6 +1,6 @@
 import Channel from './../common/channel';
 import {WORKER_MESSAGES as _} from './../common/constants';
-import Dom from './Dom';
+import Dom, { eventHandlerCalled } from './Dom';
 
 class ReactWorker {
     constructor(worker, container) {
@@ -13,15 +13,18 @@ class ReactWorker {
     handleMessage(type, payload) {
         switch (type) {
             case _.renderQueue:
-                var start = performance.now();
+                // var start = performance.now();
                 payload.forEach(op => this.domOperation(op));
                 /*this.channel.send(_.renderTime, {
                     time: performance.now() - start,
                     count: payload.length
                 });*/
                 break;
+            case _.event:
+                eventHandlerCalled(payload);
+                break;
             default:
-                console.log('Cannot handle message %s', data.type, data.args);
+                console.log('Cannot handle message %s', type, payload);
         }
     }
 }

@@ -66,7 +66,6 @@ To automatically collect frame rates and compare it with the normal version
 ## Roadmap
 Here are the things that need to be done next.
 
-- Add support for form elements like <input>, <select>, etc.
-- Support event utilities that enable things like autofocus, etc.
-- Enable preventDefault() semantics in events.
-- Add test suite
+- ~~Enable preventDefault() semantics in events.~~
+- ~~Add support for form elements like `<input>`, `<select>`, etc.~~
+- Support event utilities that enable things like autofocus, etc. 

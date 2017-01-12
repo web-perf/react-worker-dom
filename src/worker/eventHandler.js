@@ -28,6 +28,7 @@ class EventHandler {
             e.currentTarget = nodeList.get(e.currentTarget);
             e.target = {... nodeList.get(e.target), ...e.targetProps };
             this.eventHandlers[handler](e);
+            Bridge.eventHandlerCalled(e);
         } else {
             console.log(handler, event);
         }
