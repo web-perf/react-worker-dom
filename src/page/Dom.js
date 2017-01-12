@@ -110,11 +110,18 @@ function setAttribute(node, key, value) {
                 node.style[prop] = value[prop];
             }
             break;
+        case 'value':
+            node.value = value;
+            break;
         case 'checked':
-            node.checked = !!value;
+            node.checked = Boolean(value);
+            break;
+        case 'selected':
+            node.selected = Boolean(value);
             break;
         case 'className':
             node.className = value;
+            break;
         default:
             node.setAttribute(key, value);
 

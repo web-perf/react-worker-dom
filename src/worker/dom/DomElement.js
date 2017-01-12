@@ -16,10 +16,9 @@ class DomElement extends TreeNode {
 
         this.style = Style((key, val) => this._bridge.send(_.setStyle, this._guid, [key, val]));
         this.classList = new ClassList(this);
-
-        inputAttributes.forEach(prop => {
-            Object
-        });
+        if (type == 'select') {
+            this.options = this.children;
+        }
     }
 
     setAttribute(key, value) {
@@ -28,8 +27,8 @@ class DomElement extends TreeNode {
     }
 
     removeAttribute(key) {
-      delete this.attributes[key];
-      this._bridge.send(_.removeAttribute, this._guid, [key]);
+        delete this.attributes[key];
+        this._bridge.send(_.removeAttribute, this._guid, [key]);
     }
 
     addEventListener(eventType, callback, useCapture) {
@@ -58,7 +57,7 @@ class DomElement extends TreeNode {
     }
 }
 
-const inputAttributes = ["accept", "align", "alt", "autocomplete ", "autofocus ", "checked", "disabled", "form", "formaction ", "formenctype", "formmethod ", "formnovalidate ", "formtarget ", "height ", "list ", "max ", "maxlength", "min ", "multiple ", "name", "pattern ", "placeholder", "readonly", "required ", "size", "src", "step", "type", "value", "width"];
+const inputAttributes = ["accept", "align", "alt", "autocomplete ", "autofocus ", "checked", "disabled", "form", "formaction ", "formenctype", "formmethod ", "formnovalidate ", "formtarget ", "height ", "list ", "max ", "maxlength", "min ", "multiple ", "name", "pattern ", "placeholder", "readonly", "required ", "selected", "size", "src", "step", "type", "value", "width"];
 
 export default (tag) => {
     let element = new DomElement(tag);
