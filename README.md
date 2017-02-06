@@ -48,8 +48,9 @@ The `worker.js` file is the one that now holds the actual Component.
 ```js
 // File: worker.jsx - loaded in index.html using new Worker('worker.jsx') in the file script above;
 import React from 'react';
-import ReactWorkerDOM from 'react-worker-dom/worker';
-ReactWorkerDOM.render(<Component/>);
+import ReactDOM from 'react-dom';
+import WorkerDOM from 'react-worker-dom/worker';
+ReactDOM.render(<Component/>, WorkerDOM);
 ```
 
 Look at `test\dbmonster` and `test\todoapp` directory for the examples.
