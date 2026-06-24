@@ -6,7 +6,8 @@
   "scripts": {
     "build-demo": "webpack --config test/webpack.config.js",
     "demo": "webpack-dev-server --config test/webpack.config.js",
-    "perf": "node test/perf.js"
+    "perf": "node test/perf.js",
+    "test": "npm run build-demo"
   },
   "author": "Parashuram <code@nparashuram.com>",
   "license": "BSD-3-Clause",

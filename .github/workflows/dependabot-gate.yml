@@ -1,0 +1,13 @@
+name: Dependabot gate
+on: pull_request
+jobs:
+  dependabot-only:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Block non-Dependabot PRs
+        run: |
+          if [ "${{ github.actor }}" != "dependabot[bot]" ]; then
+            echo "This repository only accepts PRs from Dependabot."
+            exit 1
+          fi
+          echo "PR is from Dependabot, allowed."
