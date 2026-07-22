@@ -12,19 +12,19 @@
   "author": "Parashuram <code@nparashuram.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "react": "^0.14.3",
+    "react": "^19.2.8",
     "invariant": "^2.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.2.1",
-    "babel-loader": "^6.2.0",
+    "babel-loader": "^10.1.1",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-0": "^6.1.18",
     "browser-perf": "^1.4.3",
-    "react-dom": "^0.14.3",
-    "webpack": "^1.12.8",
-    "webpack-dev-server": "^1.14.1"
+    "react-dom": "^19.2.8",
+    "webpack": "^5.108.4",
+    "webpack-dev-server": "^6.0.0"
   },
   "directories": {
     "test": "test"
